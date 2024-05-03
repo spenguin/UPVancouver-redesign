@@ -1,0 +1,752 @@
+/*
+Theme Name: Minimal Theme
+Author: Weirdspace/John Anderson
+Author URI: https://www.weirdspace.com
+Description: Minimal files required to get started
+Tested up to: 6.4
+Requires PHP: 5.6
+Version: 1.6
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: minimal
+*/
+/** Colours */
+/** Global settings */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  margin-top: 0;
+}
+
+body {
+  margin: 0;
+  font-size: 16px;
+}
+
+/** Fonts */
+@font-face {
+  font-family: "Roboto";
+  src: url("../../assets/fonts/Roboto-Regular.woff2") format("woff2"), url("../../assets/fonts/Roboto-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url("../../assets/fonts/Roboto-Italic.woff2") format("woff2"), url("../../assets/fonts/Roboto-Italic.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url("../../assets/fonts/Roboto-Bold.woff2") format("woff2"), url("../../assets/fonts/Roboto-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Oswald";
+  src: url("../../assets/fonts/Oswald-Regular.woff2") format("woff2"), url("../../assets/fonts/Oswald-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Oswald";
+  src: url("../../assets/fonts/Oswald-SemiBold.woff2") format("woff2"), url("../../assets/fonts/Oswald-SemiBold.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+/** Variables for site */
+/** Breakpoints */
+/** 	Mixins */
+/**
+Function to wrap appropriate media query around content
+param: screen size, either tablet or desktop 
+Requires breakpoints to be set or imported
+*/
+/** Elements Aggregator */
+/** Text styles */
+body {
+  font-size: 1.2rem;
+  line-height: 1.75rem;
+}
+
+.fine-print {
+  font-size: 0.75rem;
+}
+
+/** Button styles */
+.button {
+  border-radius: 0.5rem;
+  border: none;
+  text-decoration: none;
+  background-color: #5BB4BF;
+  color: #dff7fa;
+  text-transform: uppercase;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  min-width: 144px;
+  display: inline-block;
+  text-align: center;
+}
+@media screen and (min-width: 768px) {
+  .button {
+    font-size: 1.25rem;
+  }
+}
+.button--little {
+  padding: 0.05rem 0.75rem;
+  min-width: auto;
+  font-size: 0.875rem;
+  background-color: #ECEBE3;
+  color: #075C68;
+  font-weight: 600;
+}
+.button--little:hover {
+  color: #CE70AE;
+}
+.button--special {
+  background-color: #5664AB;
+  color: #ffffff;
+}
+.button--action {
+  background-color: #AF1B6D;
+  color: #ffffff;
+}
+.button--information {
+  background-color: #008C9E;
+  color: #ffffff;
+}
+.button--huge {
+  background-color: #8A9DAC;
+  color: #ffffff;
+  width: 100%;
+  text-transform: none;
+  text-align: center;
+  line-height: 1.25rem;
+  padding-top: 0.5rem;
+  max-width: 543px;
+}
+.button--huge span {
+  text-transform: uppercase;
+  display: block;
+}
+
+/** Image styles */
+img {
+  width: 100%;
+  height: auto;
+}
+
+.feature-image {
+  border-radius: 0 0 5rem;
+  overflow: hidden;
+}
+
+/** Heading styles */
+h1 {
+  font-size: 1.875rem;
+  color: #075C68;
+  text-transform: uppercase;
+}
+@media screen and (min-width: 768px) {
+  h1 {
+    font-size: 2.25rem;
+  }
+}
+
+h2 {
+  font-size: 1.75rem;
+  color: #4F646E;
+  text-transform: uppercase;
+  margin-top: 1rem;
+}
+@media screen and (min-width: 768px) {
+  h2 {
+    font-size: 2rem;
+  }
+}
+
+h3 {
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/** Symbol styling */
+.tick {
+  color: #008C9E;
+}
+
+/** Structure aggregator */
+/** Wrappers styles */
+.max-wrapper {
+  padding: 0 5%;
+}
+@media screen and (min-width: 768px) {
+  .max-wrapper {
+    padding: 0 15%;
+  }
+}
+
+.cta--wrapper {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+/** Section styles */
+.three-body .container {
+  display: flex !important;
+}
+
+@media screen and (min-width: 1280px) {
+  .season {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+/** Components aggregator */
+/** Footer styles */
+.footer {
+  background-color: #075C68;
+  color: #ffffff;
+  padding-bottom: 1.25rem;
+}
+.footer p {
+  margin: 0;
+  text-align: center;
+}
+.footer__content-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1.75rem;
+}
+@media screen and (min-width: 768px) {
+  .footer__content-wrapper {
+    flex-direction: row;
+  }
+}
+@media screen and (min-width: 768px) {
+  .footer .secondary-navigation {
+    width: 30%;
+  }
+}
+.footer__subscribe {
+  font-size: 0.875rem;
+}
+@media screen and (min-width: 768px) {
+  .footer__subscribe {
+    width: 60%;
+  }
+}
+.footer__social-media {
+  padding-top: 0.5rem;
+}
+.footer__social-media .a2a_kit {
+  display: flex;
+  justify-content: space-between;
+}
+@media screen and (min-width: 768px) {
+  .footer__social-media .a2a_kit {
+    flex-direction: column;
+  }
+}
+.footer__social-media .a2a_kit a {
+  float: none !important;
+  color: #dff7fa;
+}
+.footer__social-media .a2a_kit a:hover {
+  color: #ffffff;
+}
+.footer__social-media .a2a_kit a .a2a_svg {
+  float: none;
+}
+.footer__social-media .a2a_kit a .a2a_label {
+  position: unset !important;
+}
+@media screen and (min-width: 768px) {
+  .footer__social-media {
+    width: 10%;
+    padding-left: 0;
+  }
+}
+.footer__acknowledgement {
+  font-size: 0.75rem;
+  line-height: 1.35rem;
+  margin-bottom: 0.5rem;
+}
+@media screen and (min-width: 768px) {
+  .footer__acknowledgement {
+    padding: 0.5rem 0;
+  }
+  .footer__acknowledgement p {
+    text-align: left;
+  }
+}
+.footer__fine-print--wrapper {
+  line-height: normal;
+  padding-top: 0.5rem;
+}
+@media screen and (min-width: 768px) {
+  .footer__fine-print--wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.addtoany_share_save_container {
+  display: none;
+}
+
+/** Header aggregator */
+/** Header bar styling */
+.header-bar {
+  background-color: #AF1B6D;
+  height: 40px;
+  line-height: 40px;
+}
+@media screen and (min-width: 768px) {
+  .header-bar {
+    height: 60px;
+    line-height: 60px;
+  }
+}
+.header-bar a {
+  color: #ffffff;
+  display: block;
+  text-align: center;
+  font-size: 1rem;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.header-bar a:hover {
+  color: #5BB4BF;
+}
+
+/** Anniversary style */
+.anniversary-flash {
+  background-color: #075C68;
+  display: flex;
+  justify-content: center;
+  padding: 0.6875rem 20%;
+}
+.anniversary-flash img {
+  max-width: 543px;
+}
+
+/** Style for Feature Image */
+.feature-image {
+  background-color: #075C68;
+  min-height: 100px;
+}
+
+/** Navigation style aggretator */
+/** Primary Navigation */
+.primary-navigation {
+  background-color: #075C68;
+}
+.primary-navigation-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+.primary-navigation__left {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.primary-navigation__left a {
+  margin-right: 1rem;
+}
+.primary-navigation__right {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.primary-navigation__right a {
+  margin-left: 1rem;
+}
+@media screen and (min-width: 768px) {
+  .primary-navigation__right a {
+    font-size: 1.5rem;
+  }
+}
+
+.nav--icon {
+  color: #ECEBE3;
+}
+
+/** Secondary nav styles */
+@media screen and (min-width: 768px) {
+  .secondary-navigation h3 {
+    text-align: left;
+  }
+}
+.secondary-navigation h3 {
+  margin-bottom: 0.75rem;
+  margin-top: 0;
+}
+.secondary-navigation ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.secondary-navigation ul a {
+  color: #dff7fa;
+  font-size: 1rem;
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+@media screen and (min-width: 768px) {
+  .secondary-navigation ul a {
+    text-align: left;
+  }
+}
+.secondary-navigation ul a:hover {
+  color: #ffffff;
+}
+.secondary-navigation--directions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+@media screen and (min-width: 768px) {
+  .secondary-navigation--directions {
+    justify-content: flex-start;
+  }
+}
+
+/** Style for Season__show */
+.season {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@media screen and (min-width: 1280px) {
+  .season {
+    flex-direction: row;
+    align-items: normal;
+    padding-bottom: 2.5rem;
+  }
+}
+.season__show {
+  max-width: 543px;
+}
+@media screen and (min-width: 1280px) {
+  .season__show {
+    width: 48%;
+    max-width: none;
+  }
+}
+@media screen and (min-width: 768px) {
+  .season__show--content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+.season__show--text h2 {
+  margin-bottom: 0.5rem;
+}
+@media screen and (min-width: 768px) {
+  .season__show--text {
+    width: 45%;
+  }
+}
+.season__show--credits-major {
+  font-size: 1.25rem;
+  color: #000000;
+  font-weight: 600;
+  margin: 0;
+}
+.season__show--credits-minor {
+  font-size: 1rem;
+  color: #000000;
+  font-weight: 600;
+  margin: 0;
+}
+.season__show--action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+@media screen and (min-width: 768px) {
+  .season__show--action {
+    width: 45%;
+    align-items: flex-end;
+    padding-top: 1rem;
+  }
+}
+.season__show--action a {
+  margin-bottom: 0.75rem;
+}
+
+/** Styles for specific content */
+.statement {
+  font-size: 1rem;
+  line-height: 1.25rem;
+  max-width: 543px;
+  margin: 0 auto;
+}
+@media screen and (min-width: 768px) {
+  .statement {
+    text-align: center;
+  }
+}
+.statement h1 {
+  font-size: 1rem;
+  font-weight: 600;
+  display: inline;
+  color: #000000;
+  text-transform: none;
+}
+
+/** Page styles */
+.three-body,
+.show-template-default {
+  background-color: #ECEBE3;
+}
+
+/** Agregator for Patterns */
+/** Style for Three Body Pattern */
+.three-body > div {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media screen and (min-width: 1280px) {
+  .three-body > div {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+.three-body h3 {
+  text-align: left;
+}
+.three-body__sidebar {
+  padding: 1rem 5%;
+  background-color: #ffffff;
+  margin-left: -5%;
+  margin-right: -5%;
+}
+@media screen and (min-width: 768px) {
+  .three-body__sidebar {
+    padding: 1.3125rem 25% 2.1875rem;
+    margin-left: -25%;
+    margin-right: -25%;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .three-body__sidebar {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 2.5rem;
+    background-color: #008C9E;
+    color: #ffffff;
+    border-radius: 0 0 5rem;
+    overflow: hidden;
+  }
+}
+
+/** Style for single show page */
+.credits__directing {
+  font-size: 1rem;
+  font-weight: bold;
+}
+.credits__writing {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.show-page img {
+  width: auto;
+}
+@media screen and (min-width: 1280px) {
+  .show-page > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .show-page__main {
+    width: 543px;
+  }
+}
+.show-page__sidebar h3 {
+  text-align: left;
+}
+.show-page__sidebar > div {
+  display: flex;
+  flex-direction: column;
+  background-color: #008C9E;
+  color: #ffffff;
+  padding: 1rem 6% 3rem 6%;
+  margin-left: -6%;
+  margin-right: -6%;
+}
+@media screen and (min-width: 768px) {
+  .show-page__sidebar > div {
+    flex-direction: row;
+    padding: 1rem 26% 3rem 26%;
+    margin-left: -26%;
+    margin-right: -26%;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .show-page__sidebar > div {
+    flex-direction: column;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 1rem 2% 3rem 2%;
+    border-radius: 0 0 5rem;
+    width: 443px;
+  }
+}
+@media screen and (min-width: 768px) {
+  .show-page__sidebar--cast, .show-page__sidebar--production {
+    width: 48%;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .show-page__sidebar--cast, .show-page__sidebar--production {
+    width: 100%;
+  }
+}
+
+/* Ticket Sales stylesheet */
+/* .hidden {
+    display: none;
+} */
+.show-ticketing h4 {
+  text-transform: uppercase;
+}
+
+.button-medium {
+  display: block;
+  margin: 0 auto 1.5rem auto;
+  padding: 0.5rem 0.85rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+
+.button-gold {
+  background-color: #008C9E;
+  color: #075C68;
+}
+
+.select-performance__list-item {
+  font-size: 1rem;
+  padding: 0.25rem 0;
+  border-bottom: 1px dashed white;
+  border-top: 1px dashed white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 350px;
+}
+
+.performance__select--wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.performance__select--radio input {
+  opacity: 0;
+  position: fixed;
+  width: 0;
+}
+
+.performance__select--radio label {
+  display: inline-block;
+  background-color: #ddd;
+  padding: 10px 20px;
+  font-family: sans-serif, Arial;
+  font-size: 16px;
+  border: 2px solid #444;
+  border-radius: 4px;
+}
+
+.performance__select--radio input:checked + label {
+  background-color: green;
+}
+
+.select-performance__list-item.unselected {
+  display: none;
+}
+
+/* Tickets styles */
+/* Ticket styling */
+.ticket-list {
+  font-size: 1rem;
+}
+
+.ticket-list__ticket--select {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.ticket-list__ticket {
+  font-size: 1rem;
+  padding: 0.25rem 0;
+  border-bottom: 1px dashed white;
+  border-top: 1px dashed white;
+  width: 350px;
+}
+
+.ticket-select__quantity--block input {
+  width: 3rem;
+  font-size: 1.25rem;
+}
+.ticket-select__quantity--block .fa-solid {
+  width: 3rem;
+  height: 2rem;
+  padding: 0.25rem;
+  background-color: #EC9A29;
+  border-radius: 0.5rem;
+  text-align: center;
+  padding-top: 0.5rem;
+  color: #000d0e;
+  cursor: pointer;
+}
+
+.ticket-select__name {
+  width: 25%;
+}
+
+.ticket-select__quantity {
+  /* width: 45%; */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.ticket-select__charge {
+  width: 25%;
+  text-align: right;
+}
+
+.fa-plus {
+  margin-left: 0.5rem;
+}
+
+.fa-minus {
+  margin-right: 0.5rem;
+}
+
+/*# sourceMappingURL=style.css.map */

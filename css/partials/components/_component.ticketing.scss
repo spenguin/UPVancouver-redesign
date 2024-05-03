@@ -1,0 +1,124 @@
+
+/* Ticket Sales stylesheet */
+
+/* .hidden {
+    display: none;
+} */
+
+.show-ticketing {
+    h4 {
+        text-transform: uppercase;
+    }
+}
+
+.button-medium {
+    display: block;
+    margin: 0 auto 1.5rem auto;
+    padding: 0.5rem 0.85rem;
+    border: 0;
+    border-radius: $btnRadius;
+}
+
+.button-gold {
+    background-color: $UPVGreen;
+    color: $UPVDarkTeal;
+}
+
+.select-performance__list-item {
+    font-size: 1rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px dashed white;
+    border-top: 1px dashed white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 350px;
+}
+
+.performance__select--wrapper {
+    display:flex;
+    flex-direction: row;
+}
+.performance__select--radio input {
+    opacity: 0;
+    position: fixed;
+    width: 0;
+}
+.performance__select--radio label {
+    display: inline-block;
+    background-color: #ddd;
+    padding: 10px 20px;
+    font-family: sans-serif, Arial;
+    font-size: 16px;
+    border: 2px solid #444;
+    border-radius: 4px;
+}
+.performance__select--radio input:checked + label {
+    background-color: green;
+}
+
+.select-performance__list-item.unselected {
+    display: none;
+}
+
+/* Tickets styles */
+/* Ticket styling */
+
+.ticket-list {
+    font-size: 1rem;
+}
+
+.ticket-list__ticket--select {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.ticket-list__ticket {
+    font-size: 1rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px dashed white;
+    border-top: 1px dashed white;
+    width: 350px;
+}
+
+.ticket-select__quantity--block {
+    input {
+        width: 3rem;
+        font-size: 1.25rem;
+    }
+    .fa-solid {
+        width: 3rem;
+        height: 2rem;
+        padding: 0.25rem;
+        background-color: #EC9A29;
+        border-radius: 0.5rem;
+        text-align: center;
+        padding-top: 0.5rem;
+        color: #000d0e;
+        cursor: pointer;
+    }    
+}
+.ticket-select__name {
+    width: 25%;
+}
+.ticket-select__quantity {
+    /* width: 45%; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.ticket-select__charge {
+    width: 25%;
+    text-align: right;
+}
+
+
+
+.fa-plus {
+    margin-left: 0.5rem;
+} 
+.fa-minus {
+    margin-right: 0.5rem;
+}
+

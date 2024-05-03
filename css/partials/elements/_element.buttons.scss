@@ -1,0 +1,55 @@
+/** Button styles */
+
+.button {
+    border-radius: $btnRadius;
+    border: none;
+    text-decoration: none;
+    background-color: $UPVTeal;
+    color: $UPVLightTeal;
+    text-transform: uppercase;   
+    font-size: 1rem; 
+    padding: 0.5rem 1rem;
+    min-width: 144px;
+    display: inline-block;
+    text-align: center;
+    @include screen-greater-than(tablet){
+        font-size: 1.25rem;
+    }
+    &--little {
+        padding: 0.05rem 0.75rem;
+        min-width: auto;
+        font-size: 0.875rem;
+        background-color: $UPVBeige;
+        color: $UPVDarkTeal;
+        font-weight: 600;
+        &:hover {
+            color: $UPVPink;
+        }
+    }
+    &--special {
+        background-color: $UPVPurple;
+        color: $UPVWhite;
+    }
+    &--action {
+        background-color: $UPVDarkPink;
+        color: $UPVWhite;
+    }
+    &--information {
+        background-color: $UPVGreen;
+        color: $UPVWhite;
+    }
+    &--huge {
+        background-color: $UPVGrey;
+        color: $UPVWhite;
+        width: 100%;
+        text-transform: none;
+        text-align: center;
+        line-height: 1.25rem;
+        padding-top: 0.5rem;
+        max-width: $componentMaxWidth;
+        span {
+            text-transform: uppercase;
+            display: block;
+        }
+    }
+}

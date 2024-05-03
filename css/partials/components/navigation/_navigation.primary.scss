@@ -1,0 +1,44 @@
+/** Primary Navigation */
+
+.primary-navigation {
+    background-color: $UPVDarkTeal;
+    &-wrapper {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+    &__left {
+        width: 50%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        a {
+            margin-right: 1rem;
+        }
+    }
+    &__right {
+        width: 50%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        a {
+            margin-left: 1rem;
+            @include screen-greater-than(tablet) {
+                font-size: 1.5rem;
+            }
+        }
+    }
+}
+
+.nav--icon {
+    color: $UPVBeige;
+    // &__home {
+    //     color: $UPVLightTeal;
+    //     height: 25px;
+    // }
+    // &__shopping {
+    //     color: $UPVLightTeal;
+    //     height: 25px;        
+    // }
+}

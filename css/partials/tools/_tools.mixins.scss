@@ -1,0 +1,26 @@
+/** 	Mixins */
+
+/**
+Function to wrap appropriate media query around content
+param: screen size, either tablet or desktop 
+Requires breakpoints to be set or imported
+*/
+@mixin screen-greater-than($size) {
+    @if ($size == tablet) {
+        @media screen and (min-width: $Tablet) {
+            @content;
+        }
+    }
+
+    @else if ($size == desktop) {
+        @media screen and (min-width: $Desktop) {
+            @content;
+        }
+    }
+
+    @else if ($size == maxwidth) {
+        @media screen and (min-width: 2000px) {
+            @content;
+        }
+    }
+}

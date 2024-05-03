@@ -1,0 +1,62 @@
+/** Style for Season__show */
+
+.season {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include screen-greater-than(desktop) {
+        flex-direction: row;
+        align-items: normal;
+        padding-bottom: 2.5rem;
+    }
+    &__show
+    {
+        max-width: $componentMaxWidth;
+        @include screen-greater-than(desktop) {
+            width: 48%;
+            max-width: none;
+        }
+        &--content {
+            @include screen-greater-than(tablet) {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+        &--text {
+            h2 {
+                margin-bottom: 0.5rem;
+            }
+            @include screen-greater-than(tablet) {
+                width: 45%;
+            }
+        }
+        &--credits  {
+            &-major {
+                font-size: 1.25rem;
+                color: $UPVBlack;
+                font-weight: 600;
+                margin: 0;
+            }
+            &-minor {
+                font-size: 1rem;
+                color: $UPVBlack;
+                font-weight: 600;
+                margin: 0;
+            }
+        }
+        &--action {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            @include screen-greater-than(tablet) {
+                width: 45%;
+                align-items: flex-end;
+                padding-top: 1rem;
+            }
+            a {
+                margin-bottom: 0.75rem;
+            }
+        }
+    }
+}

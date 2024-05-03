@@ -1,0 +1,23 @@
+/*
+Theme Name: Minimal Theme
+Author: Weirdspace/John Anderson
+Author URI: https://www.weirdspace.com
+Description: Minimal files required to get started
+Tested up to: 6.4
+Requires PHP: 5.6
+Version: 1.6
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: minimal
+*/
+
+@import "partials/global.colours";
+@import "partials/global.settings";
+@import "partials/fonts.all";
+@import "partials/variables";
+
+@import "partials/tools/tools.mixins";
+
+@import "partials/elements.all";
+@import "partials/structure.all";
+@import "partials/components.all";

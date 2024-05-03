@@ -1,0 +1,11 @@
+/** Section styles */
+.three-body .container {
+    display: flex!important;
+}
+
+.season {
+    @include screen-greater-than(desktop) {
+        display: flex;
+        justify-content: space-between;
+    }
+}

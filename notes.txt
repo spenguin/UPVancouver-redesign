@@ -1,0 +1,2 @@
+cd J:\Weirdspace\Clients\U\UPV\Projects\websitererebuild\wp-content\themes\upvancouver
+sass --watch css/main.scss:style.css

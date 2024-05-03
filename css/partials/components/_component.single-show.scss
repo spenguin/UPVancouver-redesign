@@ -1,0 +1,66 @@
+/** Style for single show page */
+
+.credits {
+    &__directing {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+    &__writing {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+}
+
+.show-page {
+    img {
+        width: auto;
+    }
+    > div {
+        @include screen-greater-than(desktop) {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    }
+    &__main {
+        @include screen-greater-than(desktop) {
+            width: $componentMaxWidth;
+        }
+    }
+    &__sidebar {
+        h3 {
+            text-align: left;
+        }
+        > div {
+            display: flex;
+            flex-direction: column;
+            background-color: $UPVGreen;
+            color: $UPVWhite;
+            padding: 1rem 6% 3rem 6%;
+            margin-left: -6%;
+            margin-right: -6%;
+            @include screen-greater-than(tablet) {
+                flex-direction: row;
+                padding: 1rem 26% 3rem 26%;
+                margin-left: -26%;
+                margin-right: -26%;                
+            }
+            @include screen-greater-than(desktop) {
+                flex-direction: column;
+                margin-left: 0;
+                margin-right: 0;
+                padding: 1rem 2% 3rem 2%;
+                border-radius: $featureImgBorderRadius;
+                width: $sidebarMaxWidth;
+            }
+        }
+        &--cast, &--production {
+            @include screen-greater-than(tablet) {
+                width: 48%;
+            }
+            @include screen-greater-than(desktop) {
+                width: 100%;
+            }
+        }   
+    } 
+}

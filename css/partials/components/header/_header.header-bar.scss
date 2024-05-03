@@ -1,0 +1,22 @@
+/** Header bar styling */
+
+.header-bar {
+    background-color: $UPVDarkPink;
+    height: 40px;
+    line-height: 40px;
+    @include screen-greater-than(tablet) {
+        height: 60px;
+        line-height: 60px;
+    }
+    a {
+        color: $UPVWhite;
+        display: block;
+        text-align: center;
+        font-size: 1rem;
+        text-decoration: none;
+        text-transform: uppercase;
+        &:hover {
+            color: $UPVTeal;
+        }
+    }
+}

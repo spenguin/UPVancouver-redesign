@@ -1,0 +1,15 @@
+/** Wrappers styles */
+
+.max-wrapper {
+    padding: 0 5%;
+    @include screen-greater-than(tablet){
+        padding: 0 15%;
+    }
+}
+
+.cta--wrapper {
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}

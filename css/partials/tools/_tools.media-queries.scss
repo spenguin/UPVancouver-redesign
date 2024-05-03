@@ -1,0 +1,72 @@
+// To understand more about using these values, you can check the following tutorial:
+// http://thesassway.com/intermediate/responsive-web-design-in-sass-using-media-queries-in-sass-32
+@mixin respond-to($media) {
+    @if $media == xs-mini-screens {
+      @media only screen and (max-width: $break-mini - 1) { @content; }
+    }
+    @else if $media == xs-screens {
+      @media only screen and (max-width: $break-small - 1) { @content; }
+    }
+    @else if $media == small-screens {
+      @media only screen and (min-width: $break-small) and (max-width: $break-medium - 1) { @content; }
+    }
+    @else if $media == medium-screens {
+      @media only screen and (min-width: $break-medium) and (max-width: $break-large - 1) { @content; }
+    }
+    @else if $media == large-screens {
+      @media only screen and (min-width: $break-large) { @content; }
+    }
+  }
+  
+  // When an element is used for multiple screens
+  // We can have just one media query for efficiency
+  // e.g. is 'small-screens' is chosen, then all sizes from 0 to 991px would be considered
+  // so 'small-screens' size will also be included
+  @mixin respond-to-max($media) {
+    @if $media == xs-small-screens {
+      @media only screen and (max-width: $break-small - 1) {
+        @content;
+      }
+    }
+    @if $media == small-screens {
+      @media only screen and (max-width: $break-medium - 1) {
+        @content;
+      }
+    }
+    @else if $media == medium-screens {
+      @media only screen and (max-width: $break-large - 1) {
+        @content;
+      }
+    }
+  }
+  
+  @mixin respond-to-above($media) {
+    @if $media == xs-mini-screens {
+      @media only screen and (min-width: $break-mini) {
+        @content;
+      }
+    }
+    @else if $media == xs-screens {
+      @media only screen and (min-width: $break-small) {
+        @content;
+      }
+    }
+    @else if $media == small-screens {
+      @media only screen and (min-width: $break-medium) {
+        @content;
+      }
+    }
+    @else if $media == medium-screens {
+      @media only screen and (min-width: $break-large) {
+        @content;
+      }
+    }
+  }
+  
+  // Can be rules applied to a few screens
+  // e.g. 'small' and 'medium'
+  @mixin respond-to-screens($from, $to) {
+    @if $from == small and $to == medium {
+      @media only screen and (min-width: $break-small) and (max-width: $break-large - 1) { @content; }
+    }
+  }

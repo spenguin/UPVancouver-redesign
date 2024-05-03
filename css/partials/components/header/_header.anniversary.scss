@@ -1,0 +1,11 @@
+/** Anniversary style */
+
+.anniversary-flash {
+    background-color: $UPVDarkTeal;
+    display: flex;
+    justify-content: center;
+    padding: 0.6875rem 20%;
+    img {
+        max-width: $componentMaxWidth;
+    }
+}

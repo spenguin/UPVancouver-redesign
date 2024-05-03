@@ -1,0 +1,12 @@
+/** Image styles */
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+.feature-image {
+    border-radius: $featureImgBorderRadius;
+    overflow: hidden;
+
+}

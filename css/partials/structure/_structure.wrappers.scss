@@ -5,6 +5,10 @@
     @include screen-greater-than(tablet){
         padding: 0 15%;
     }
+    &__narrow {
+        max-width: $maxWidth-Narrow;
+        margin: 0 auto;
+    }
 }
 
 .cta--wrapper {

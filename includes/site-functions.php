@@ -1,8 +1,18 @@
 <?php
 /** Site functions */
 
+function register_my_session()
+{
+  if( !session_id() )
+  {
+    session_start();
+  }
+}
 
-function get_post_by_title($title = NULL)
+add_action('init', 'register_my_session');
+
+
+function get_post_by_title($title = NULL, $element="content")
 {
     global $wpdb;
 
@@ -18,12 +28,20 @@ function get_post_by_title($title = NULL)
     );
 
     $query  = new WP_Query($args);
+    if( $query->founc_posts == 0 ) {
+        return NULL;
+    }
 
-    $content    = $query->posts[0]->post_content;
-    $content    = apply_filters('the_content', $content);
-    $content    = str_replace(']]>', ']]&gt;', $content);
+    $post   = $query->posts[0];
+    switch ($element) {
+        case 'content':
+            $content    = apply_filters('the_content', $content);
+            $content    = str_replace(']]>', ']]&gt;', $content);
+            return $content;
+        default:
+            return $post;
+    }
 
-    return $content;
 }
 
 function get_page_class_by_title($title = NULL)

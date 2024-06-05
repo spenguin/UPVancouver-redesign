@@ -3,6 +3,7 @@
  * Header template part
  */
 $options    = get_option('performance_options');
+$shoppingCartString = renderShoppingCartLogo();
 
 ?>
 
@@ -17,8 +18,8 @@ $options    = get_option('performance_options');
             </div>
             <div class="primary-navigation__right">
                 <a href="/" class="nav nav--icon nav__home"><i class="fa-solid fa-house"></i></a>
-                <a href="/cart" class="nav nav--icon nav__shopping"><i class="fas fa-shopping-cart"></i></a>
-                <a class="nav nav__hamburger">Open</a>
+                <?php echo $shoppingCartString; ?>
+                <!-- <a class="nav nav__hamburger">Open</a> -->
             </div>
         </div>
     </div>

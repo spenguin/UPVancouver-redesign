@@ -35,10 +35,10 @@ function weirdspace_show_column( $column, $post_id )
             echo $showPost->post_title;
             break;
         case 'preview':
-            echo is_null($custom['preview'][0]) ? '' : '<span class="tick">&#10004;</span>';
+            echo isset($custom['preview']) ? ($custom['preview'][0] ?  '<span class="tick">&#10004;</span>' : '' ) : '';
             break;
         case 'talkback':
-            echo is_null($custom['talkback'][0]) ? '' : '<span class="tick">&#10004;</span>';
+            echo isset($custom['talkback']) ? ($custom['talkback'][0] ?  '<span class="tick">&#10004;</span>' : '' ) : '';
             break;
         case 'sales':
             echo '10';

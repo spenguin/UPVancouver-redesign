@@ -28,7 +28,6 @@ get_header();
                         break;
                     default:
                         the_content();
-
                 }
             ?>
 

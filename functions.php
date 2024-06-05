@@ -35,6 +35,9 @@ require_once CORE_INC . 'custom-posts.php';
 require_once CORE_INC . 'custom-settings.php';
 require_once CORE_INC . 'shortcodes.php';
 require_once CORE_INC . 'custom-block-patterns.php';
+require_once CORE_INC . 'performance-functions.php';
+require_once CORE_INC . 'ticket-functions.php';
+require_once CORE_INC . 'commerce-functions.php';
 
 
  /**
@@ -46,3 +49,6 @@ function upvancouer_enqueue_styles()
 	// wp_enqueue_style( 'parent-style', get_template_directory_uri().'/style.css' );
     wp_enqueue_style( 'upvancouver-style', get_stylesheet_uri(), array(), _S_VERSION ); 
 } 
+
+add_filter( 'woocommerce_checkout_redirect_empty_cart', '__return_false' );
+add_filter( 'woocommerce_checkout_update_order_review_expired', '__return_false' );

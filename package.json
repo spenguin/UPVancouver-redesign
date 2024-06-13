@@ -57,6 +57,7 @@
         "build_show": "webpack --config js/webpack.show.config.js",
         "build_tickets": "webpack --config js/webpack.tickets.config.js",
         "build_seasontickets": "webpack --config js/webpack.seasontickets.config.js",
-        "build_ticketsales": "webpack --config js/webpack.ticketsales.config.js"
+        "build_ticketsales": "webpack --config js/webpack.ticketsales.config.js",
+        "build_checkout": "webpack --config js/webpack.checkout.config.js"
     }
 }

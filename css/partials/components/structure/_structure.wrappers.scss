@@ -1,0 +1,8 @@
+/** Wrappers styles */
+
+.max-wrapper {
+    margin: 0 5%;
+    @include screen-greater-than(tablet){
+        margin: 0 15%;
+    }
+}

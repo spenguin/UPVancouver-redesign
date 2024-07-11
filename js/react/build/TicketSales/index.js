@@ -13,6 +13,7 @@ ReactDOM.render(
         showId      = {showId}
         performances= {performances}
         tickets     = {tickets}
+        isTicketSpecialAvailable    = {isTicketSpecialAvailable}
     />,
     document.getElementById('TicketSales')
 );

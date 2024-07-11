@@ -184,7 +184,7 @@ function save_show_dates()
     $pre_end_date   = (isset($custom['end_date'][0])) ? $custom['end_date'][0] : '';
     $start_date = $_POST['start_date'];
     $end_date   = $_POST['end_date'];
-    $show_id    = (string) $post->ID;
+    $show_id    = (string) $post->ID; //pvd($post->ID); die($show_id);
 
     $p         = [];
 
@@ -297,8 +297,8 @@ function delete_performances($show_id)
     $args = array(
         'posts_per_page'    => -1,
         'post_type'         => 'performance',
-        // 'meta_key'          => 'show_id',
-        // 'meta_value'        => $show_id
+        'meta_key'          => 'show_id',
+        'meta_value'        => $show_id
     );
     $the_query = new WP_Query($args);
     if ($the_query->have_posts()) {

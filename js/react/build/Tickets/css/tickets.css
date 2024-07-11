@@ -36,7 +36,7 @@
     text-align: right;
 }
 
-.fa-solid {
+.ticket-select__quantity--block .fa-solid {
     width: 3rem;
     height: 2rem;
     padding: 0.25rem;

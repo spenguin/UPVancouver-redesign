@@ -8,5 +8,6 @@ img {
 .feature-image {
     border-radius: $featureImgBorderRadius;
     overflow: hidden;
-
+    display: block;
+    line-height: 0;
 }

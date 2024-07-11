@@ -14,8 +14,10 @@ add_filter( 'woocommerce_checkout_update_order_review_expired', '__return_false'
 // 	echo '<p>Write Order</p>';
 // }
  
-remove_action( 'woocommerce_checkout_order_review', 'woocommerce_order_review');
-add_action( 'woocommerce_before_checkout_form', 'woocommerce_order_review', 10 );
+// remove_action( 'woocommerce_checkout_order_review', 'woocommerce_order_review');
+// add_action( 'woocommerce_before_checkout_form', 'woocommerce_order_review', 10 );
+
+// add_action('woocommerce_before_cart', 'upv_read_order', 5 );
 
 
 /**
@@ -24,4 +26,88 @@ add_action( 'woocommerce_before_checkout_form', 'woocommerce_order_review', 10 )
 function renderShoppingCartLogo()
 {
     return '<a href="/cart" class="nav nav--icon nav__shopping"><i class="fas fa-shopping-cart"></i></a>';
+}
+
+
+function upv_read_order()
+{ die('test');
+    // updateTicketOrder();
+    // die(pvd($_SESSION));
+    $ticketsOrdered = decodeTicketData($_POST['ticketData']); die(pvd($ticketsOrdered));
+    foreach( $ticketsOrdered as $t ) 
+    {
+        if( $t->quantity == 0 ) continue;
+        WC()->cart->add_to_cart( $t->ticketid, $t->quantity );
+    }
+
+}
+
+
+/**
+ * Check Post data to update Session data
+ */
+function updateTicketOrder()
+{
+    // if( isset( $_GET['del'] ) ) {
+    //     unset($_SESSION['ticketsOrdered'][$_GET['del']]);
+    // }
+
+    if( !empty($_POST) ) { 
+        $ticketsOrdered = decodeTicketData($_POST['ticketData']); //die(pvd($ticketsOrdered));
+        $selectedPerformanceId  = $_POST['selectedPerformance']; 
+        if( empty($selectedPerformanceId) ) {
+            $showTitle      = '';
+            $showDate       = '';
+            $showTime       = '';
+        } else {
+            $selectedPerformance    = get_post($selectedPerformanceId); 
+            // Get show that corresponds to the selected Date
+            $performanceMeta    = get_post_meta($selectedPerformanceId); 
+            $showTitle          = get_the_title($performanceMeta['show_id'][0]);
+            $showDate           = $selectedPerformance->post_title;
+            $showTime           = $performanceMeta['performance_time'][0];
+        }
+
+
+        // Let's just start with looping through the tickets ordered
+        foreach( $ticketsOrdered as $t ) { 
+            if( $t->quantity == 0 ) continue;
+            // Does the performance/ticket type already exist?
+            $found = FALSE;
+            if( isset($_SESSION['ticketsOrdered'] ) ) {
+                foreach( $_SESSION['ticketsOrdered'] as $key => $to )
+                {
+                    if( empty($selectedPerformanceId) ) {
+                        if( $to['ticketId'] == $t->ticketid ) {
+                            $_SESSION['ticketsOrdered'][$key]['quantity'] = $t->quantity;
+                            $found = TRUE;
+                        }
+                    } else {
+                        if( $to['date'] == $selectedPerformance->post_title && $to['ticketId'] == $t->ticketid ) {
+                            $_SESSION['ticketsOrdered'][$key]['quantity'] = $t->quantity;
+                            $found = TRUE;
+                        }
+                    }
+                }
+            }
+            if( !$found ) {
+                // if( $t->quantity > 0 ) {
+                    $_SESSION['ticketsOrdered'][] = [
+                        'date'      => $showDate,
+                        'time'      => $showTime,
+                        'ticketId'  => $t->ticketid,
+                        'name'      => $t->name,
+                        'showTitle' => $showTitle,
+                        'charge'    => $t->charge,
+                        'quantity'  => $t->quantity
+                    ];
+                // }
+            }
+        }
+    }
+}
+
+function decodeTicketData($performance)
+{
+    return json_decode( str_replace('\\"', '"', $_POST['ticketData']) ); 
 }

@@ -7,6 +7,7 @@
                 </div>
                 <div class="footer__subscribe">
                     <p class="footer__subscribe--instructions">Subscribe for updates</p>
+                    <?php dynamic_sidebar( 'footer_social_media' ); ?>
                 </div>  
                 <div class="footer__social-media">
                     <div class="a2a_kit a2a_kit_size_46 a2a_default_style a2a_follow">
@@ -35,8 +36,6 @@
                         <a class="a2a_button_apple_music" href="https://music.apple.com/us/artist/foo-fighters/6906197"></a> -->
                     </div>
                 </div>                
-
-                <?php //dynamic_sidebar( 'footer_social_media' ); ?>
             </div>
             <div class="footer__acknowledgement">
                 <?php
@@ -49,4 +48,6 @@
             </div>
         </div>
     </footer>
+    <?php wp_footer(); ?>
 </body>
+</html>

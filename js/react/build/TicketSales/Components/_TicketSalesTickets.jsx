@@ -8,7 +8,7 @@ import React, { useState, useEffect } from "react";
 import TicketSalesTotal from "./_TicketSalesTotal.jsx";
 
 
-const TicketSalesTickets = ({ ticketData, ticketSpecial, setTicketData, setLocalTickets }) => { 
+const TicketSalesTickets = ({ ticketData, isTicketSpecialAvailable, setTicketData, setLocalTickets }) => { 
 
     // set State vars
     // const [localTickets, setLocalTickets]   = useState(ticketData);
@@ -50,8 +50,8 @@ const TicketSalesTickets = ({ ticketData, ticketSpecial, setTicketData, setLocal
                 )
             })}
             <TicketSalesTotal
-                localTickets={localTickets}
-                ticketSpecial={ticketSpecial}
+                localTickets            ={localTickets}
+                isTicketSpecialAvailable={isTicketSpecialAvailable}
             />
         </div>
 

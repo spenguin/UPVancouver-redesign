@@ -24,28 +24,7 @@ if ( ! wc_coupons_enabled() ) { // @codingStandardsIgnoreLine.
 ?>
 <?php
 	// Grab the order in the Session variables and write them to Woocommerce
-	// If $_SESSION['ticketsOrdered'] is empty or doesn't exist, offer a couple of options:
-	// - Continue Shopping
-	// - Go to the Donations page
-	// if( !empty($_SESSION['ticketsOrdered'] ) ) {
-
-        
-
-	// 	// $order = new WC_Order();
-	// 	// $order->set_created_via( 'admin' );
-	// 	// $order->set_customer_id( 1 ); 
-	// 	foreach($_SESSION['ticketsOrdered'] as $t ) 
-	// 	{
-	// 		// $order->add_product( wc_get_product( $t['ticketId'] ), $t['quantity'] );
-	// 		WC()->cart->add_to_cart( $t['ticketId'], $t['quantity']);
-
-	// 	}
-	// 	// $order->calculate_totals();
-	// 	// $order->save();
-	// }
-
-
-
+	pvd($_SESSION);
 ?>
 <div class="woocommerce-form-coupon-toggle">
 	<?php wc_print_notice( apply_filters( 'woocommerce_checkout_coupon_message', esc_html__( 'Have a coupon?', 'woocommerce' ) . ' <a href="#" class="showcoupon">' . esc_html__( 'Click here to enter your code', 'woocommerce' ) . '</a>' ), 'notice' ); ?>

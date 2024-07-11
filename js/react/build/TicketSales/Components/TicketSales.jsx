@@ -15,7 +15,7 @@ import TicketSalesOrder from "./_TicketSalesOrder.jsx";
 import "../../TicketSales/css/ticketsales.css";
 
 
-const TicketSales = ({showId, performances, tickets}) => { 
+const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable}) => { 
 
     // set State vars
     const [selectedPerformance, setSelectedPerformance] = useState('');
@@ -51,7 +51,7 @@ const TicketSales = ({showId, performances, tickets}) => {
                     <TicketSalesTickets
                         // tickets         ={performanceTickets}
                         ticketData      = {ticketData}
-                        ticketSpecial   = {false}
+                        isTicketSpecialAvailable   = {isTicketSpecialAvailable}
                         setTicketData   = {setTicketData}
                         setLocalTickets = {setLocalTickets}
                     ></TicketSalesTickets>

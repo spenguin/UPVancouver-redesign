@@ -148,6 +148,8 @@ img {
 .feature-image {
   border-radius: 0 0 5rem;
   overflow: hidden;
+  display: block;
+  line-height: 0;
 }
 
 /** Heading styles */
@@ -441,6 +443,7 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-wrap: wrap;
 }
 @media screen and (min-width: 1280px) {
   .season {
@@ -470,7 +473,7 @@ h3 {
 }
 @media screen and (min-width: 768px) {
   .season__show--text {
-    width: 45%;
+    width: 55%;
   }
 }
 .season__show--credits-major {
@@ -576,11 +579,14 @@ h3 {
   font-weight: bold;
 }
 
+.show-page {
+  flex-wrap: wrap;
+}
 .show-page img {
   width: auto;
 }
 @media screen and (min-width: 1280px) {
-  .show-page > div {
+  .show-page {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -591,10 +597,7 @@ h3 {
     width: 543px;
   }
 }
-.show-page__sidebar h3 {
-  text-align: left;
-}
-.show-page__sidebar > div {
+.show-page__sidebar {
   display: flex;
   flex-direction: column;
   background-color: #008C9E;
@@ -603,8 +606,11 @@ h3 {
   margin-left: -6%;
   margin-right: -6%;
 }
+.show-page__sidebar h3 {
+  text-align: left;
+}
 @media screen and (min-width: 768px) {
-  .show-page__sidebar > div {
+  .show-page__sidebar {
     flex-direction: row;
     padding: 1rem 26% 3rem 26%;
     margin-left: -26%;
@@ -612,7 +618,7 @@ h3 {
   }
 }
 @media screen and (min-width: 1280px) {
-  .show-page__sidebar > div {
+  .show-page__sidebar {
     flex-direction: column;
     margin-left: 0;
     margin-right: 0;

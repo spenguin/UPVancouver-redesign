@@ -26,9 +26,20 @@ get_header();
                     case 'show':
                         get_template_part('template-parts/show-content');
                         break;
-                    default:
-                        the_content();
+                    // default:
+                    //     if(is_single('Seasons Tickets') ) {
+                    //         echo 'Seasons Tickets here';
+                    //     }
+                    //     the_content();
                 }
+                if(is_page('Seasons Tickets') ) {
+                    get_template_part('template-parts/seasons-tickets-content');
+                    // echo get_the_content();
+                }
+                if( is_home() || is_front_page() ) {
+                    the_content();
+                }
+
             ?>
 
         </div>

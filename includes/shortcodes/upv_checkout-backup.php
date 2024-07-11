@@ -73,18 +73,18 @@ function upv_checkout()
     $order->set_address( $address, 'shipping' );
 
     $order->calculate_totals();
-    $order->set_status( 'wc-processing' );
-    $order->payment_method = 'square_credit_card';
-    $order->payment_method_title = "Square";
+    $order->set_status( 'wc-processing' );	
+    //$order->payment_method = 'square_credit_card';
+    //$order->payment_method_title = "Square";
     $orderId = $order->save(); //die(pvd($order));
 // die(pvd(WC()->payment_gateways->payment_gateways()));
-    $available_gateways = WC()->payment_gateways->get_available_payment_gateways(); //die(pvd($available_gateways));
-    // die(method_exists($available_gateways[ 'square_credit_card' ], 'process_payment'));
+    $available_gateways = WC()->payment_gateways->get_available_payment_gateways(); die(pvd($available_gateways));
+    //die(method_exists($available_gateways[ 'square_credit_card' ], 'process_payment'));
 
-// die(pvd($order));
+    
     update_post_meta( $orderId, '_payment_method', 'square_credit_card' );
     update_post_meta( $orderId, '_payment_method_title', 'Square' );
-
+	//die(pvd($order));
     // Store Order ID in session so it can be re-used after payment failure
     // WC()->session->order_awaiting_payment = $order->id;
 
@@ -92,13 +92,13 @@ function upv_checkout()
     $result = $available_gateways[ 'square_credit_card' ]->process_payment( $orderId ); //die(pvd($result));
 
     // Redirect to success/confirmation/payment page
-    if ( $result['result'] == 'success' ) {
+    /*if ( $result['result'] == 'success' ) {
 
         $result = apply_filters( 'woocommerce_payment_successful_result', $result, $order->id );
 
         wp_redirect( $result['redirect'] );
         exit;
-    }
+    }*/
 
 
         // Render order 

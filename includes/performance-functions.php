@@ -18,17 +18,19 @@ function getPerformanceDates( $showId = NULL )
     $args = [
         'post_type'     => 'performance',
         'posts_per_page' => -1,
-        // 'meta_key'   => 'show_id',
-        // 'meta_value' => $showId
+        'meta_key'   => 'show_id',
+        'meta_value' => $showId
         // ],
         // 'orderby'
     ];
     $query = new WP_Query($args); //pvd($query);
     $o = [];
     if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post();
-            $post_id = get_the_ID();
-            $custom = get_post_custom($post_id);
-            $date   = strtotime(get_the_title());
+            $date       = get_the_title();
+            if( strtotime($date) < time() ) continue;
+            $post_id    = get_the_ID();
+            $custom     = get_post_custom($post_id);
+            $date       = strtotime(get_the_title());
             $o[$post_id]  = [
                 'id'        => $post_id,
                 'date'      => $date,

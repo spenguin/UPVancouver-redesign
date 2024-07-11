@@ -38,6 +38,7 @@ require_once CORE_INC . 'custom-block-patterns.php';
 require_once CORE_INC . 'performance-functions.php';
 require_once CORE_INC . 'ticket-functions.php';
 require_once CORE_INC . 'commerce-functions.php';
+require_once CORE_INC . 'show-functions.php';
 
 
  /**

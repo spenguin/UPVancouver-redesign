@@ -124,6 +124,17 @@ function getTickets( $showId )
  */
 function isTicketSpecialAvailable()
 {
-    // For now
-    return TRUE;
+    $options    = get_option('performance_options');
+    return $options['performance_field_season_ticket_end_day'] >= date('Y-m-d');
+}
+
+/**
+ * @author: John Anderson
+ * @since: 18 June 2024
+ * Count the number of shows left in the current season
+ * @return (int)
+ */
+function getActiveSeasonShowCount()
+{
+    return 3; // For now
 }

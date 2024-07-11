@@ -12,16 +12,17 @@
 }
 
 .show-page {
+    flex-wrap: wrap;
     img {
         width: auto;
     }
-    > div {
+    // > div {
         @include screen-greater-than(desktop) {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
         }
-    }
+    // }
     &__main {
         @include screen-greater-than(desktop) {
             width: $componentMaxWidth;
@@ -31,7 +32,7 @@
         h3 {
             text-align: left;
         }
-        > div {
+        // > div {
             display: flex;
             flex-direction: column;
             background-color: $UPVGreen;
@@ -53,7 +54,7 @@
                 border-radius: $featureImgBorderRadius;
                 width: $sidebarMaxWidth;
             }
-        }
+        // }
         &--cast, &--production {
             @include screen-greater-than(tablet) {
                 width: 48%;

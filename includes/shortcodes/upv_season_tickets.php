@@ -9,7 +9,7 @@ function upv_season_tickets()
 {
     // Which season are we in?
     $season = get_season_ticket_season(); 
-    ob_clean();
+    ob_start();
     ?>
     <div id="tickets" class="show-ticketing">
         <h4>Ticket Ordering</h4>
@@ -18,8 +18,6 @@ function upv_season_tickets()
     <?php
 
     return ob_get_clean();
-
-
 }
 
 

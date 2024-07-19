@@ -6,6 +6,46 @@
 
 add_filter( 'woocommerce_checkout_redirect_empty_cart', '__return_false' );
 add_filter( 'woocommerce_checkout_update_order_review_expired', '__return_false' );
+add_action( 'woocommerce_before_cart', 'upv_add_donation_form', 5 );
+add_action( 'woocommerce_before_calculate_totals', 'rudr_custom_price_refresh' );
+
+
+
+function upv_add_donation_form()
+{ 
+    if( !isset($_SESSION['donation']) ) {
+        get_template_part('template-parts/donation-form');
+    }
+}
+
+function getDonationProduct()
+{
+    $args   = [
+        'post_type'         => 'product',
+        'title'             => 'Donation',
+        'posts_per_page'    => 1
+    ];
+
+    $query = new WP_Query($args); 
+    if( $query->have_posts()): $query->the_post();
+        return get_the_ID();
+    endif;
+    return NULL;
+}
+
+/**
+ * Override product price on the fly
+ * Based on: https://rudrastyh.com/woocommerce/add-product-to-cart-programmatically.html
+ */
+function rudr_custom_price_refresh( $cart_object ) {
+
+	foreach ( $cart_object->get_cart() as $item ) {
+
+		if( array_key_exists( 'misha_custom_price', $item ) ) {
+			$item[ 'data' ]->set_price( $item[ 'misha_custom_price' ] );
+		}
+	}
+}
  
 // add_action( 'woocommerce_before_checkout_form', '\Core\upv_write_order_to_WC' );
  
@@ -24,9 +64,23 @@ add_filter( 'woocommerce_checkout_update_order_review_expired', '__return_false'
  * Generate the Shopping Cart image with product count
  */
 function renderShoppingCartLogo()
-{
-    return '<a href="/cart" class="nav nav--icon nav__shopping"><i class="fas fa-shopping-cart"></i></a>';
+{   
+    $count = count(WC()->cart->cart_contents);
+    ob_start(); ?>
+        <a href="/cart" class="nav nav--icon nav__shopping"><i class="fas fa-shopping-cart">
+            <span><?php echo $count > 0 ? $count : ''; ?></span>
+        </i></a>
+    <?php return ob_get_clean();
 }
+
+// font-size: 0.85rem;
+//   position: absolute;
+//   left: 30%;
+//   color: white;
+//   top: 15%;
+//   background: red;
+//   padding: 0.25rem;
+//   border-radius: 50%;
 
 
 function upv_read_order()
@@ -111,3 +165,5 @@ function decodeTicketData($performance)
 {
     return json_decode( str_replace('\\"', '"', $_POST['ticketData']) ); 
 }
+
+// function 

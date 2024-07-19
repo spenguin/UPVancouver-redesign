@@ -50,3 +50,6 @@ function upvancouver_enqueue_styles()
 	// wp_enqueue_style( 'parent-style', get_template_directory_uri().'/style.css' );
     wp_enqueue_style( 'upvanvcouver-style', get_stylesheet_uri(), array(), _S_VERSION ); 
 } 
+
+// Removing front end admin bar because it's ugly
+add_filter('show_admin_bar', '__return_false');

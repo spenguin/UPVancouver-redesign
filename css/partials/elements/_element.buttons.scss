@@ -31,12 +31,12 @@
         color: $UPVWhite;
     }
     &--action {
-        background-color: $UPVDarkPink;
-        color: $UPVWhite;
+        background-color: $UPVDarkPink!important;
+        color: $UPVWhite!important;
     }
     &--information {
-        background-color: $UPVGreen;
-        color: $UPVWhite;
+        background-color: $UPVGreen!important;
+        color: $UPVWhite!important;
     }
     &--huge {
         background-color: $UPVGrey;

@@ -9,3 +9,9 @@
         justify-content: space-between;
     }
 }
+
+.shopping-cart {
+    @include screen-greater-than(desktop) {
+        margin-bottom: 3rem;
+    }
+}

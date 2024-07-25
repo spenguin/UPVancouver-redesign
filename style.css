@@ -117,12 +117,12 @@ body {
   color: #ffffff;
 }
 .button--action {
-  background-color: #AF1B6D;
-  color: #ffffff;
+  background-color: #AF1B6D !important;
+  color: #ffffff !important;
 }
 .button--information {
-  background-color: #008C9E;
-  color: #ffffff;
+  background-color: #008C9E !important;
+  color: #ffffff !important;
 }
 .button--huge {
   background-color: #8A9DAC;
@@ -218,6 +218,12 @@ h3 {
   .season {
     display: flex;
     justify-content: space-between;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .shopping-cart {
+    margin-bottom: 3rem;
   }
 }
 
@@ -393,6 +399,17 @@ h3 {
 
 .nav--icon {
   color: #ECEBE3;
+}
+
+.nav__shopping {
+  position: relative;
+}
+.nav__shopping span {
+  font-size: 1.5rem;
+  position: absolute;
+  left: 20%;
+  color: #AF1B6D;
+  top: 15%;
 }
 
 /** Secondary nav styles */

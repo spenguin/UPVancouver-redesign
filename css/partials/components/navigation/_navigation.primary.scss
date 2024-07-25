@@ -42,3 +42,17 @@
     //     height: 25px;        
     // }
 }
+
+.nav__shopping {
+    position:relative;
+    span {
+        font-size: 1.5rem;
+        position: absolute;
+        left: 20%;
+        color: $UPVDarkPink;
+        top: 15%;
+        // background: $UPVDarkPink;
+        // padding: 0.25rem;
+        // border-radius: 50%;
+    }
+}

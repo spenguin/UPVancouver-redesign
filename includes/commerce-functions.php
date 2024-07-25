@@ -65,10 +65,12 @@ function rudr_custom_price_refresh( $cart_object ) {
  */
 function renderShoppingCartLogo()
 {   
-    $count = count(WC()->cart->cart_contents);
+    $count = WC()->cart->get_cart_contents_count(); //pvd($count);
     ob_start(); ?>
         <a href="/cart" class="nav nav--icon nav__shopping"><i class="fas fa-shopping-cart">
-            <span><?php echo $count > 0 ? $count : ''; ?></span>
+            <?php if($count > 0 ): ?>
+                <span>&check;</span>
+            <?php endif; ?>
         </i></a>
     <?php return ob_get_clean();
 }

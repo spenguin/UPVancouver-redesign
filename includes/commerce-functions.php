@@ -8,6 +8,15 @@ add_filter( 'woocommerce_checkout_redirect_empty_cart', '__return_false' );
 add_filter( 'woocommerce_checkout_update_order_review_expired', '__return_false' );
 add_action( 'woocommerce_before_cart', 'upv_add_donation_form', 5 );
 add_action( 'woocommerce_before_calculate_totals', 'rudr_custom_price_refresh' );
+add_action( 'woocommerce_before_checkout_form', 'upv_add_donation_form', 5 );
+add_action( 'woocommerce_before_checkout_form', 'upv_session_cart_to_wc_cart', 5 ); 
+remove_action( 'woocommerce_checkout_order_review', 'woocommerce_order_review');
+add_action( 'woocommerce_before_checkout_form', 'woocommerce_order_review', 10 );
+remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form' );
+add_action( 'woocommerce_after_order_notes', 'custom_checkout_field' );
+add_action('woocommerce_checkout_update_order_meta', 'custom_checkout_field_update_order_meta');
+
+
 
 
 
@@ -15,6 +24,17 @@ function upv_add_donation_form()
 { 
     if( !isset($_SESSION['donation']) ) {
         get_template_part('template-parts/donation-form');
+    }
+}
+
+function upv_session_cart_to_wc_cart()
+{
+    if( !empty($_SESSION['cart'] ) ) {
+        WC()->cart->empty_cart();
+        foreach($_SESSION['cart'] as $productId => $productData )
+        {
+            WC()->cart->add_to_cart($productId, $productData['quantity'], 0, [], ['misha_custom_price' => $productData['misha_custom_price']] );
+        }
     }
 }
 
@@ -54,8 +74,7 @@ function rudr_custom_price_refresh( $cart_object ) {
 // 	echo '<p>Write Order</p>';
 // }
  
-// remove_action( 'woocommerce_checkout_order_review', 'woocommerce_order_review');
-// add_action( 'woocommerce_before_checkout_form', 'woocommerce_order_review', 10 );
+
 
 // add_action('woocommerce_before_cart', 'upv_read_order', 5 );
 
@@ -65,7 +84,7 @@ function rudr_custom_price_refresh( $cart_object ) {
  */
 function renderShoppingCartLogo()
 {   
-    $count = WC()->cart->get_cart_contents_count(); //pvd($count);
+    $count = count($_SESSION['cart']); //pvd($count);
     ob_start(); ?>
         <a href="/cart" class="nav nav--icon nav__shopping"><i class="fas fa-shopping-cart">
             <?php if($count > 0 ): ?>
@@ -168,4 +187,46 @@ function decodeTicketData($performance)
     return json_decode( str_replace('\\"', '"', $_POST['ticketData']) ); 
 }
 
-// function 
+/**
+* Add a custom field to the checkout page
+* From https://funnelkit.com/add-a-field-to-checkout-woocommerce/
+*/
+function custom_checkout_field($checkout)
+{ 
+    // echo '<div id="custom_checkout_field"><h3>' . __('Please Provide The Custom Data') . '</h3>';
+    woocommerce_form_field('custom_field_name', array(
+
+    'type' => 'hidden',
+        'required' => 'true',
+
+    // 'class' => array(
+
+    // 'my-field-class form-row-wide'
+
+    // ) ,
+
+    // 'label' => __('Custom Field') ,
+
+    // 'placeholder' => __('Enter Custom Data') ,
+
+    // 'value' => serialize($_SESSION['cart'])
+
+    ) 			   ,
+
+    serialize($_SESSION['cart']));
+    // $checkout->get_value('custom_field_name'));
+
+    // echo '</div>';
+
+}
+
+/**
+* Update the value given in custom field
+* From https://funnelkit.com/add-a-field-to-checkout-woocommerce/
+*/
+function custom_checkout_field_update_order_meta($order_id)
+{
+    if (!empty($_POST['custom_field_name'])) {
+        update_post_meta($order_id, 'custom_field_name',sanitize_text_field($_POST['custom_field_name']));
+    }
+}

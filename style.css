@@ -405,11 +405,11 @@ h3 {
   position: relative;
 }
 .nav__shopping span {
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   position: absolute;
-  left: 20%;
-  color: #AF1B6D;
-  top: 15%;
+  left: -10%;
+  color: #ccffff;
+  top: -20%;
 }
 
 /** Secondary nav styles */

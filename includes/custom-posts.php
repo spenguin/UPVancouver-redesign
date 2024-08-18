@@ -155,8 +155,11 @@ function admin_init()
     add_meta_box('performance_meta', 'Performance Details', '\CustomPosts\performanceDetails', 'performance', 'side');
     add_meta_box('performance_preview_meta', 'Preview', '\CustomPosts\preview', 'performance', 'side');
     add_meta_box('performance_talkback_meta', 'Talkback', '\CustomPosts\talkback', 'performance', 'side');
+    add_meta_box('performance_tickets_sold', 'Tickets Sold', '\CustomPosts\tickets_sold', 'performance', 'side' );
     // add_meta_box('show_promote_meta', 'Promote Show', '\CustomPosts\promote_show', 'show', 'side', 'high' );
     // add_meta_box('show_cast_meta', 'Show Cast & Crew', '\CustomPosts\show_cast', 'show', 'side', 'high' );
+    // add_meta_box('session_cart', 'Cart Data from Session', '\CustomPosts\session_cart' );
+
 }
 
 
@@ -252,6 +255,17 @@ function showName()
     $showPost   = get_post($show_id);
 ?>
     <p><?php echo $showPost->post_title; ?></p>
+<?php
+}
+
+function tickets_sold()
+{
+    global $post;
+    $custom         = get_post_custom($post->ID); //pvd($custom['tickets_sold']);
+    $ticketsSold    = isset($custom['tickets_sold']) ? unserialize(unserialize($custom['tickets_sold'][0])) : [0]; //pvd($ticketsSold);
+
+?>
+    <p><?php echo array_sum($ticketsSold); ?></p>
 <?php
 }
 
@@ -368,6 +382,7 @@ function save_promote_show()
     $promote_show   = isset($_POST['promote_show']) ? $_POST['promote_show'] : ''; 
     update_post_meta($post->ID, 'promote_show', $promote_show);
 }
+
 
 function show_cast()
 {

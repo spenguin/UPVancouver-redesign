@@ -13,7 +13,7 @@
  * @package Minimal WP Theme
  */
 
-get_header();
+get_header(); //pvd(WC()->cart);
 ?>
     <main id="primary" class="site-main">
         <div class="site-main-wrapper max-wrapper">
@@ -22,7 +22,8 @@ get_header();
             <?php }?> 
             
             <?php 
-                switch($post->post_type) {
+                $post_type = (!empty($post->post_type)) ? $post->post_type : NULL;
+                switch($post_type) {
                     case 'show':
                         get_template_part('template-parts/show-content');
                         break;

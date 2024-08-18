@@ -136,5 +136,6 @@ function isTicketSpecialAvailable()
  */
 function getActiveSeasonShowCount()
 {
-    return 3; // For now
+    $shows = get_season_shows('current', 'active' );
+    return $shows->post_count > 2 ? $shows->post_count : 5; // Assumes 5 shows in the next season. BICBW
 }

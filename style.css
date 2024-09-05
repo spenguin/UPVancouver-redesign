@@ -21,6 +21,7 @@ Text Domain: minimal
 html {
   font-size: 100%;
   margin-top: 0;
+  background-color: #ECEBE3;
 }
 
 body {
@@ -29,36 +30,6 @@ body {
 }
 
 /** Fonts */
-@font-face {
-  font-family: "Roboto";
-  src: url("../../assets/fonts/Roboto-Regular.woff2") format("woff2"), url("../../assets/fonts/Roboto-Regular.woff") format("woff");
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Roboto";
-  src: url("../../assets/fonts/Roboto-Italic.woff2") format("woff2"), url("../../assets/fonts/Roboto-Italic.woff") format("woff");
-  font-weight: 600;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Roboto";
-  src: url("../../assets/fonts/Roboto-Bold.woff2") format("woff2"), url("../../assets/fonts/Roboto-Bold.woff") format("woff");
-  font-weight: 700;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Oswald";
-  src: url("../../assets/fonts/Oswald-Regular.woff2") format("woff2"), url("../../assets/fonts/Oswald-Regular.woff") format("woff");
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Oswald";
-  src: url("../../assets/fonts/Oswald-SemiBold.woff2") format("woff2"), url("../../assets/fonts/Oswald-SemiBold.woff") format("woff");
-  font-weight: 400;
-  font-style: normal;
-}
 body {
   font-family: "Roboto", sans-serif;
 }
@@ -827,6 +798,11 @@ h3 {
 }
 .shopping-cart__buttons a {
   margin-top: 1.35rem;
+}
+
+/** Forms styles */
+.donation-form {
+  margin-bottom: 2rem;
 }
 
 /*# sourceMappingURL=style.css.map */

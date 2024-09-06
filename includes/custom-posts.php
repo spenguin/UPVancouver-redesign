@@ -261,11 +261,10 @@ function showName()
 function tickets_sold()
 {
     global $post;
-    $custom         = get_post_custom($post->ID); //pvd($custom['tickets_sold']);
-    $ticketsSold    = isset($custom['tickets_sold']) ? unserialize(unserialize($custom['tickets_sold'][0])) : [0]; //pvd($ticketsSold);
+    $tickets_sold       = get_post_meta($post->ID, 'tickets_sold', TRUE );
 
 ?>
-    <p><?php echo array_sum($ticketsSold); ?></p>
+    <p><?php  echo $tickets_sold['count']; ?></p>
 <?php
 }
 

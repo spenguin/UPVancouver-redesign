@@ -7,6 +7,7 @@ require_once CORE_SHORTCODE . 'upv_cart.php';
 // require_once CORE_SHORTCODE . 'upv_checkout.php';
 require_once CORE_SHORTCODE . 'upv_season_tickets.php';
 require_once CORE_SHORTCODE . 'upv_confirm_order.php';
+require_once CORE_SHORTCODE . 'upv_ticket_admin.php';
 
 \Shortcodes\initialize();
 
@@ -17,4 +18,5 @@ function initialize()
     // add_shortcode( 'upv_checkout', '\upv_checkout' );
     add_shortcode( 'upv_season_tickets', '\upv_season_tickets' );
     add_shortcode( 'upv_confirm_order', '\upv_confirm_order' );
+    add_shortcode( 'upv_ticket_admin', '\upv_ticket_admin' );
 }

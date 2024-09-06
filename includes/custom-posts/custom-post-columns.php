@@ -29,7 +29,7 @@ function weirdspace_filter_posts_columns( $columns ) {
 
 function weirdspace_show_column( $column, $post_id )
 {   
-    $custom     = get_post_custom($post_id);
+    $custom     = get_post_custom($post_id); 
     switch ($column):
         case 'show':
             $show_id    = $custom['show_id'][0] ? $custom['show_id'][0] : '';
@@ -47,7 +47,14 @@ function weirdspace_show_column( $column, $post_id )
             $showPost   = get_post($show_id);
             echo $showPost->post_title;            
         case 'sales':
-            echo '10';
+            if( isset($custom['tickets_sold'][0]) )
+            {
+                $tickets_sold = unserialize($custom['tickets_sold'][0]);
+            }
+            if( $post_id == '320' ) pvd($tickets_sold);
+            
+            
+            // echo isset( $tickets_sold['count'] ) ? $tickets_sold['count'] : 0;
             break;
         endswitch;
 }

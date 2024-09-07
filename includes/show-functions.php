@@ -106,3 +106,22 @@ function organise_show_content($title)
 
     return $o;
 }
+
+
+/**
+ * Retrieve all Show titles
+ * @return (array) titles
+ */
+function get_show_titles()
+{
+    global $wpdb;
+
+    $results = $wpdb->get_results( "SELECT ID,post_title FROM {$wpdb->prefix}posts WHERE post_type = 'show' && post_status='publish' ORDER BY post_title ASC" ); 
+    
+    $o      = [];
+    foreach( $results as $r )
+    {
+        $o[$r->ID]   = $r->post_title;
+    }
+    return $o;
+}

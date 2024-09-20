@@ -261,7 +261,7 @@ function showName()
 function tickets_sold()
 {
     global $post;
-    $tickets_sold       = get_post_meta($post->ID, 'tickets_sold', TRUE );
+    $tickets_sold       = get_post_meta($post->ID, 'tickets_sold', TRUE ); 
 
 ?>
     <p><?php  echo $tickets_sold['count']; ?></p>

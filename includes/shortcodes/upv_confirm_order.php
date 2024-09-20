@@ -4,8 +4,8 @@
  */
 
 function upv_confirm_order()
-{   pvd(WC()->cart->cart_contents);
-    if( WC()->cart->get_cart_contents_count() > 0 ) 
+{   
+    if( isset($_SESSION['cart']) && count($_SESSION['cart']) > 0 ) 
     {
         if( isset($_POST['confirm-order'] ) ) 
         { 
@@ -22,40 +22,45 @@ function upv_confirm_order()
                 wp_insert_user($user_data);
                 $user = get_user_by( 'email', $user_data['user_email'] );
             }
-            foreach( WC()->cart->cart_contents as $key => $item ) {
-                $performance = get_post_by_title( $item['date'], '', 'performance' ); 
-                $ticketsSold = get_metadata('performance', $performance->ID,'tickets_sold', TRUE); 
-                $ticketsSold = unserialize($ticketsSold); 
-                if( empty($ticketsSold ) ) 
+            // foreach( WC()->cart->cart_contents as $key => $item ) {
+            $orderId    = 'u_' . $user->ID . time();
+            $date       = '';
+            foreach($_SESSION['cart'] as $productId => $item )
+            {
+                if( $date != $item['date'] )
                 {
-                    $ticketsSold = [];
-                    $ticketsSold[$performance->ID]  = $item['quantity']; //pvd($ticketsSold);
+                    $performance    = get_post_by_title( $item['date'], '', 'performance' );
+                    $date           = $item['date'];
+                    $tickets_sold   = get_post_meta($performance->ID,'tickets_sold', TRUE);
+                    $showTitle      = $item['showTitle'];
                 }
-                else 
+                if( empty($tickets_sold) )
                 {
-                    $ticketPurchasers   = array_keys($ticketsSold); pvd($ticketPurchasers);
-                    // Need to complete this
-                    if( in_array( $performance->ID, $ticketPurchasers) )
-                    {
-                        $ticketsSold[$performance->ID] += $item['quantity'];
-                    }
-                    else
-                    {
-                        $ticketsSold[$performance->ID]  = $item['quantity'];
-                    }
+                    $tickets_sold	= [
+                        'count'		=> 0
+                    ];
                 }
-                update_post_meta($performance->ID, 'tickets_sold', serialize($ticketsSold) );
-
-                // Need to send email
-
+                $tickets_sold[$orderId][$item['name']] = $item['quantity'];
+                $tickets_sold['count'] += $item['quantity'];
+                update_post_meta( $performance->ID, 'tickets_sold', $tickets_sold );
             }
-            WC()->cart->empty_cart(); pvd(WC()->cart);
+            echo '<p>Order confirmed.</p>';
+
+            // Send order confirmation email
+            $subject    = "Your United Players of Vancouver confirmation has been received!";
+            $body[]     = "Hi " . $_POST['userName'] . ",";
+            $body[]     = "Just to let you know we've received your ticket confirmation for the " . $date . " performance of " . $showTitle;
+
+            $to         = $_POST['email'];
+            mail( $to, $subject, join("\n", $body));
+            unset($_SESSION['cart']);
+
         }
         else
         {
             ?>
-            <form action="/confirm-order" method="post">
-                <label>Name: <input type="text" name="name" /></label>
+            <form action="/confirm-order/" method="post" class="upv-form">
+                <label>Name: <input type="text" name="userName" /></label>
                 <label>Phone number: <input type="phone" name="phone" /></label>
                 <label>Email: <input type="email" name="email" /></label>
                 <label>Notes:</label>
@@ -71,7 +76,6 @@ function upv_confirm_order()
         <section class="shopping-cart max-wrapper__narrow">
             <h2>Tickets & Reservations</h2>
             <?php echo get_post_by_title('Shopping Cart Intro'); ?>
-            <!-- <?php //if( count(WC()->cart->cart_contents ) == 0): ?> -->
                 <p>Your Shopping Cart is empty.</p>
                 <a href="/" class="button button--information">Continue Shopping</a> 
         </section>

@@ -15,9 +15,8 @@ add_action( 'woocommerce_before_checkout_form', 'woocommerce_order_review', 10 )
 remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form' );
 add_action( 'woocommerce_after_order_notes', 'custom_checkout_field' );
 add_action('woocommerce_checkout_update_order_meta', 'custom_checkout_field_update_order_meta');
-
-
-
+add_action( 'init', 'misha_register_pay_at_box_office_status' );
+add_filter( 'wc_order_statuses', 'misha_add_status_to_list' );
 
 
 function upv_add_donation_form()
@@ -229,4 +228,36 @@ function custom_checkout_field_update_order_meta($order_id)
     if (!empty($_POST['custom_field_name'])) {
         update_post_meta($order_id, 'custom_field_name',sanitize_text_field($_POST['custom_field_name']));
     }
+}
+
+
+/*
+ * Register a custom order status
+ *
+ * @author Misha Rudrastyh
+ * @url https://rudrastyh.com/woocommerce/order-statuses.html
+ */
+
+
+function misha_register_pay_at_box_office_status() {
+
+	register_post_status(
+		'wc-misha-pay-at-box-office',
+		array(
+			'label'		=> 'Pay at Box Office',
+			'public'	=> true,
+			'show_in_admin_status_list' => true,
+			// 'label_count'	=> _n_noop( 'Awaiting shipping (%s)', 'Awaiting shipping (%s)' )
+		)
+	);
+
+}
+
+// Add registered status to list of WC Order statuses
+
+function misha_add_status_to_list( $order_statuses ) {
+
+	$order_statuses[ 'wc-misha-pay-at-box-office' ] = 'Pay at Box Office';
+	return $order_statuses;
+
 }

@@ -55,17 +55,20 @@ defined( 'ABSPATH' ) || exit;
 				{
 					if($item['date'] != $title )
 					{
-						$title	= $item['date'];
-						$args = [
-							'post_type'		=> 'performance',
-							'title'			=> $item['date'],
-							'posts_per_page'=> 1
-						];
+						$performance = get_post_by_title( $item['date'], '', 'performance' );
+						
+						// $title	= $item['date'];
+						// $args = [
+						// 	'post_type'		=> 'performance',
+						// 	'title'			=> $item['date'],
+						// 	'posts_per_page'=> 1
+						// ];
 
-						$query	= new WP_Query($args);
-						if($query->have_posts() ): $query->the_post();
-							$postId = get_the_ID();
-						endif; wp_reset_postdata();
+						// $query	= new WP_Query($args);
+						// if($query->have_posts() ): $query->the_post();
+						// 	$postId = get_the_ID();
+						// endif; wp_reset_postdata();
+						$postId = $performance->ID;
 					}
 					$tickets_sold = get_post_meta( $postId, 'tickets_sold', TRUE );
 					if( empty($tickets_sold) )
@@ -74,7 +77,7 @@ defined( 'ABSPATH' ) || exit;
 							'count'		=> 0
 						];
 					}
-					if( !isset($tickets_sold[$orderId][$item['name'] ]) )
+					if( !isset($tickets_sold[$orderId][$item['name']] ) )
 					{
 						$tickets_sold[$orderId][$item['name']]	= $item['quantity'];
 						$tickets_sold['count']			+= $item['quantity'];

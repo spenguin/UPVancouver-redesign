@@ -20,6 +20,7 @@ function get_post_by_title($title = NULL, $element="content", $post_type="post")
     if (is_null($title)) return "";
 
     $mypostids = $wpdb->get_col("select ID from $wpdb->posts where post_title = '" . $title . "'"); 
+    if( empty($mypostids) ) return NULL;
 
     $args = [
         'post__in'  => $mypostids,

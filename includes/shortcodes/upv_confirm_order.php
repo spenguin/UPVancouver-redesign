@@ -7,52 +7,56 @@ function upv_confirm_order()
 {   
     if( isset($_SESSION['cart']) && count($_SESSION['cart']) > 0 ) 
     {
+        
         if( isset($_POST['confirm-order'] ) ) 
         { 
+            $email  = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+
             // User already exist
-            $user = get_user_by( 'email', $_POST['email'] );
+            $user = get_user_by( 'email', $email );
             if( !$user ) {
                 // Create new user
                 $user_data = [
                     'user_pass'     => wp_generate_password(),
-                    'user_login'    => $_POST['email'],
-                    'user_email'    => $_POST['email'],
+                    'user_login'    => $email,
+                    'user_email'    => $email,
                     'role'          => 'attendee'
                 ];
                 wp_insert_user($user_data);
-                $user = get_user_by( 'email', $user_data['user_email'] );
+                $user = get_user_by( 'email', $email );
             }
-            // foreach( WC()->cart->cart_contents as $key => $item ) {
-            $orderId    = 'u_' . $user->ID . time();
-            $date       = '';
-            foreach($_SESSION['cart'] as $productId => $item )
+
+            foreach( $_SESSION['cart'] as $productId => $item )
             {
-                if( $date != $item['date'] )
-                {
-                    $performance    = get_post_by_title( $item['date'], '', 'performance' );
-                    $date           = $item['date'];
-                    $tickets_sold   = get_post_meta($performance->ID,'tickets_sold', TRUE);
-                    $showTitle      = $item['showTitle'];
-                }
+                $order          = new WC_Order( $email );
+                $order->set_created_via( $email ); 
+                $order->set_customer_id( $user->ID );   
+
+                $performance    = get_post_by_title( $item['date'], '', 'performance' );
+                $tickets_sold   = get_post_meta($performance->ID,'tickets_sold', TRUE);
                 if( empty($tickets_sold) )
                 {
                     $tickets_sold	= [
                         'count'		=> 0
                     ];
-                }
-                $tickets_sold[$orderId][$item['name']] = $item['quantity'];
-                $tickets_sold['count'] += $item['quantity'];
+                }                 
+                $order->add_product( wc_get_product( $productId ), $item['quantity'] );
+                $order->calculate_totals();
+                $order->set_status( 'wc-completed' );
+                $orderId = $order->save(); 
+                $tickets_sold[$orderId][$productId] = $item['quantity'];
+                $tickets_sold['count']  += $item['quantity'];
                 update_post_meta( $performance->ID, 'tickets_sold', $tickets_sold );
+
+
+                // Send order confirmation email
+                $subject    = "Your United Players of Vancouver confirmation has been received!";
+                $body[]     = "Hi " . $email . ",";
+                $body[]     = "Just to let you know we've received your ticket confirmation for the " . $item['date'] . " performance of " . $item['showTitle'];
+
+                mail( $email, $subject, join("\n", $body));                
             }
-            echo '<p>Order confirmed.</p>';
 
-            // Send order confirmation email
-            $subject    = "Your United Players of Vancouver confirmation has been received!";
-            $body[]     = "Hi " . $_POST['userName'] . ",";
-            $body[]     = "Just to let you know we've received your ticket confirmation for the " . $date . " performance of " . $showTitle;
-
-            $to         = $_POST['email'];
-            mail( $to, $subject, join("\n", $body));
             unset($_SESSION['cart']);
 
         }

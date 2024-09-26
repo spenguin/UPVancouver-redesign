@@ -12,6 +12,7 @@ add_action( 'woocommerce_before_checkout_form', 'upv_add_donation_form', 5 );
 add_action( 'woocommerce_before_checkout_form', 'upv_session_cart_to_wc_cart', 5 ); 
 remove_action( 'woocommerce_checkout_order_review', 'woocommerce_order_review');
 add_action( 'woocommerce_before_checkout_form', 'woocommerce_order_review', 10 );
+add_action( 'woocommerce_before_checkout_form', 'upv_redirect_button', 15 );
 remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form' );
 add_action( 'woocommerce_after_order_notes', 'custom_checkout_field' );
 add_action('woocommerce_checkout_update_order_meta', 'custom_checkout_field_update_order_meta');
@@ -35,6 +36,13 @@ function upv_session_cart_to_wc_cart()
             WC()->cart->add_to_cart($productId, $productData['quantity'], 0, [], ['misha_custom_price' => $productData['misha_custom_price']] );
         }
     }
+}
+
+function upv_redirect_button()
+{
+    ?>
+    <div class="cta--wrapper"><a class="button button--special" href="/cart">Return to Shopping Cart</a></div>
+    <?php
 }
 
 function getDonationProduct()

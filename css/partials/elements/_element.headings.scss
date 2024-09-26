@@ -23,3 +23,9 @@ h3 {
     text-transform: uppercase;
     text-align: center;
 }
+
+.woocommerce-billing-fields h3 {
+    text-transform: none;
+    text-align: left;
+    font-size: 1.25rem;
+}

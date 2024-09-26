@@ -84,8 +84,8 @@ body {
   color: #CE70AE;
 }
 .button--special {
-  background-color: #5664AB;
-  color: #ffffff;
+  background-color: #5664AB !important;
+  color: #ffffff !important;
 }
 .button--action {
   background-color: #AF1B6D !important;
@@ -153,6 +153,12 @@ h3 {
   text-align: center;
 }
 
+.woocommerce-billing-fields h3 {
+  text-transform: none;
+  text-align: left;
+  font-size: 1.25rem;
+}
+
 /** Symbol styling */
 .tick {
   color: #008C9E;
@@ -173,7 +179,7 @@ input[type=text] {
   width: 100%;
   margin-bottom: 0.85rem;
 }
-.upv-form label input {
+.upv-form input {
   display: block;
   width: 100%;
   height: 2rem;
@@ -182,7 +188,7 @@ input[type=text] {
   border: 1px solid black;
   padding-left: 0.5rem;
 }
-.upv-form label select {
+.upv-form select, .upv-form .select2-selection {
   display: block;
   width: 100%;
   height: 2rem;
@@ -207,6 +213,11 @@ input[type=text] {
 .upv-form__short-text input {
   display: inline-block !important;
   width: 20% !important;
+}
+
+/** Table styles */
+.shop_table {
+  background-color: #ffffff;
 }
 
 /** Structure aggregator */

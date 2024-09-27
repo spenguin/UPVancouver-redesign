@@ -30,7 +30,10 @@ function upv_confirm_order()
             {
                 $order          = new WC_Order( $email );
                 $order->set_created_via( $email ); 
-                $order->set_customer_id( $user->ID );   
+                $order->set_customer_id( $user->ID ); 
+                
+                $note           = htmlspecialchars( $_POST['notes'], ENT_QUOTES );
+                $order->add_order_note( $note );
 
                 $performance    = get_post_by_title( $item['date'], '', 'performance' );
                 $tickets_sold   = get_post_meta($performance->ID,'tickets_sold', TRUE);

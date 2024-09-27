@@ -64,6 +64,9 @@ function upv_ticket_admin()
             $order->set_created_via( $email ); 
             $order->set_customer_id( $user->ID ); 
 
+            $note           = htmlspecialchars( $_POST['notes'], ENT_QUOTES );
+            $order->add_order_note( $note );
+
             $tickets_ordered    = [];
             $ordered_count      = 0;
             

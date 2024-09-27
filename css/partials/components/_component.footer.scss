@@ -14,17 +14,19 @@
         padding-top: 1.75rem;
         @include screen-greater-than(tablet) {
             flex-direction: row;
+            justify-content: space-between;
         }
     }
     .secondary-navigation {
         @include screen-greater-than(tablet){
-            width: 30%;
+            width: 25%;
         }
     }
-    &__subscribe {
+    &__connection {
         font-size: 0.875rem;
+        margin-top: 0.5rem;
         @include screen-greater-than(tablet) {
-            width: 60%;
+            width: 50%;
         }
     }
     &__social-media {
@@ -35,6 +37,7 @@
             justify-content: space-between;
             @include screen-greater-than(tablet) {
                 flex-direction: column;
+                align-items: end;
             }
             a {
                 float: none!important;
@@ -48,10 +51,13 @@
                 .a2a_label {
                     position: unset!important;
                 }
+                @include screen-greater-than(tablet) {
+                    width: 50px;
+                }
             }
         }
         @include screen-greater-than(tablet){
-            width: 10%;
+           width: 25%;
             padding-left: 0;
         }
     }

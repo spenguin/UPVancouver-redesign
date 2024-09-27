@@ -37,7 +37,7 @@ function get_post_by_title($title = NULL, $element="content", $post_type="post")
     $post   = $query->posts[0];
     switch ($element) {
         case 'content':
-            $content    = apply_filters('the_content', $post->content);
+            $content    = apply_filters('the_content', $post->post_content);
             $content    = str_replace(']]>', ']]&gt;', $content);
             return $content;
         default:

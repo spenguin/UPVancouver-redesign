@@ -5,10 +5,15 @@
                     <h3>Quick Links</h3>
                     <?php wp_nav_menu('Secondary Menu'); ?>
                 </div>
-                <div class="footer__subscribe">
-                    <p class="footer__subscribe--instructions">Subscribe for updates</p>
-                    <?php dynamic_sidebar( 'footer_social_media' ); ?>
-                </div>  
+                <div class="footer__connection">
+                    <div class="footer__directions">
+                        <div class="cta--wrapper"><a class="button button--action" href="/plan-your-visit">Plan Your Visit</a></div>
+                    </div>                
+                    <div class="footer__subscribe">
+                        <p class="footer__subscribe--instructions">Subscribe for updates</p>
+                        <?php dynamic_sidebar( 'footer_social_media' ); ?>
+                    </div>  
+                </div>
                 <div class="footer__social-media">
                     <div class="a2a_kit a2a_kit_size_46 a2a_default_style a2a_follow">
                         <a class="a2a_button_facebook" href="https://www.facebook.com/AddToAny"></a>
@@ -37,9 +42,10 @@
                     </div>
                 </div>                
             </div>
+
             <div class="footer__acknowledgement">
                 <?php
-                    echo get_post_by_title('Acknowledgement'); 
+                    echo get_post_by_title('Acknowledgement');
                 ?>
             </div> 
             <div class="footer__fine-print--wrapper">

@@ -40,10 +40,29 @@ function upv_ticket_admin()
 
         if( !$error )
         {
+            // Get user
+
+            $email  = filter_var($_POST['userEmail'], FILTER_SANITIZE_EMAIL);
+
+            // User already exist            
+            $user = get_user_by( 'email', $email );
+            if( !$user ) {
+                // Create new user
+                $user_data = [
+                    'user_pass'     => wp_generate_password(),
+                    'user_login'    => $email,
+                    'user_email'    => $email,
+                    'role'          => 'attendee'
+                ];
+                wp_insert_user($user_data);
+                $user = get_user_by( 'email', $email );
+            }            
+            
+            
             // Create new order
-            $order = new WC_Order();
-            $order->set_created_via( 'admin' );
-            $order->set_customer_id( 1 ); 
+            $order          = new WC_Order( $email );
+            $order->set_created_via( $email ); 
+            $order->set_customer_id( $user->ID ); 
 
             $tickets_ordered    = [];
             $ordered_count      = 0;

@@ -4,6 +4,15 @@
  * Bespoke functions for Performance Custom Post Type
  */
 
+ add_filter( 'query_vars', 'add_custom_query_var' );
+
+function add_custom_query_var( $vars ){
+    $vars[] = "performance_id";
+    return $vars;
+}
+
+
+
 /**
  * @since: 18 August 2023
  * Get all performance dates and post_meta values, for a specific showId

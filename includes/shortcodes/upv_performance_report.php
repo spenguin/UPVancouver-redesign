@@ -6,7 +6,7 @@
 function upv_performance_report()
 {
     $performance_id = get_query_var( 'performance_id' );
-    $tickets_sold   = get_post_meta($performance_id,'tickets_sold', TRUE);
+    $tickets_sold   = get_post_meta($performance_id,'tickets_sold', TRUE); 
     $ticket_types   = getSingleShowTickets(); 
     $statuses       = [
         'processing'    => 'Pay at Box Office',
@@ -18,7 +18,7 @@ function upv_performance_report()
         return '<p>No tickets sold.</p>';
     }
     ?>
-    <table class="order-table">
+    <table class="upv-table order-table">
         <thead>
             <tr>
                 <td>Name</td>
@@ -45,14 +45,16 @@ function upv_performance_report()
                         <td><?php echo $name; ?></td>
                         <td><?php echo $statuses[$status]; ?></td>
                         <?php
-                            foreach( $ticket_types as $ticket_name )
+                            foreach( $ticket_types as $ticket_type_id => $ticket_name )
                             {
-                                if( array_key_exists(ucfirst($ticket_name), $tickets ) )
+                                echo '<td>';
+                                if( array_key_exists( $ticket_type_id, $tickets ) )
                                 {
-                                    echo '<td>' . $tickets[ucfirst($ticket_name)] . '</td>';
+                                    echo $tickets[$ticket_type_id]; 
                                 } else {
-                                    echo '<td>&nbsp;</td>';
+                                    echo "&nbsp;";
                                 }
+                                echo '</td>';
                             }
 
                         ?>

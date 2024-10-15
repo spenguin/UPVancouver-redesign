@@ -26,8 +26,6 @@ function upv_cart()
                 'name'      => $t->name
             ];
             $_SESSION['cart'][$t->ticketid] = $args;
-            // WC()->cart->add_to_cart($t->ticketid, 1, 0, [], ['misha_custom_price' => $t->charge] );
-
         }
     }
 

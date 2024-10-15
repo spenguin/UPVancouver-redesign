@@ -6,7 +6,6 @@ $options    = get_option('performance_options');
 $shoppingCartString = renderShoppingCartLogo();
 
 ?>
-
     <div class="header-bar">
         <a href="/seasons-tickets"><?php echo $options['performance_field_season_ticket_string']; ?></a>
     </div>
@@ -19,7 +18,13 @@ $shoppingCartString = renderShoppingCartLogo();
             <div class="primary-navigation__right">
                 <a href="/" class="nav nav--icon nav__home"><i class="fa-solid fa-house"></i></a>
                 <?php echo $shoppingCartString; ?>
-                <!-- <a class="nav nav__hamburger">Open</a> -->
+                <div class="sidebar-btn-wrapper">
+                    <input type="checkbox" id="btn" hidden />
+                    <label for="btn" class="menu-btn">
+                        <i class="fas fa-bars"></i>
+                        <i class="fas fa-times"></i>
+                    </label>
+                </div>
             </div>
         </div>
     </div>

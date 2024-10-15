@@ -1,0 +1,68 @@
+.nav-sidebar {
+    width: 320px;
+    height: 100%;
+    background-color: $UPVSage;
+    opacity: 90%;
+    position: absolute;
+    top: 0;
+    right: -320px;
+    padding-top: 5.5rem;
+    transition-duration: 500ms;
+    &.active {
+        right: 0;
+        transition-duration: 500ms;
+    }
+    ul {
+        list-style: none;
+        li {
+            border-bottom: 1px solid white;
+            margin-bottom: 0.25rem;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.25rem;
+            &:hover {
+                color: $UPVPink;
+            }
+        }        
+    }
+}
+
+.sidebar-btn-wrapper {
+    // height: 100%;
+    // width: 300px;
+    position: relative;
+    .menu-btn{
+        position: relative;
+        color: $UPVWhite;
+        height: 1.75rem;
+        width: 1.75rem;
+        z-index: 9999;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        margin-left: 1rem;
+        i{
+            position: absolute;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            &.fa-times {
+                opacity: 0;
+            }
+        }            
+    }        
+}
+
+#btn:checked ~ .menu-btn i.fa-times{
+    opacity: 1;
+    transform: rotate(-180deg);
+}
+#btn:checked ~ .menu-btn i.fa-bars{
+    opacity: 0;
+    transform: rotate(180deg);
+    // right: -247px !important;
+    // left: auto !important;
+}    

@@ -20,6 +20,7 @@ define( 'CORE_WIDGET', CORE_INC . 'widgets/' );
 define( 'CORE_SHORTCODE', CORE_INC . 'shortcodes/' );
 define( 'CORE_VENDOR', CORE_PATH . 'vendor/' );
 define( 'CORE_DIST', CORE_URL . '/js/dist/' );
+define( 'CORE_JS', CORE_URL . '/js/' );
 
 if (!defined('_S_VERSION')) {
 	// Replace the version number of the theme on each release.
@@ -46,11 +47,18 @@ require_once CORE_INC . 'admin-css.php';
  * Enqueue scripts and styles.
  */
 add_action( 'wp_enqueue_scripts', '\Core\upvancouver_enqueue_styles' );
+add_action( 'wp_enqueue_scripts', '\Core\upvancouver_enqueue_scripts' );
+
 function upvancouver_enqueue_styles() 
 {	
 	// wp_enqueue_style( 'parent-style', get_template_directory_uri().'/style.css' );
     wp_enqueue_style( 'upvanvcouver-style', get_stylesheet_uri(), array(), _S_VERSION ); 
 } 
+
+function upvancouver_enqueue_scripts()
+{
+	wp_enqueue_script( 'navigation', CORE_JS . 'navigation.js', ['jquery'], '1.0.0', [] );
+}
 
 // Removing front end admin bar because it's ugly
 add_filter('show_admin_bar', '__return_false');

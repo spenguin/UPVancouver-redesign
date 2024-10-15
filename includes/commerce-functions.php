@@ -74,17 +74,6 @@ function rudr_custom_price_refresh( $cart_object ) {
 	}
 }
  
-// add_action( 'woocommerce_before_checkout_form', '\Core\upv_write_order_to_WC' );
- 
-// function upv_write_order_to_WC()
-// {
-// 	echo '<p>Write Order</p>';
-// }
- 
-
-
-// add_action('woocommerce_before_cart', 'upv_read_order', 5 );
-
 
 /**
  * Generate the Shopping Cart image with product count
@@ -101,93 +90,6 @@ function renderShoppingCartLogo()
     <?php return ob_get_clean();
 }
 
-// font-size: 0.85rem;
-//   position: absolute;
-//   left: 30%;
-//   color: white;
-//   top: 15%;
-//   background: red;
-//   padding: 0.25rem;
-//   border-radius: 50%;
-
-
-function upv_read_order()
-{ die('test');
-    // updateTicketOrder();
-    // die(pvd($_SESSION));
-    $ticketsOrdered = decodeTicketData($_POST['ticketData']); die(pvd($ticketsOrdered));
-    foreach( $ticketsOrdered as $t ) 
-    {
-        if( $t->quantity == 0 ) continue;
-        WC()->cart->add_to_cart( $t->ticketid, $t->quantity );
-    }
-
-}
-
-
-/**
- * Check Post data to update Session data
- */
-function updateTicketOrder()
-{
-    // if( isset( $_GET['del'] ) ) {
-    //     unset($_SESSION['ticketsOrdered'][$_GET['del']]);
-    // }
-
-    if( !empty($_POST) ) { 
-        $ticketsOrdered = decodeTicketData($_POST['ticketData']); //die(pvd($ticketsOrdered));
-        $selectedPerformanceId  = $_POST['selectedPerformance']; 
-        if( empty($selectedPerformanceId) ) {
-            $showTitle      = '';
-            $showDate       = '';
-            $showTime       = '';
-        } else {
-            $selectedPerformance    = get_post($selectedPerformanceId); 
-            // Get show that corresponds to the selected Date
-            $performanceMeta    = get_post_meta($selectedPerformanceId); 
-            $showTitle          = get_the_title($performanceMeta['show_id'][0]);
-            $showDate           = $selectedPerformance->post_title;
-            $showTime           = $performanceMeta['performance_time'][0];
-        }
-
-
-        // Let's just start with looping through the tickets ordered
-        foreach( $ticketsOrdered as $t ) { 
-            if( $t->quantity == 0 ) continue;
-            // Does the performance/ticket type already exist?
-            $found = FALSE;
-            if( isset($_SESSION['ticketsOrdered'] ) ) {
-                foreach( $_SESSION['ticketsOrdered'] as $key => $to )
-                {
-                    if( empty($selectedPerformanceId) ) {
-                        if( $to['ticketId'] == $t->ticketid ) {
-                            $_SESSION['ticketsOrdered'][$key]['quantity'] = $t->quantity;
-                            $found = TRUE;
-                        }
-                    } else {
-                        if( $to['date'] == $selectedPerformance->post_title && $to['ticketId'] == $t->ticketid ) {
-                            $_SESSION['ticketsOrdered'][$key]['quantity'] = $t->quantity;
-                            $found = TRUE;
-                        }
-                    }
-                }
-            }
-            if( !$found ) {
-                // if( $t->quantity > 0 ) {
-                    $_SESSION['ticketsOrdered'][] = [
-                        'date'      => $showDate,
-                        'time'      => $showTime,
-                        'ticketId'  => $t->ticketid,
-                        'name'      => $t->name,
-                        'showTitle' => $showTitle,
-                        'charge'    => $t->charge,
-                        'quantity'  => $t->quantity
-                    ];
-                // }
-            }
-        }
-    }
-}
 
 function decodeTicketData($performance)
 {
@@ -200,31 +102,14 @@ function decodeTicketData($performance)
 */
 function custom_checkout_field($checkout)
 { 
-    // echo '<div id="custom_checkout_field"><h3>' . __('Please Provide The Custom Data') . '</h3>';
     woocommerce_form_field('custom_field_name', array(
 
     'type' => 'hidden',
         'required' => 'true',
 
-    // 'class' => array(
-
-    // 'my-field-class form-row-wide'
-
-    // ) ,
-
-    // 'label' => __('Custom Field') ,
-
-    // 'placeholder' => __('Enter Custom Data') ,
-
-    // 'value' => serialize($_SESSION['cart'])
-
     ) 			   ,
 
-    serialize($_SESSION['cart']));
-    // $checkout->get_value('custom_field_name'));
-
-    // echo '</div>';
-
+    base64_encode( serialize($_SESSION['cart'])) );
 }
 
 /**
@@ -235,6 +120,7 @@ function custom_checkout_field_update_order_meta($order_id)
 {
     if (!empty($_POST['custom_field_name'])) {
         update_post_meta($order_id, 'custom_field_name',sanitize_text_field($_POST['custom_field_name']));
+        // update_post_meta($order_id, 'custom_field_name',$_POST['custom_field_name']);
     }
 }
 
@@ -245,8 +131,6 @@ function custom_checkout_field_update_order_meta($order_id)
  * @author Misha Rudrastyh
  * @url https://rudrastyh.com/woocommerce/order-statuses.html
  */
-
-
 function misha_register_pay_at_box_office_status() {
 
 	register_post_status(
@@ -255,7 +139,6 @@ function misha_register_pay_at_box_office_status() {
 			'label'		=> 'Pay at Box Office',
 			'public'	=> true,
 			'show_in_admin_status_list' => true,
-			// 'label_count'	=> _n_noop( 'Awaiting shipping (%s)', 'Awaiting shipping (%s)' )
 		)
 	);
 

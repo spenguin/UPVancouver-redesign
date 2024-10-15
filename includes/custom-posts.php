@@ -123,6 +123,55 @@ function custom_post_type()
 
     // Registering Custom Post Type Blogs
     register_post_type('performance', $args);
+
+
+    // Set UI labels for Custom Post Type Members
+    $labels = array(
+        'name'                => _x('Members', 'Post Type General Name', 'upv'),
+        'singular_name'       => _x('Member', 'Post Type Singular Name', 'upv'),
+        'menu_name'           => __('Members', 'upv'),
+        'parent_item_colon'   => __('Parent Member', 'upv'),
+        'all_items'           => __('All Members', 'upv'),
+        'view_item'           => __('View Member', 'upv'),
+        'add_new_item'        => __('Add New Member', 'upv'),
+        'add_new'             => __('Add New', 'upv'),
+        'edit_item'           => __('Edit Member', 'upv'),
+        'update_item'         => __('Update Member', 'upv'),
+        'search_items'        => __('Search Member', 'upv'),
+        'not_found'           => __('Not Found', 'upv'),
+        'not_found_in_trash'  => __('Not found in Trash', 'upv'),
+    );
+
+    // Set other options for Custom Post Type
+    $args = array(
+        'label'               => __('member', 'upv'),
+        'description'         => __('Members listing', 'upv'),
+        'labels'              => $labels,
+        // Features this CPT supports in Post Editor
+        'supports'            => ['title', 'editor', 'thumbnail'],
+        // You can associate this CPT with a taxonomy or custom taxonomy. 
+        'taxonomies'          => array('capacities'),
+        'rewrite' => array('slug' => 'member', 'with_front' => false),
+        /* A hierarchical CPT is like Pages and can have
+		* Parent and child items. A non-hierarchical CPT
+		* is like Posts.
+		*/
+        'hierarchical'        => true,
+        'public'              => true,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'show_in_nav_menus'   => true,
+        'show_in_admin_bar'   => true,
+        'menu_position'       => 18,
+        'can_export'          => true,
+        'has_archive'         => true,
+        'exclude_from_search' => false,
+        'publicly_queryable'  => true,
+        'capability_type'     => 'page',
+    );
+
+    // Registering Custom Post Type Blogs
+    register_post_type('member', $args);    
 }
 
 

@@ -41,33 +41,21 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php else : ?>
             <?php
-				$orderId 	= $order->get_id();
+				$orderId 	= $order->get_id(); 
 				$order		= wc_get_order( $orderId ); 
 				$user		= $order->get_user(); //pvd($user);
 
-				$cart 		= get_post_meta( $orderId, "custom_field_name", TRUE ); 
-				$cart		= unserialize( $cart );
+				$cart 		= get_post_meta( $orderId, "custom_field_name", TRUE ); //die(pvd($cart));
+				$cart		= unserialize( base64_decode( $cart ) ); 
 
 				$donation	= getDonationProduct();
 				unset($cart[$donation]);
 				$title		= "";
-				foreach( $cart as $item )
+				foreach( $cart as $product_id => $item )
 				{
 					if($item['date'] != $title )
 					{
 						$performance = get_post_by_title( $item['date'], '', 'performance' );
-						
-						// $title	= $item['date'];
-						// $args = [
-						// 	'post_type'		=> 'performance',
-						// 	'title'			=> $item['date'],
-						// 	'posts_per_page'=> 1
-						// ];
-
-						// $query	= new WP_Query($args);
-						// if($query->have_posts() ): $query->the_post();
-						// 	$postId = get_the_ID();
-						// endif; wp_reset_postdata();
 						$postId = $performance->ID;
 					}
 					$tickets_sold = get_post_meta( $postId, 'tickets_sold', TRUE );
@@ -77,10 +65,10 @@ defined( 'ABSPATH' ) || exit;
 							'count'		=> 0
 						];
 					}
-					if( !isset($tickets_sold[$orderId][$item['name']] ) )
+					if( !isset($tickets_sold[$orderId][$product_id] ) )
 					{
-						$tickets_sold[$orderId][$item['name']]	= $item['quantity'];
-						$tickets_sold['count']			+= $item['quantity'];
+						$tickets_sold[$orderId][$product_id]	= $item['quantity'];
+						$tickets_sold['count']					+= $item['quantity']; //die(pvd($tickets_sold));
 						update_post_meta( $postId, 'tickets_sold', $tickets_sold );
 					}
 				}

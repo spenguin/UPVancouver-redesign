@@ -68,6 +68,7 @@ function weirdspace_filter_posts_columns( $columns ) {
             'preview'   => __( 'Preview' ),
             'talkback'  => __( 'Talkback' ),
             'sales'     => __( 'Sales'),
+            'report'    => __( 'Report' ),
     ];
     return $columns;
 }
@@ -90,10 +91,14 @@ function weirdspace_show_column( $column, $post_id )
         case 'date':
             $show_id    = $custom['show_id'][0] ? $custom['show_id'][0] : '';
             $showPost   = get_post($show_id);
-            echo $showPost->post_title;            
+            echo $showPost->post_title;  
+            break;          
         case 'sales':
             $tickets_sold = get_post_meta( $post_id, 'tickets_sold', TRUE );
             echo empty($tickets_sold) ? 0 : $tickets_sold['count'];
+            break;
+        case 'report':
+            echo '<a href="/performance-report/?performance_id=' . $post_id . '" target="_blank">Report</a>';
             break;
         endswitch;
 }

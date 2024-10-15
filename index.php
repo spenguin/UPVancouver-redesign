@@ -13,7 +13,7 @@
  * @package Minimal WP Theme
  */
 
-get_header(); //pvd(WC()->cart);
+get_header();
 ?>
     <main id="primary" class="site-main">
         <div class="site-main-wrapper max-wrapper">
@@ -34,24 +34,15 @@ get_header(); //pvd(WC()->cart);
                         the_content();
                         break;
                     default:
-                    //     if(is_single('Seasons Tickets') ) {
-                    //         echo 'Seasons Tickets here';
-                    //     }
                         the_content();
                 }
-                // if(is_page('Seasons Tickets') ) { 
-                //     // get_template_part('template-parts/seasons-tickets-content');
-                //     // echo get_the_content();
-                //     the_content();
-                // }
-                // if( is_home() || is_front_page() ) {
-                //     the_content();
-                // }
-
             ?>
 
         </div>
     </main><!-- #primary --> 
+    <nav class="nav-sidebar">
+        <?php wp_nav_menu(['menu'=>25]); ?>
+    </nav>
     <?php //get_sidebar(); ?>
 </div><!-- end container -->
 

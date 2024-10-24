@@ -166,7 +166,15 @@ function upv_ticket_admin()
                 
             <input type="submit" class="button" name="add_order" value="Submit" />
         </form>
-    </section>
+    <!-- </section> -->
+     <!-- Suspended for now. May not be needed -->
+        <!-- <h2>Performance Ticket Purchases File Upload</h2>
+        <form action="/ticket-admin" method="post" class="upv-form" enctype="multipart/form-data">
+            <label for="ticket_orders">Upload Spreadsheet</label>
+            <input type="file" name="ticket_orders" />
+            <input type="submit" class="button" name="upload_file" value="Upload" />
+        </form> -->
+
     <?php
 }
 

@@ -101,6 +101,7 @@ function getSingleShowTickets()
     $season = get_post_by_title( 'Season Subscriber', '', 'product' );
     $o[$season->ID] = 'seasons'; //$season->post_title;
   
+    wp_reset_postdata();
     return $o;
 
 }

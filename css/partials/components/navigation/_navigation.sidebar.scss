@@ -8,9 +8,18 @@
     right: -320px;
     padding-top: 5.5rem;
     transition-duration: 500ms;
+    // transition-delay: 500ms;
+    // transition: all 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) 2s;
+    display: none;
+    // visibility: hidden;
     &.active {
+        // width: 320px;
+        display:block;
         right: 0;
         transition-duration: 500ms;
+        // transition-delay: 500ms;
+        // transition: all 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) 2s;
+        // visibility: visible;
     }
     ul {
         list-style: none;

@@ -57,3 +57,17 @@ function get_page_class_by_title($title = NULL)
 
     }
 }
+
+
+// function add_current_show_in_nav_sidebar_menu( $items, $args ) {pvd($args->menu);
+//     if($args->slug == "secondary-menu") return $items;
+//     foreach ( $items as $k => $object ) { pvd($k); die(pvd($object));
+//         // you can also target given page using this if:
+//         // if ( 'page' == $object->object && 2 == $object->object_id ) {
+//         if ( 30 == $object->ID ) {
+//             $object->title = '<i class="fas fa-home"></i>';
+//         }
+//     }
+//     return $items;
+// }
+// add_filter( 'wp_nav_menu_items', 'add_current_show_in_nav_sidebar_menu', 10, 2 );

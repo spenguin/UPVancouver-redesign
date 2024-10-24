@@ -22,16 +22,24 @@ get_header();
             <?php }?> 
             
             <?php 
-                $post_type = (!empty($post->post_type)) ? $post->post_type : NULL;
+                $post_type  = (!empty($post->post_type)) ? $post->post_type : NULL;
+                $post_id    = (!empty($post->ID)) ? $post->ID : NULL;
                 switch($post_type) {
                     case 'show':
                         get_template_part('template-parts/show-content');
                         break;
-                    case 'page':
-                        if( is_page('Donate') && !isset($_POST['donation']) ) {
-                            get_template_part('template-parts/donation-form');
+                    case 'page': 
+                        if( is_page('Donate') ) 
+                        { 
+                            $form = '';
+                            ob_start();
+                                get_template_part('template-parts/donation-form');
+                            $form = ob_get_clean();
+                            $content = get_post_field('post_content', $post_id);
+                            echo $form . $content;
+                        } else {
+                            the_content();
                         }
-                        the_content();
                         break;
                     default:
                         the_content();

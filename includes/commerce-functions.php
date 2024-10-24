@@ -58,6 +58,7 @@ function getDonationProduct()
         return get_the_ID();
     endif;
     return NULL;
+    wp_reset_postdata();
 }
 
 /**

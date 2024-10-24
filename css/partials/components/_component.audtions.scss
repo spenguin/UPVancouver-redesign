@@ -1,0 +1,58 @@
+/** Audition Details styles */
+
+.audition-details {
+    &__main {
+        @include screen-greater-than(desktop) {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+    &__left {
+        @include screen-greater-than(desktop) {
+            width: 48%;
+        }
+    }
+    &__right {
+        @include screen-greater-than(desktop) {
+            width: 48%;
+            padding-top: 4rem;
+        }
+    }
+    &--credits-major {
+        font-weight: bold;
+        font-size: 1.25rem;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    &--credits-minor {
+        font-weight: bold;
+        font-size: 1rem;
+    }
+}
+
+.audition-roles {
+    p {
+        @include screen-greater-than(desktop){
+            padding-right: 40%;
+            position: relative;
+        }
+    }
+    a {
+        border-radius: $btnRadius;
+        border: none;
+        text-decoration: none;
+        background-color: $UPVTeal;
+        color: $UPVLightTeal;
+        text-transform: uppercase;   
+        font-size: 1rem; 
+        padding: 0.5rem 1rem;
+        min-width: 144px;
+        display: inline-block;
+        text-align: center;
+        @include screen-greater-than(desktop) {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+}

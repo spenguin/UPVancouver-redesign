@@ -188,6 +188,10 @@ input[type=text] {
   border: 1px solid black;
   padding-left: 0.5rem;
 }
+.upv-form input[type=file] {
+  border: none;
+  padding-left: 0;
+}
 .upv-form select, .upv-form .select2-selection {
   display: block;
   width: 100%;
@@ -291,6 +295,13 @@ input[type=text] {
   .shopping-cart {
     margin-bottom: 3rem;
   }
+}
+
+.audition-details {
+  background-color: #ffffff;
+  margin-left: -25%;
+  margin-right: -25%;
+  padding: 1.5rem 25% 1.5rem 25%;
 }
 
 /** Components aggregator */
@@ -539,8 +550,10 @@ input[type=text] {
   right: -320px;
   padding-top: 5.5rem;
   transition-duration: 500ms;
+  display: none;
 }
 .nav-sidebar.active {
+  display: block;
   right: 0;
   transition-duration: 500ms;
 }
@@ -972,6 +985,62 @@ input[type=text] {
 /** Forms styles */
 .donation-form {
   margin-bottom: 2rem;
+}
+
+/** Audition Details styles */
+@media screen and (min-width: 1280px) {
+  .audition-details__main {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .audition-details__left {
+    width: 48%;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .audition-details__right {
+    width: 48%;
+    padding-top: 4rem;
+  }
+}
+.audition-details--credits-major {
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.audition-details--credits-minor {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+@media screen and (min-width: 1280px) {
+  .audition-roles p {
+    padding-right: 40%;
+    position: relative;
+  }
+}
+.audition-roles a {
+  border-radius: 0.5rem;
+  border: none;
+  text-decoration: none;
+  background-color: #5BB4BF;
+  color: #dff7fa;
+  text-transform: uppercase;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  min-width: 144px;
+  display: inline-block;
+  text-align: center;
+}
+@media screen and (min-width: 1280px) {
+  .audition-roles a {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

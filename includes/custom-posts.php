@@ -13,6 +13,8 @@ function initialize()
     add_action('admin_init', '\CustomPosts\admin_init');
     add_action('save_post_show', '\CustomPosts\save_show_dates');
     add_action('save_post_show', '\CustomPosts\save_show_credits');
+    add_action('save_post_member', '\CustomPosts\save_member_title');
+
     // add_action('save_post_show', '\CustomPosts\save_promote_show');
     // add_action('save_post_show', '\CustomPosts\save_show_cast');    
 
@@ -205,6 +207,8 @@ function admin_init()
     add_meta_box('performance_preview_meta', 'Preview', '\CustomPosts\preview', 'performance', 'side');
     add_meta_box('performance_talkback_meta', 'Talkback', '\CustomPosts\talkback', 'performance', 'side');
     add_meta_box('performance_tickets_sold', 'Tickets Sold', '\CustomPosts\tickets_sold', 'performance', 'side' );
+    add_meta_box('member_title', 'Title or Position', '\CustomPosts\member_title', 'member' );
+
     // add_meta_box('show_promote_meta', 'Promote Show', '\CustomPosts\promote_show', 'show', 'side', 'high' );
     // add_meta_box('show_cast_meta', 'Show Cast & Crew', '\CustomPosts\show_cast', 'show', 'side', 'high' );
     // add_meta_box('session_cart', 'Cart Data from Session', '\CustomPosts\session_cart' );
@@ -448,6 +452,25 @@ function save_show_cast()
     global $post;
     $show_cast  = isset( $_POST['show_cast'] ) ? $_POST['show_cast'] : '';
     update_post_meta($post->ID, 'show_cast', $show_cast );
+}
+
+
+function member_title()
+{
+    global $post;
+    $custom         = get_post_custom( $post->ID );
+    $member_title   = isset( $custom['member_title'] ) ? $custom['member_title'][0] : '';
+?>
+    <label for="member_title">Member Title or Position:</label>
+    <input type="text" name="member_title" value="<?php echo $member_title; ?>" />
+<?php    
+}
+
+function save_member_title()
+{
+    global $post;
+    $member_title  = isset( $_POST['member_title'] ) ? $_POST['member_title'] : '';
+    update_post_meta($post->ID, 'member_title', $member_title );
 }
 
 /**

@@ -163,6 +163,10 @@ h3 {
   font-size: 1.25rem;
 }
 
+.artistic_director h3 span {
+  text-transform: none;
+}
+
 /** Symbol styling */
 .tick {
   color: #008C9E;
@@ -302,6 +306,13 @@ input[type=text] {
 }
 
 .audition-details {
+  background-color: #ffffff;
+  margin-left: -25%;
+  margin-right: -25%;
+  padding: 1.5rem 25% 1.5rem 25%;
+}
+
+.artistic_director {
   background-color: #ffffff;
   margin-left: -25%;
   margin-right: -25%;
@@ -1044,6 +1055,26 @@ input[type=text] {
     position: absolute;
     top: 0;
     right: 0;
+  }
+}
+
+/** Artistic Director styles */
+@media screen and (min-width: 768px) {
+  .artistic_director__wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .artistic_director--image {
+    width: 30%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .artistic_director--text {
+    width: 68%;
   }
 }
 

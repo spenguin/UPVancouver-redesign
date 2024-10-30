@@ -1,0 +1,19 @@
+/** Artistic Director styles */
+
+.artistic_director__wrapper {
+    @include screen-greater-than(tablet) {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+.artistic_director--image {
+    @include screen-greater-than(tablet) {
+        width: 30%;
+    }
+}
+
+.artistic_director--text {
+    @include screen-greater-than(tablet){
+        width: 68%;
+    }
+}

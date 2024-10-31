@@ -1,0 +1,22 @@
+/** History page specific styles */
+
+.vc_btn3 {
+    color: #FFFFFF;
+    border-color: #555;
+    background-color: #555;
+    font-size: 18px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 35px;
+    padding-right: 35px;
+    text-decoration: none;
+    &:hover {
+        color: #f7f7f7;
+        border-color: #464646;
+        background-color: #464646;
+    }
+}
+.wpb_row {
+    display: flex;
+    justify-content: space-between;
+}

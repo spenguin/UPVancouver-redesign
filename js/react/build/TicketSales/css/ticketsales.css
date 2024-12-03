@@ -132,6 +132,11 @@
     margin-bottom: 2rem;
 }
 
+.ticket--note {
+    font-size:.85rem;
+    line-height: 1.25rem;
+}
+
 /* .fa-solid {
     width: 3rem;
     height: 2rem;

@@ -15,6 +15,7 @@ const TicketSalesTickets = ({ ticketData, isTicketSpecialAvailable, setTicketDat
 
     // set vars
     var localTickets = ticketData;
+    var studentStr  = "(Must have Student ID)";
 
     // set functions
     const adjustCount = (keyname, value) => {
@@ -36,6 +37,9 @@ const TicketSalesTickets = ({ ticketData, isTicketSpecialAvailable, setTicketDat
                         <div className="ticket-list__ticket--select">
                             <div className="ticket-select__name">
                                 {ticket.name}
+                                {ticket.name == "Student" &&
+                                    <div className="ticket--note">{studentStr}</div>
+                                }
                             </div>
                             <div className="ticket-select__quantity">
                                 <div className="ticket-select__quantity--block">

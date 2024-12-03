@@ -97,10 +97,11 @@ function read_season($year)
  */
 function organise_show_content($title)
 {
-    $query  = new WP_Query( array( 'category_name' => $title ) ); 
+    $sanitized_title = sanitize_title($title); 
+    $query  = new WP_Query( array( 'category_name' => $sanitized_title ) ); 
     $o      = [];
     while($query->have_posts() ): $query->the_post();
-        $o[$query->post->post_name]    = $query->post->post_content;
+        $o[strtolower($query->post->post_title)]    = $query->post->post_content;
     endwhile;
     wp_reset_postdata();
 

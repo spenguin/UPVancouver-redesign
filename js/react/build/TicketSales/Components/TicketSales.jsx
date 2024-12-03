@@ -15,12 +15,12 @@ import TicketSalesOrder from "./_TicketSalesOrder.jsx";
 import "../../TicketSales/css/ticketsales.css";
 
 
-const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable}) => { 
+const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable}) => {
 
     // set State vars
     const [selectedPerformance, setSelectedPerformance] = useState('');
     // const [performanceTickets, setPerformanceTickets]   = useState([]);
-    const [ticketData, setTicketData]                   = useState(showId > 0 ? null : tickets); //console.log('ticketData', ticketData);
+    const [ticketData, setTicketData]                   = useState(showId > 0 ? null : tickets); 
     const [localTickets, setLocalTickets]               = useState(ticketData);
 
     useEffect(()=>{
@@ -48,6 +48,9 @@ const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable}) 
             {ticketData &&
                 <>
                     <h3>Please select your tickets</h3>
+                    {!(performances instanceof Array) &&
+                        <p>Note: You must already be a Season Subscriber to select a Season Subscriber Ticket.<br></br><a href="/seasons-tickets">Seasons Tickets</a></p>
+                    }
                     <TicketSalesTickets
                         // tickets         ={performanceTickets}
                         ticketData      = {ticketData}

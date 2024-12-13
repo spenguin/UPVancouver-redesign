@@ -50,6 +50,7 @@ defined( 'ABSPATH' ) || exit;
 
 				$donation	= getDonationProduct();
 				unset($cart[$donation]);
+				unset($_SESSION['cart']);
 				$title		= "";
 				foreach( $cart as $product_id => $item )
 				{

@@ -27,6 +27,9 @@
         @include screen-greater-than(desktop) {
             width: $componentMaxWidth;
         }
+        &-images img {
+            width: 100%;
+        }
     }
     &__sidebar {
         h3 {

@@ -782,6 +782,9 @@ input[type=text] {
     width: 543px;
   }
 }
+.show-page__main-images img {
+  width: 100%;
+}
 .show-page__sidebar {
   display: flex;
   flex-direction: column;

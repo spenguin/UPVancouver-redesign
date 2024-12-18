@@ -14,6 +14,7 @@ function initialize()
     add_action('save_post_show', '\CustomPosts\save_show_dates');
     add_action('save_post_show', '\CustomPosts\save_show_credits');
     add_action('save_post_member', '\CustomPosts\save_member_title');
+    add_action('save_post_show', '\CustomPosts\save_show_seats');
 
     // add_action('save_post_show', '\CustomPosts\save_promote_show');
     // add_action('save_post_show', '\CustomPosts\save_show_cast');    
@@ -208,6 +209,7 @@ function admin_init()
     add_meta_box('performance_talkback_meta', 'Talkback', '\CustomPosts\talkback', 'performance', 'side');
     add_meta_box('performance_tickets_sold', 'Tickets Sold', '\CustomPosts\tickets_sold', 'performance', 'side' );
     add_meta_box('member_title', 'Title or Position', '\CustomPosts\member_title', 'member' );
+    add_meta_box('show_seats', 'Show Seats', '\CustomPosts\show_seats', 'show', 'side' );
 
     // add_meta_box('show_promote_meta', 'Promote Show', '\CustomPosts\promote_show', 'show', 'side', 'high' );
     // add_meta_box('show_cast_meta', 'Show Cast & Crew', '\CustomPosts\show_cast', 'show', 'side', 'high' );
@@ -471,6 +473,24 @@ function save_member_title()
     global $post;
     $member_title  = isset( $_POST['member_title'] ) ? $_POST['member_title'] : '';
     update_post_meta($post->ID, 'member_title', $member_title );
+}
+
+function show_seats()
+{
+    global $post;
+    $custom = get_post_custom( $post->ID );
+    $show_seats  = isset( $custom['show_seats'] ) ? $custom['show_seats'][0] : 100; // Should be in settings
+?>
+    <label for="show_seats">Number of Seats for Show:</label>
+    <input type="number" name="show_seats" value="<?php echo $show_seats; ?>" />
+<?php
+}
+
+function save_show_seats()
+{
+    global $post;
+    $show_seats  = isset( $_POST['show_seats'] ) ? $_POST['show_seats'] : 100;
+    update_post_meta($post->ID, 'show_seats', $show_seats );
 }
 
 /**

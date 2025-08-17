@@ -8,36 +8,78 @@ function upv_cart()
 { 
     if( isset($_POST['ticketData'] ) ) {
         $ticketsOrdered = decodeTicketData($_POST['ticketData']); //die(pvd($ticketsOrdered));
-        $selectedPerformanceId  = $_POST['selectedPerformance'];
-        $selectedPerformance    = get_post($selectedPerformanceId); 
-        // Get show that corresponds to the selected Date
-        $performanceMeta        = get_post_meta($selectedPerformanceId); 
-        $showTitle              = get_the_title($performanceMeta['show_id'][0]); 
+        $selectedPerformanceId  = $_POST['selectedPerformance']; 
+        $isTicketSpecialAvailable   = FALSE;
+        if( empty($selectedPerformanceId) )
+        {
+            $showTitle  = "Seasons Ticket";
+            $showTime   = ""; 
+            $performanceDate = "";
+            // Test for promo
+            $isTicketSpecialAvailable   = isTicketSpecialAvailable(); 
+            $seasonTicketsOrdered       = [];
+
+        } else {
+            $selectedPerformance    = get_post($selectedPerformanceId); 
+            $performanceDate        = $selectedPerformance->post_title;
+            // Get show that corresponds to the selected Date
+            $performanceMeta        = get_post_meta($selectedPerformanceId); 
+            $showTime               = $performanceMeta['performance_time'][0];
+            $showTitle              = get_the_title($performanceMeta['show_id'][0]); 
+        }
+
         
         foreach( $ticketsOrdered as $t ) 
         { 
             if( $t->quantity == 0 ) continue;
             $args  = [
+                'product_id'=> $t->ticketid,
                 'quantity'  => $t->quantity,
-                'date'      => $selectedPerformance->post_title,
-                'time'      => $performanceMeta['performance_time'][0],
+                'date'      => $performanceDate,
+                'time'      => $showTime,
                 'showTitle' => $showTitle,  
                 'misha_custom_price' => $t->charge,
                 'name'      => $t->name
             ];
-            $_SESSION['cart'][$t->ticketid] = $args;
+            $seasonTicketsOrdered   = [];
+            if( $isTicketSpecialAvailable )
+            {
+                $array                  = array_fill( 0, $t->quantity, $t->charge );
+                $seasonTicketsOrdered   = array_merge( $seasonTicketsOrdered, $array );
+            }
+            $_SESSION['cart'][] = $args;
         }
+        if( count( $seasonTicketsOrdered ) >= 3 )   // If there are fewer than three tickets ordered, the promo doesn't apply anyway
+        {
+            rsort($seasonTicketsOrdered);
+            $discountTotal = 0;
+            foreach( $seasonTicketsOrdered as $k => $s )
+            {
+                if( ($k+1)%3 == 0 )
+                {
+                    $discountTotal += $s/2;
+                }
+            }
+            $_SESSION['cart']['promoDiscount'] = [
+                'product_id'            => getPromoProduct(),
+                'showTitle'             => 'Promotional Discount',
+                'quantity'              => 1,
+                'misha_custom_price'    => -1 * $discountTotal,
+                'name'                  => 'Promotional Discount'
+            ];
+        } 
+        
     }
 
     if( isset($_POST['donation']) ){
         // Do something with the donation
         $donationProductId  = getDonationProduct(); 
         $_SESSION['cart'][$donationProductId] = [
-            'quantity'  => 1,
+            'product_id'    => $donationProductId,
+            'quantity'      => 1,
             'misha_custom_price'    => $_POST['donation'],
-            'name'      => 'Donation'
+            'name'          => 'Donation'
         ];
-        // WC()->cart->add_to_cart($donationProductId, 1, 0, [], ['misha_custom_price' => $_POST['donation']] );
     }
 
     if( isset($_GET['del']) ){
@@ -62,47 +104,37 @@ function upv_cart()
                 </thead>
                 <tbody>
                     <?php
-                        $orderTotal = 0;
-                        foreach($_SESSION['cart']  as $key => $t ) {
-                            if( $t['quantity'] == 0 ) continue;
-                            $showCharge = $t['quantity'] * $t['misha_custom_price'];
+                        $orderTotal = 0; 
+                        foreach($_SESSION['cart']  as $key => $args ) { 
+                            if( $args['quantity'] == 0 ) continue;
+                            $showCharge = $args['quantity'] * $args['misha_custom_price'];
                             $orderTotal += $showCharge;
                             ?>
                             <tr>
                                 <td>
-                                    <div class="shopping-cart__delete"><a href="/cart?del=<?php echo $key; ?>" >X</a></div>
+                                    <?php //if( $args['name'] != 'Promotional Discount' ): ?>
+                                        <div class="shopping-cart__delete"><a href="/cart?del=<?php echo $key; ?>" >X</a></div>
+                                    <?php //endif; ?>
                                     <div>
-                                        <?php if( $t['name'] != 'Donation' ): ?>
-                                            <?php echo $t['showTitle']; ?><br />
-                                            <?php echo $t['date']  . ' '  . date("g:i a", strtotime($t['time'])); ?><br />
+                                        <?php if( $args['name'] != 'Donation' ): ?>
+                                            <?php echo $args['showTitle']; ?><br />
+                                            <?php 
+                                                if( isset($args['showTitle']) && $args['showTitle'] != 'Seasons Ticket' && $args['showTitle'] != 'Promotional Discount')
+                                                {
+                                                    echo $args['date']  . ' '  . date("g:i a", strtotime($args['time'])) . '<br />';
+                                                } ?>
                                         <?php endif; ?>
-                                        <?php echo $t['name'] . ' &dollar;' . $t['misha_custom_price']; ?>
+                                        <?php echo $args['name'] . ($args['misha_custom_price'] < 0 ) ? '(&dollar;' . abs($args['misha_custom_price']) . ')' : ' &dollar;' . $args['misha_custom_price']; ?>
                                     </div>
                                 </td>
                                 <td>
-                                    <?php echo $t['quantity']; ?>
+                                    <?php echo $args['quantity']; ?>
                                 </td>
                                 <td>
-                                    &dollar;<?php echo $showCharge; ?>
+                                    <?php echo $showCharge < 0 ? '(&dollar;' . abs($showCharge) . ')' : '&dollar;' . $showCharge; ?>
                                 </td>
                             </tr>
                     <?php    } ?>
-                    <!-- <tr>
-                        <td class="cart-total__label">Subtotal:</td>
-                        <td>&nbsp;</td>
-                        <td class="cart-total">&dollar;<?php echo $orderTotal; ?></td>
-                    </tr> -->
-                    <!-- <tr>
-                        <td class="cart-total__label">&nbsp;</td>
-                        <td>Would you like to make a <a href="/donate">Donation</a>?</td>
-                        <td class="cart-total">
-                            <form>
-                                <input type="text" name="donation">
-                                
-                            </form>
-
-                        </td>
-                    </tr> -->
                     <tr>
                         <td class="cart-total__label">Total:</td>
                         <td>&nbsp;</td>

@@ -1,13 +1,23 @@
 /** Style for single show page */
 
 .credits {
+    @include screen-greater-than(desktop) {
+        width: $componentMaxWidth;
+    }
     &__directing {
         font-size: 1rem;
-        font-weight: bold;
+        font-weight: 600;
+        line-height: 1.5rem;
+        margin-bottom: 0.5rem;
     }
     &__writing {
         font-size: 1.25rem;
-        font-weight: bold;
+        line-height: 1.5rem;
+        color: $UPVBlack;
+        font-weight: 600;
+        margin: 0;
+        margin-bottom: 0px;
+        margin-bottom: 0.35rem;
     }
 }
 
@@ -21,6 +31,7 @@
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+            margin-bottom: 3rem;
         }
     // }
     &__main {
@@ -47,20 +58,22 @@
                 flex-direction: row;
                 padding: 1rem 26% 3rem 26%;
                 margin-left: -26%;
-                margin-right: -26%;                
+                margin-right: -26%;   
+                justify-content: space-between;             
             }
             @include screen-greater-than(desktop) {
                 flex-direction: column;
                 margin-left: 0;
                 margin-right: 0;
                 padding: 1rem 2% 3rem 2%;
-                border-radius: $featureImgBorderRadius;
-                width: $sidebarMaxWidth;
+                border-radius: $featureImgBorderRadiusTablet;
+                width: 543px; //$sidebarMaxWidth;
+                margin-top: -140px;
             }
         // }
         &--cast, &--production {
             @include screen-greater-than(tablet) {
-                width: 48%;
+                width: 46%;
             }
             @include screen-greater-than(desktop) {
                 width: 100%;

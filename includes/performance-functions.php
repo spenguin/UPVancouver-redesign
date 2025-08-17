@@ -45,7 +45,8 @@ function getPerformanceDates( $showId = NULL )
                 'date'      => $date,
                 'preview'   => isset($custom['preview']) ? $custom['preview'][0] : '',
                 'talkback'  => isset($custom['talkback']) ? $custom['talkback'][0] : '',
-                'performance_time'  => isset($custom['performance_time']) ? $custom['performance_time'][0] : ''
+                'performance_time'  => isset($custom['performance_time']) ? $custom['performance_time'][0] : '',
+                'sold_out'  => isset($custom['sold_out']) ? $custom['sold_out'][0] : ''
             ];
         endwhile;
     endif;
@@ -54,4 +55,24 @@ function getPerformanceDates( $showId = NULL )
     ksort($o);
 
     return $o;
+}
+
+function get_show_title_by_performance_date( $date )
+{
+    $performance= get_post_by_title($date, '', 'performance' ); 
+    $showId     = get_post_meta($performance->ID,"show_id",true);
+    $show       = get_post( $showId );
+    return $show->post_title;
+}
+
+function get_tickets_sold($performanceId)
+{
+    $tickets_sold   = get_post_meta($performanceId,'tickets_sold', TRUE); 
+    if( empty($tickets_sold) )
+    {
+        $tickets_sold	= [
+            'count'		=> 0
+        ];
+    }  
+    return $tickets_sold;
 }

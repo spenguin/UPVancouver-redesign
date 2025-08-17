@@ -6,8 +6,12 @@ img {
 }
 
 .feature-image {
-    border-radius: $featureImgBorderRadius;
+    border-radius: $featureImgBorderRadiusMobile;
+    
     overflow: hidden;
     display: block;
     line-height: 0;
+    @include screen-greater-than(tablet) {
+        border-radius: $featureImgBorderRadiusTablet;
+    }
 }

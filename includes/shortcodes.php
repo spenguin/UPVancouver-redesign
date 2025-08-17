@@ -13,6 +13,7 @@ require_once CORE_SHORTCODE . 'upv_clear_sales.php';
 require_once CORE_SHORTCODE . 'upv_audition_show_details.php';
 require_once CORE_SHORTCODE . 'upv_audition_roles.php';
 require_once CORE_SHORTCODE . 'upv_artistic_director.php';
+require_once CORE_SHORTCODE . 'upv_member_display.php';
 
 
 \Shortcodes\initialize();
@@ -30,4 +31,5 @@ function initialize()
     add_shortcode( 'upv_audition_show_details', '\upv_audition_show_details' );
     add_shortcode( 'upv_audition_roles', '\upv_audition_roles' );
     add_shortcode( 'upv_artistic_director', '\upv_artistic_director' );
+    add_shortcode( 'upv_member_display', '\upv_member_display' );
 }

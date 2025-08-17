@@ -4,3 +4,19 @@
     background-color: $UPVDarkTeal;
     min-height: 100px;
 }
+
+// For UPV icon
+.hero .feature-image {
+    position: relative;
+    .upv-icon {
+        position: absolute;
+        bottom: 7%;
+        right: 5%;
+        width: 10%;
+        height: auto;
+    }
+}
+.upv-icon {
+    width: 10%;
+    height: auto;
+}

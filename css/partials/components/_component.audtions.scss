@@ -1,6 +1,9 @@
 /** Audition Details styles */
 
 .audition-details {
+    h3 {
+        text-align: left;
+    }
     &__main {
         @include screen-greater-than(desktop) {
             display: flex;
@@ -46,13 +49,17 @@
         text-transform: uppercase;   
         font-size: 1rem; 
         padding: 0.5rem 1rem;
-        min-width: 144px;
-        display: inline-block;
+        // min-width: 144px;
+        // display: inline-block;
         text-align: center;
+        display: block;
+        width: auto;
+        margin-top: 1rem;
         @include screen-greater-than(desktop) {
             position: absolute;
             top: 0;
             right: 0;
+
         }
     }
 }

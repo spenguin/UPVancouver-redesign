@@ -1,0 +1,34 @@
+/** Member Display styles */
+
+.member-display {
+    // @include screen-greater-than(tablet) {
+        h3 {
+            text-align: left;
+            & span {
+                text-transform: capitalize;
+            }
+        }        
+    // }    
+}
+
+.member-display__wrapper {
+    @include screen-greater-than(tablet) {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+.member-display--image {
+    img {
+        width: 100%;
+    }
+    @include screen-greater-than(tablet) {
+        width: 30%;
+    }
+}
+
+.member-display--text {
+    @include screen-greater-than(tablet){
+        width: 68%;
+        // margin-top: -20px;
+    }
+}

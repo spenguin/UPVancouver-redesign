@@ -3,21 +3,30 @@
  * Present Shows
  * @param (str) season ['current','next']
  * @param (str) shows ['active', 'past', 'all']
+ * @param (int) override
  * @param (str) presentation ['tiles','list']
  * @returns (str) rendered presentation
  */
 
-function upv_show_season($atts)
+function upv_show_season( $atts = [], $content = null, $tag = '' )
 {
-
     extract(shortcode_atts(array(
         'season'        => 'current',
-        'shows'         => 'active',
-        'presentation'  => 'tiles'
-     ), $atts));
-    
+        'override'      => 0,
+        'presentation'  => 'tiles',
+        'shows'         => 'active'
+     ), $atts)); 
+
+    $display_next_season = get_option('display_next_season');
+    if( $display_next_season && $presentation == "list" )
+    {
+        $announcement = get_post_by_title( 'Upcoming Season Announcement' );
+        echo $announcement;
+        return;
+    }
+
     // First, let's get the Season
-    $showObj    = get_season_shows($season, $shows); 
+    $showObj    = get_season_shows($season, $override, $shows); 
 
 
     // return;
@@ -33,6 +42,7 @@ function upv_show_season($atts)
         ob_start();
     ?>
         <section class="season">
+            <?php echo $content; ?>
             <?php
                 while( $showObj->have_posts() ): $showObj->the_post(); 
                     $directing_credits  = get_post_meta($showObj->post->ID, 'directing_credits', true);
@@ -52,7 +62,9 @@ function upv_show_season($atts)
                                         </div>
                                         <div class="season__show--action">
                                             <a href="<?php echo esc_url( get_permalink() ); ?>" class="button button--information">Learn More</a>
-                                            <a href="<?php echo esc_url( get_permalink() ); ?>#tickets" class="button button--action">Buy Tickets</a>
+                                            <?php if($shows != "past"): ?>
+                                                <a href="<?php echo esc_url( get_permalink() ); ?>#tickets" class="button button--action">Buy Tickets</a>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
@@ -79,7 +91,7 @@ function upv_show_season($atts)
                         if( $showObj->post_count % 2 == 1 ): ?>
                         <div class="season__show">
                             <div class="season__show--image feature-image">
-                                <a href="<?php echo esc_url( get_permalink() ); ?>"><img src="<?php echo CORE_TEMPLATE_URL; ?>/assets/furniture/65th-anniversary-tile.jpg" /></a>
+                                <a href="<?php echo esc_url( get_permalink() ); ?>"><img src="<?php echo CORE_TEMPLATE_URL; ?>/assets/furniture/Home-page-placeholder_2.jpg" /></a>
                             </div>
                             <div class="cta--wrapper"><a class="button button--huge" href="/past-performances"><span>Past Performances</span>this season</a></div>
                         </div>

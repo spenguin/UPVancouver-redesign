@@ -1,0 +1,31 @@
+/** Pseudotable styles */
+
+.pseudotable {
+    padding-left: 0;
+    & > li {
+        list-style: none;
+        margin-bottom: 1.5rem;
+        p:first-child {
+            margin-bottom: 0;
+        }
+        p:nth-child(2) {
+            margin-top:0;
+        }
+    }
+    ul {
+        list-style-type: disc;
+    }
+    @include screen-greater-than(tablet) {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        & > li {
+            width: 48%;
+        }
+    }
+    @include screen-greater-than(desktop) {
+        & > li {
+            width: 30%;
+        }
+    }
+}

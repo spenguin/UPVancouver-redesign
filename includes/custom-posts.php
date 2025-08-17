@@ -15,13 +15,15 @@ function initialize()
     add_action('save_post_show', '\CustomPosts\save_show_credits');
     add_action('save_post_member', '\CustomPosts\save_member_title');
     add_action('save_post_show', '\CustomPosts\save_show_seats');
-
+    add_action('save_post_show', '\CustomPosts\save_show_production_photos');
+    
     // add_action('save_post_show', '\CustomPosts\save_promote_show');
     // add_action('save_post_show', '\CustomPosts\save_show_cast');    
 
-    // add_action('save_post_performance', '\CustomPosts\save_performance_meta');
+    add_action('save_post_performance', '\CustomPosts\save_performance_time');
     add_action('save_post_performance', '\CustomPosts\save_preview');
     add_action('save_post_performance', '\CustomPosts\save_talkback');
+    add_action('save_post_performance', '\CustomPosts\save_soldout');
     // add_action('add_meta_boxes', '\CustomPosts\switch_excerpt_boxes');
     require_once 'custom-posts/custom-post-columns.php';
 }
@@ -207,9 +209,12 @@ function admin_init()
     add_meta_box('performance_meta', 'Performance Details', '\CustomPosts\performanceDetails', 'performance', 'side');
     add_meta_box('performance_preview_meta', 'Preview', '\CustomPosts\preview', 'performance', 'side');
     add_meta_box('performance_talkback_meta', 'Talkback', '\CustomPosts\talkback', 'performance', 'side');
+    add_meta_box('performance_soldout_meta', 'Sold Out', '\CustomPosts\soldout', 'performance', 'side');
     add_meta_box('performance_tickets_sold', 'Tickets Sold', '\CustomPosts\tickets_sold', 'performance', 'side' );
     add_meta_box('member_title', 'Title or Position', '\CustomPosts\member_title', 'member' );
     add_meta_box('show_seats', 'Show Seats', '\CustomPosts\show_seats', 'show', 'side' );
+    add_meta_box('show_production_photos', 'Show Production Photos', '\CustomPosts\show_production_photos', 'show' );
+    add_meta_box('order_amend_link', 'Amend Order', '\CustomPosts\order_amend_link', 'woocommerce_page_wc-orders', 'side' );
 
     // add_meta_box('show_promote_meta', 'Promote Show', '\CustomPosts\promote_show', 'show', 'side', 'high' );
     // add_meta_box('show_cast_meta', 'Show Cast & Crew', '\CustomPosts\show_cast', 'show', 'side', 'high' );
@@ -316,10 +321,10 @@ function showName()
 function tickets_sold()
 {
     global $post;
-    $tickets_sold       = get_post_meta($post->ID, 'tickets_sold', TRUE ); 
+    $tickets_sold       = get_post_meta($post->ID, 'tickets_sold', TRUE ); //pvd($tickets_sold);
 
 ?>
-    <p><?php  echo $tickets_sold['count']; ?></p>
+    <p><?php  echo isset( $tickets_sold['count'] ) ? $tickets_sold['count'] : 0; ?></p>
 <?php
 }
 
@@ -492,6 +497,51 @@ function save_show_seats()
     $show_seats  = isset( $_POST['show_seats'] ) ? $_POST['show_seats'] : 100;
     update_post_meta($post->ID, 'show_seats', $show_seats );
 }
+
+function show_production_photos()
+{
+    global $post;
+    $custom = get_post_custom( $post->ID );
+    $show_production_photos  = isset( $custom['show_production_photos'] ) ? $custom['show_production_photos'][0] : '';
+?>
+    <label for="show_production_photos">Photos from Show:</label>
+    <textarea name="show_production_photos"><?php echo $show_production_photos; ?></textarea>
+<?php
+}
+
+function save_show_production_photos()
+{
+    global $post;
+    $show_production_photos  = isset( $_POST['show_production_photos'] ) ? $_POST['show_production_photos'] : '';
+    update_post_meta($post->ID, 'show_production_photos', $show_production_photos );
+}
+
+function soldout()
+{
+    global $post;
+    $custom = get_post_custom( $post->ID );
+    $sold_out  = isset( $custom['sold_out'] ) ? $custom['sold_out'][0] : '';
+?>
+    <label for="sold_out">Performance Sold Out:</label>
+    <input type="checkbox" name="sold_out" value="1" <?php echo ((int) $sold_out == 1 ) ? 'checked="checked"' : ''; ?> />
+<?php
+}
+
+function save_soldout()
+{
+    global $post;
+    $sold_out = isset( $_POST['sold_out'] ) ? $_POST['sold_out'] : '';
+    update_post_meta($post->ID, 'sold_out', $sold_out );
+}
+
+function order_amend_link()
+{
+?>
+    <p><a href="/ticket-admin?orderId=<?php echo $_GET['id']; ?>" target="_blank">Amend order</a></p>
+<?php
+    
+}
+
 
 /**
  * Switches out Excerpt box and adds in one with TinyMCE

@@ -26,7 +26,7 @@ function upv_confirm_order()
                 $user = get_user_by( 'email', $email );
             }
 
-            foreach( $_SESSION['cart'] as $productId => $item )
+            foreach( $_SESSION['cart'] as $item )
             {
                 $order          = new WC_Order( $email );
                 $order->set_created_via( $email ); 
@@ -35,42 +35,68 @@ function upv_confirm_order()
                 $note           = htmlspecialchars( $_POST['notes'], ENT_QUOTES );
                 $order->add_order_note( $note );
 
-                $performance    = get_post_by_title( $item['date'], '', 'performance' );
-                $tickets_sold   = get_post_meta($performance->ID,'tickets_sold', TRUE);
-                if( empty($tickets_sold) )
-                {
-                    $tickets_sold	= [
-                        'count'		=> 0
-                    ];
-                }                 
-                $order->add_product( wc_get_product( $productId ), $item['quantity'] );
+                $performance    = get_post_by_title( $item['date'], '', 'performance' ); 
+                // $time           = get_post_meta($performance->ID, 'performance_time', TRUE );
+                $tickets_sold   = get_tickets_sold( $performance->ID );
+                
+                $order->add_product( wc_get_product( $item['product_id'] ), $item['quantity'] );
                 $order->calculate_totals();
-                $order->set_status( 'wc-completed' );
                 $orderId = $order->save(); 
-                $tickets_sold[$orderId][$productId] = $item['quantity'];
-                $tickets_sold['count']  += $item['quantity'];
+                $tickets_sold[$orderId][$item['product_id']] = $item['quantity'];
+                $tickets_sold['count']  += $item['quantity']; //die(pvd($tickets_sold));
                 update_post_meta( $performance->ID, 'tickets_sold', $tickets_sold );
 
+                // Add order_note to Order
+                $order_note[] = [
+                    'product_id'    => $item['product_id'],
+                    'quantity'      => $item['quantity'],
+                    'date'          => $item['date'],
+                    'time'          => $item['time'],
+                    'showTitle'     => $item['showTitle'],
+                    'misha_custom_price'    => $item['misha_custom_price'],
+                    'name'          => 'Season'
+                ]; 
+                set_order_note( $orderId, $order_note );
 
-                // Send order confirmation email
-                $subject    = "Your United Players of Vancouver confirmation has been received!";
-                $body[]     = "Hi " . $email . ",";
-                $body[]     = "Just to let you know we've received your ticket confirmation for the " . $item['date'] . " performance of " . $item['showTitle'];
 
-                mail( $email, $subject, join("\n", $body));                
+
+
+                // $order_note[]   = [
+                //     'product_id'    => $ticketId,
+                //     'quantity'      => $_POST[$ticketName],
+                //     'date'          => $performance_date, //date('j M Y', strtotime($_POST['performance_date'])),
+                //     'time'          => $time,
+                //     'showTitle'     => $_POST['show_title'],
+                //     'misha_custom_price' => $product->get_price(),
+                //     'name'          => ucfirst($ticketName)
+                // ];
+
+                $order->update_status( 'completed' );
+
+
+
+                // // Send order confirmation email
+                // $subject    = "Your United Players of Vancouver confirmation has been received!";
+                // $body[]     = "Hi " . $email . ",";
+                // $body[]     = "Just to let you know we've received your ticket confirmation for the " . $item['date'] . " performance of " . $item['showTitle'];
+
+                // mail( $email, $subject, join("\n", $body));                
             }
 
             unset($_SESSION['cart']);
 
+            ?>
+            <p>Your order has been confirmed. You will be receive an email shortly.</p>
+            <?php
         }
         else
         {
             ?>
             <form action="/confirm-order/" method="post" class="upv-form">
-                <label>Name: <input type="text" name="userName" /></label>
-                <label>Phone number: <input type="phone" name="phone" /></label>
-                <label>Email: <input type="email" name="email" /></label>
-                <label>Notes:</label>
+                <label>Name: <input type="text" name="userName" required/></label>
+                <label>Phone number: <input type="phone" name="phone" required/></label>
+                <label>Email: <input type="email" name="email" required/></label>
+                <label>Seating requests:</label>
                 <textarea name="notes" ></textarea>
                 <input type="submit" class="button button--action" value="Confirm Order" name="confirm-order" />
             </form>

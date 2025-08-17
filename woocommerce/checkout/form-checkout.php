@@ -17,7 +17,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-}
+} 
 echo '<section class="max-wrapper__narrow">'; //[JSA:25-09-2024] Added wrapper
 do_action( 'woocommerce_before_checkout_form', $checkout );
 

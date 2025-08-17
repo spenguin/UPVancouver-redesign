@@ -28,7 +28,7 @@ $comp_notice        = get_post_by_title('Notice regarding comps', "content");
         <div class="show-page__main">
             <?php echo isset($content['main']) ? apply_filters('the_content', $content['main'] ) : ''; ?>
             <div class="show-page__main-images">
-                <?php the_content(); ?>
+                <?php echo show_production_photos($post->ID); ?>
             </div>
         </div>
        

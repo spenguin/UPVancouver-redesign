@@ -65,7 +65,7 @@ function isTicketSpecialAvailable()
  */
 function getActiveSeasonShowCount()
 {
-    $shows = get_season_shows('current', 'active' );
+    $shows = get_season_shows('current', 2, 'current' );
     return $shows->post_count > 2 ? $shows->post_count : 5; // Assumes 5 shows in the next season. BICBW
 }
 
@@ -104,4 +104,25 @@ function getSingleShowTickets()
     wp_reset_postdata();
     return $o;
 
+}
+
+/**
+ * Loop through the Notes to get the email statement
+ * @param (array) order notes
+ * @return (str) email statement
+ */
+function generate_statement($notes)
+{
+    $statementOrder = [
+        'season-ticket' => 0,
+        'donation'      => 4
+    ];
+    
+    $o  = [];
+    foreach( $notes as $ticket_id => $note )
+    {
+        $ticket = get_post($ticket_id); 
+        $term   = reset(get_the_terms($ticket_id, 'product_cat')); 
+
+    }
 }

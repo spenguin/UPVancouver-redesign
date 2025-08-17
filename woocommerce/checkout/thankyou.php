@@ -43,23 +43,36 @@ defined( 'ABSPATH' ) || exit;
             <?php
 				$orderId 	= $order->get_id(); 
 				$order		= wc_get_order( $orderId ); 
-				$user		= $order->get_user(); //pvd($user);
+				$user		= $order->get_user(); 
+				if( $user == FALSE )
+				{
+					$email = $order->get_billing_email();
+					wp_insert_user([
+						'user_pass'	=> wp_generate_password(),
+						'user_login'=> $email,
+						'user_email'=> $email,
+						'role'		=> 'attendee'
+					]);
+				}
 
-				$cart 		= get_post_meta( $orderId, "custom_field_name", TRUE ); //die(pvd($cart));
-				$cart		= unserialize( base64_decode( $cart ) ); 
+				// $cart 		= get_post_meta( $orderId, "custom_field_name", TRUE ); //die(pvd($cart));
+				// $cart		= unserialize( base64_decode( $cart ) ); 
 
-				$donation	= getDonationProduct();
-				unset($cart[$donation]);
+				$cart		= get_order_note( $orderId );
+
+				// $donation	= getDonationProduct();
+				// unset($cart[$donation]);
 				unset($_SESSION['cart']);
 				$title		= "";
 				foreach( $cart as $product_id => $item )
 				{
+					if( in_array( $product_id, ['amended', 'boxoffice']  ) ) continue;
+					
 					if($item['date'] != $title )
 					{
 						$performance = get_post_by_title( $item['date'], '', 'performance' );
-						$postId = $performance->ID;
 					}
-					$tickets_sold = get_post_meta( $postId, 'tickets_sold', TRUE );
+					$tickets_sold = get_post_meta( $performance->ID, 'tickets_sold', TRUE );
 					if( empty($tickets_sold) )
 					{
 						$tickets_sold	= [
@@ -69,11 +82,12 @@ defined( 'ABSPATH' ) || exit;
 					if( !isset($tickets_sold[$orderId][$product_id] ) )
 					{
 						$tickets_sold[$orderId][$product_id]	= $item['quantity'];
-						$tickets_sold['count']					+= $item['quantity']; //die(pvd($tickets_sold));
-						update_post_meta( $postId, 'tickets_sold', $tickets_sold );
+						$tickets_sold['count']					+= $item['quantity']; 
+						update_post_meta( $performance->ID, 'tickets_sold', $tickets_sold );
 					}
 				}
-
+				// Change order status to completed
+				$order->update_status('completed');
             
             ?>
 			<?php wc_get_template( 'checkout/order-received.php', array( 'order' => $order ) ); ?>

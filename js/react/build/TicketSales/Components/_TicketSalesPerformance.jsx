@@ -13,6 +13,7 @@ const TicketSalesPerformance = ({performance, selectedPerformance, setSelectedPe
     const performanceClass  = performance.preview ? " show-date--preview" : "";
     const previewMsg        = performance.preview ? "Preview performance" : "";
     const talkbackMsg       = performance.talkback ? "Talkback performance" : ""; 
+    const sold_out          = performance.sold_out ? "Sold Out" : ""; 
     const itemClass         = selectedPerformance ? (selectedPerformance == performance.id ? "active" : "unselected") : ""; 
     const performanceTime   = formatTime(performance.performance_time);
     
@@ -25,8 +26,12 @@ const TicketSalesPerformance = ({performance, selectedPerformance, setSelectedPe
         <div className={`select-performance__list-item ${itemClass}`} key={performance.id}>
             <div className="performance__select--wrapper">
                 <div className="performance__select--radio">
-                    <input type="radio" id={performance.id} value={performance.id} name="selectedPerformance" onChange={(e)=>onSelectPerformance(e)} />
-                    <label for={performance.id}></label>
+                    {!sold_out.length &&
+                        <>
+                            <input type="radio" id={performance.id} value={performance.id} name="selectedPerformance" onChange={(e)=>onSelectPerformance(e)} />
+                            <label for={performance.id}></label>
+                        </>
+                    }
                 </div>
                 <div className="performance__select--datetime">
                     {new Intl.DateTimeFormat('en-ca', options).format(dateFormat)}<br />
@@ -34,7 +39,10 @@ const TicketSalesPerformance = ({performance, selectedPerformance, setSelectedPe
                 </div>               
             </div>
             <div className="performance__notes">
-                {previewMsg}{talkbackMsg}
+                    {sold_out.length > 0 && <span>{sold_out}</span>}
+                    {!sold_out.length &&
+                        <span>{previewMsg}{talkbackMsg}</span>
+                    }
             </div>
         </div>
     )

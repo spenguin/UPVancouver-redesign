@@ -14,22 +14,22 @@ add_action('init', 'register_my_session');
 
 
 function get_post_by_title($title = NULL, $element="content", $post_type="post")
-{
+{ 
     global $wpdb;
 
     if (is_null($title)) return "";
 
-    $mypostids = $wpdb->get_col("select ID from $wpdb->posts where post_title = '" . $title . "'"); 
+    $mypostids = $wpdb->get_col("select * from $wpdb->posts where post_title LIKE '" . $title . "'"); 
     if( empty($mypostids) ) return NULL;
 
     $args = [
         'post__in'  => $mypostids,
         'post_type' => $post_type,
-        'orderby'   => 'title',
-        'order'     => 'asc'
+        // 'orderby'   => 'title',
+        // 'order'     => 'asc'
     ];
 
-    $query  = new WP_Query($args);
+    $query  = new WP_Query($args); 
     if( $query->found_posts == 0 ) {
         return NULL;
     }

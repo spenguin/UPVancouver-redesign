@@ -5,6 +5,14 @@
     flex-direction: column;
     align-items: center;
     flex-wrap: wrap;
+    h3 {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 0;
+    }
+    & > p {
+        width: 100%;
+    }
     @include screen-greater-than(desktop) {
         flex-direction: row;
         align-items: normal;
@@ -13,9 +21,12 @@
     &__show
     {
         max-width: $componentMaxWidth;
+        margin-bottom: 1rem;
+        width: 100%;
         @include screen-greater-than(desktop) {
             width: 48%;
             max-width: none;
+            margin-bottom: 2rem;
         }
         &--content {
             @include screen-greater-than(tablet) {
@@ -25,22 +36,27 @@
             }
         }
         &--text {
+            margin-bottom: 0.5rem;
             h2 {
                 margin-bottom: 0.5rem;
             }
             @include screen-greater-than(tablet) {
                 width: 55%;
+                margin-bottom: 0;
             }
         }
         &--credits  {
             &-major {
                 font-size: 1.25rem;
+                line-height: 1.5rem;;
                 color: $UPVBlack;
                 font-weight: 600;
                 margin: 0;
+                margin-bottom: 0.35rem;
             }
             &-minor {
                 font-size: 1rem;
+                line-height: 1.25rem;
                 color: $UPVBlack;
                 font-weight: 600;
                 margin: 0;

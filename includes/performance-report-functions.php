@@ -5,7 +5,7 @@
 
 function array_csv_download( $performance, $filename = "export.csv" )
 { 
-    $tickets_sold   = get_post_meta($performance->ID,'tickets_sold', TRUE);
+    $tickets_sold   = get_post_meta($performance->ID,'tickets_sold', TRUE); 
     $tickets        = getSingleShowTickets(); //die(pvd($tickets));
     $column_headings= [
         // 'name'      => 'Name',
@@ -22,7 +22,7 @@ function array_csv_download( $performance, $filename = "export.csv" )
         'Name',
         'Phone',
         'Paid Status',
-        'Seasons',
+        'Season',
         'Preview',
         'Student',
         'Senior',
@@ -43,11 +43,11 @@ function array_csv_download( $performance, $filename = "export.csv" )
     // use keys as column titles
     fputcsv( $handle, $column_headings );
 
-    foreach ( $tickets_sold as $order_id => $stuff ) {
+    foreach ( $tickets_sold as $order_id => $stuff ) { 
         if( $order_id == "count" ) continue;
         $value  = array_fill(0, 10, '' );
 
-        $order_notes    = get_order_note($order_id);
+        $order_notes    = get_order_note($order_id); 
         // If there's an issue with the Order Notes, echo the Order Id
         if( empty($order_notes) )
         {
@@ -68,14 +68,14 @@ function array_csv_download( $performance, $filename = "export.csv" )
             array_shift($name);
             $value[0]   = join( ' ', $name ) . ', ' . $firstName; 
             $value[1]   = $order_notes['customer_contact']['phone'];
-            } else {
+        } else { 
             $value[0]   = $order->get_billing_last_name() . ', ' . $order->get_billing_first_name();
             $value[1]   = $order->get_billing_phone();
         }
-
+ 
         $value[2]    = array_key_exists( 'boxoffice', $order_notes ) ? 'Box Office' : 'Paid';
-        $value[9]    = get_admin_order_note( $order_id );
-        
+        $value[9]    = get_admin_order_note( $order_id ); 
+       
         foreach( $order_notes as $key => $ticket_order )
         {
             if( $key == "amended" ) continue; // Are there other keys I need to check for?

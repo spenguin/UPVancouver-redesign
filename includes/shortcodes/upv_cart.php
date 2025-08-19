@@ -28,7 +28,7 @@ function upv_cart()
             $showTitle              = get_the_title($performanceMeta['show_id'][0]); 
         }
 
-        
+        $seasonTicketsOrdered   = [];
         foreach( $ticketsOrdered as $t ) 
         { 
             if( $t->quantity == 0 ) continue;
@@ -41,7 +41,7 @@ function upv_cart()
                 'misha_custom_price' => $t->charge,
                 'name'      => $t->name
             ];
-            $seasonTicketsOrdered   = [];
+            
             if( $isTicketSpecialAvailable )
             {
                 $array                  = array_fill( 0, $t->quantity, $t->charge );

@@ -10,20 +10,23 @@ function upv_confirm_order()
         
         if( isset($_POST['confirm-order'] ) ) 
         { 
-            $email  = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+            $email  = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); 
+            $phone  = filter_var($_POST['userPhone'], FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+            $userName   = filter_var($_POST['userName'], FILTER_SANITIZE_FULL_SPECIAL_CHARS ); 
 
             // User already exist
-            $user = get_user_by( 'email', $email );
+            $user = get_user_by( 'email', $email ); 
             if( !$user ) {
                 // Create new user
                 $user_data = [
                     'user_pass'     => wp_generate_password(),
                     'user_login'    => $email,
                     'user_email'    => $email,
-                    'role'          => 'attendee'
+                    'role'          => 'attendee',
+                    'display_name'  => $userName
                 ];
                 wp_insert_user($user_data);
-                $user = get_user_by( 'email', $email );
+                $user = get_user_by( 'email', $email ); 
             }
 
             foreach( $_SESSION['cart'] as $item )
@@ -31,6 +34,12 @@ function upv_confirm_order()
                 $order          = new WC_Order( $email );
                 $order->set_created_via( $email ); 
                 $order->set_customer_id( $user->ID ); 
+                $order->set_billing_phone( $phone );
+
+                $name     = explode( ' ', $userName ); 
+                $order->set_billing_first_name( $name[0] );
+                array_shift($name); 
+                if( !empty( $name ) ) $order->set_billing_last_name( join(' ', $name) );
                 
                 $note           = htmlspecialchars( $_POST['notes'], ENT_QUOTES );
                 $order->add_order_note( $note );

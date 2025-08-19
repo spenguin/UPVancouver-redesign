@@ -11,7 +11,7 @@ function upv_confirm_order()
         if( isset($_POST['confirm-order'] ) ) 
         { 
             $email  = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); 
-            $phone  = filter_var($_POST['userPhone'], FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+            $phone  = filter_var($_POST['phone'], FILTER_SANITIZE_FULL_SPECIAL_CHARS ); 
             $userName   = filter_var($_POST['userName'], FILTER_SANITIZE_FULL_SPECIAL_CHARS ); 
 
             // User already exist

@@ -82,6 +82,7 @@ function array_csv_download( $performance, $filename = "export.csv" )
             if( $key == "customer_contact" ) continue;
 
             if( $ticket_order['date'] != $performance->post_title ) continue; // Not for this performance
+            $ticket_name = in_array($ticket_order['name'], ['Season', 'Seasons']) ? 'Season' : $ticket_order['name']; // Another kludge
             $value[array_search($ticket_order['name'], $column_headings)]   = $ticket_order['quantity'];
 
         }

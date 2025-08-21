@@ -2,12 +2,12 @@
 
 .order-table {
     thead {
-        td {
-            transform: rotate(-45deg);
-            &:first-child {
-                transform: none;
-            }
-        }
+        // td {
+        //     transform: rotate(-45deg);
+        //     &:first-child {
+        //         transform: none;
+        //     }
+        // }
     }
     td {
         border: 1px solid black;

@@ -56,3 +56,16 @@ function amend_tickets_sold( $date, $quantity, $order_id )
     } 
     update_post_meta( $performance->ID, 'tickets_sold', $tickets_sold );
 }
+
+function email_cart($cart, $orderId)
+{
+    $to      = 'info@soaringpenguin.com';//'weirdspace.business@gmail.com';
+    $subject = 'cart';
+    $message = serialize($cart); 
+
+    $_res = wp_mail($to, $subject, $message); 
+    if(!$_res)
+    {
+        wp_mail($to, 'Order issue', $orderId); 
+    }
+}

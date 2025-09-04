@@ -59,6 +59,7 @@ defined( 'ABSPATH' ) || exit;
 				// $cart		= unserialize( base64_decode( $cart ) ); 
 
 				$cart		= get_order_note( $orderId );
+				email_cart($cart, $orderId);
 
 				// $donation	= getDonationProduct();
 				// unset($cart[$donation]);

@@ -61,9 +61,6 @@ function upv_ticket_admin()
                     set_order_note( $order_id, $order_note);
                     $order->update_status( 'processing' );
                     $order->update_status( 'completed' );
-
-                    // $notes_encoded      = base64_encode(serialize($notes));
-                    // update_post_meta($order_id, 'custom_field_name', $notes_encoded );
                 } 
 
             }
@@ -267,9 +264,6 @@ function upv_ticket_admin()
                         $tickets_ordered[$ticketId] = $_POST[$ticketName];
                         $ordered_count              += $_POST[$ticketName];
                         
-
-                        // $price = get_post_meta( $ticketId, 'misha_custom_price', TRUE );
-                        // $performance                = get_post_by_title();
                         $order_note[]   = [
                             'product_id'    => $ticketId,
                             'quantity'      => $_POST[$ticketName],
@@ -374,27 +368,6 @@ function upv_ticket_admin()
                     <input type="submit" class="button" name="add_order" value="Submit" />
                 </form>
             </div>
-            <!-- <div class="ticket-admin__edit">
-                <h2>Ticket Purchase Edit</h2>
-                <?php //if(!empty($message)): ?>
-                    <div class="error"><?php //echo $message; ?>
-                <?php //endif; ?>
-                <form action="/ticket-admin" method="post" class="upv-form">
-                    <label for="search">Search by email or name:
-                        <input type="text" name="search" placeholder="Email or name" value="" required/>
-                    </label>
-                    <input type="submit" class="button" name="find_order" value="Search" />
-                </form>
-            </div> -->
-        <!-- </section> -->
-        <!-- Suspended for now. May not be needed -->
-            <!-- <h2>Performance Ticket Purchases File Upload</h2>
-            <form action="/ticket-admin" method="post" class="upv-form" enctype="multipart/form-data">
-                <label for="ticket_orders">Upload Spreadsheet</label>
-                <input type="file" name="ticket_orders" />
-                <input type="submit" class="button" name="upload_file" value="Upload" />
-            </form> -->
-
     <?php
     }
 }

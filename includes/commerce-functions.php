@@ -21,6 +21,38 @@ add_filter( 'wc_order_statuses', 'misha_add_status_to_list' );
 // add_action( 'woocommerce_email_order_meta', 'add_invoice_notes', 15 );
 add_filter( 'woocommerce_checkout_fields', 'md_custom_woocommerce_checkout_fields' );
 
+use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController;
+
+// Add a custom metabox
+add_action( 'add_meta_boxes', 'admin_order_custom_metabox' );
+function admin_order_custom_metabox() {
+    $screen = class_exists( '\Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController' ) && wc_get_container()->get( CustomOrdersTableController::class )->custom_orders_table_usage_is_enabled()
+        ? wc_get_page_screen_id( 'shop-order' )
+        : 'shop_order';
+
+    add_meta_box(
+        'custom',
+        'Order Details',
+        'custom_metabox_content',
+        $screen,
+        'normal',
+        'high'
+    );
+}
+
+// Metabox content
+function custom_metabox_content( $object ) {
+
+    require_once CORE_INC . 'order-note.class.php';
+
+    // Get the WC_Order object
+    $order = is_a( $object, 'WP_Post' ) ? wc_get_order( $object->ID ) : $object;
+
+    $order_note = new Order_note($order->get_order_number());
+    echo $order_note->render_order_note_table();
+}
+
+
 
 
 function upv_add_donation_form()
@@ -122,6 +154,8 @@ function decodeTicketData($performance)
 */
 function custom_checkout_field($checkout)
 { 
+    $cart = serialize($_SESSION['cart']);
+    email_cart($cart);
     woocommerce_form_field('custom_field_name', array(
 
     'type' => 'hidden',
@@ -129,7 +163,7 @@ function custom_checkout_field($checkout)
 
     ) 			   ,
 
-    base64_encode( serialize($_SESSION['cart'])) );
+    base64_encode( $cart ) );
 }
 
 /**
@@ -190,6 +224,8 @@ function render_order_details($notes)
     $products_ordered   = [];
     $orderTotal         = 0;
     $amendedStr         = '';
+    $order_str          = [];
+    $second_str         = [];
     ob_start();
     foreach( $notes as $key => $args )
     { 
@@ -290,7 +326,6 @@ function render_order_details($notes)
 
 function md_custom_woocommerce_checkout_fields( $fields ) 
 {
-    // $fields['order']['order_comments']['placeholder'] = 'Special notes';
     $fields['order']['order_comments']['label'] = 'Seating requests:';
 
     return $fields;

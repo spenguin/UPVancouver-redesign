@@ -35,7 +35,7 @@ function getPerformanceDates( $showId = NULL )
     $query = new WP_Query($args); //pvd($query);
     $o = [];
     if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post();
-            $date       = get_the_title();
+            $date       = get_the_title() . ' 23:59:59'; 
             if( strtotime($date) < time() ) continue;
             $post_id    = get_the_ID();
             $custom     = get_post_custom($post_id);

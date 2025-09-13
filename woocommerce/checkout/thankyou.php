@@ -54,15 +54,7 @@ defined( 'ABSPATH' ) || exit;
 						'role'		=> 'attendee'
 					]);
 				}
-
-				// $cart 		= get_post_meta( $orderId, "custom_field_name", TRUE ); //die(pvd($cart));
-				// $cart		= unserialize( base64_decode( $cart ) ); 
-
 				$cart		= get_order_note( $orderId );
-				email_cart($cart, $orderId);
-
-				// $donation	= getDonationProduct();
-				// unset($cart[$donation]);
 				unset($_SESSION['cart']);
 				$title		= "";
 				foreach( $cart as $product_id => $item )

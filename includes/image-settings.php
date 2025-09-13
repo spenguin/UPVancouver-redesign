@@ -2,6 +2,8 @@
 
 add_theme_support( 'post-thumbnails' );
 
+// set_post_thumbnail_size( 543, 1000, FALSE );
+
 
 // add_filter( 'the_content', function ($content) 
 // {   die(var_dump($content));

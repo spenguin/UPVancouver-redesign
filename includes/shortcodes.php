@@ -15,6 +15,7 @@ require_once CORE_SHORTCODE . 'upv_audition_roles.php';
 require_once CORE_SHORTCODE . 'upv_artistic_director.php';
 require_once CORE_SHORTCODE . 'upv_member_display.php';
 require_once CORE_SHORTCODE . 'upv_show_images.php';
+require_once CORE_SHORTCODE . 'upv_square_reconsciliation.php';
 
 
 \Shortcodes\initialize();
@@ -34,4 +35,5 @@ function initialize()
     add_shortcode( 'upv_artistic_director', '\upv_artistic_director' );
     add_shortcode( 'upv_member_display', '\upv_member_display' );
     add_shortcode( 'upv_show_images', '\upv_show_images' );
+    add_shortcode( 'upv_square_reconsciliation', '\upv_square_reconsciliation' );
 }

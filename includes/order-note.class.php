@@ -22,8 +22,14 @@ class Order_note
         return $tmp;
     }
 
-    function render_order_note_table()
+    function set_order_note( $order_id, $note )
     {
+        $tmp    = base64_encode(serialize($note)); 
+        update_post_meta( $order_id, 'custom_field_name', $tmp );
+    }
+
+    function render_order_note_table()
+    { 
         ob_start(); ?>
             <table style="width:100%;">
                 <thead>
@@ -37,6 +43,7 @@ class Order_note
                     <?php
                     $orderTotal = 0; 
                     foreach($this->_note  as $key => $args ) { 
+                        if( $key =='fees' ) continue;
                         if( $args['quantity'] == 0 ) continue;
                         $showCharge = $args['quantity'] * $args['misha_custom_price'];
                         $orderTotal += $showCharge;
@@ -61,7 +68,19 @@ class Order_note
                                 <?php echo $showCharge < 0 ? '(&dollar;' . abs($showCharge) . ')' : '&dollar;' . $showCharge; ?>
                             </td>
                         </tr>
-                <?php    } ?>
+                <?php    } 
+                if( array_key_exists('fees', $this->_note ) )
+                {?>
+                    <tr>
+                        <td>Square Fee:</td>
+                        <td>&nbsp;</td>
+                        <td>(<?php echo $this->_note['fees']; ?>)</td>
+                    </tr>
+                <?php
+                    $orderTotal -= $this->_note['fees'];
+                }
+                
+                ?>
                 <tr>
                     <td class="cart-total__label">Total:</td>
                     <td>&nbsp;</td>

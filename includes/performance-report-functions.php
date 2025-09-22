@@ -5,7 +5,7 @@
 
 function array_csv_download( $performance, $filename = "export.csv" )
 { 
-    $tickets_sold   = get_post_meta($performance->ID,'tickets_sold', TRUE); 
+    $tickets_sold   = get_post_meta($performance->ID,'tickets_sold', TRUE); //die(pvd($tickets_sold));
     $tickets        = getSingleShowTickets(); //die(pvd($tickets));
     $column_headings= [
         // 'name'      => 'Name',
@@ -58,7 +58,7 @@ function array_csv_download( $performance, $filename = "export.csv" )
 
         // Get the customer details first
         $order  = wc_get_order( $order_id ); 
-        $email  = $order->get_billing_email(); 
+        $email  = $order->get_billing_email();
         
         
         if( $email == get_option('admin_email') ) // Using default email
@@ -80,10 +80,11 @@ function array_csv_download( $performance, $filename = "export.csv" )
         {
             if( $key == "amended" ) continue; // Are there other keys I need to check for?
             if( $key == "customer_contact" ) continue;
+            if( $key == "fees" ) continue;
 
             if( $ticket_order['date'] != $performance->post_title ) continue; // Not for this performance
             $ticket_name = in_array($ticket_order['name'], ['Season', 'Seasons']) ? 'Season' : $ticket_order['name']; // Another kludge
-            $value[array_search($ticket_order['name'], $column_headings)]   = $ticket_order['quantity'];
+            $value[array_search($ticket_name, $column_headings)]   = $ticket_order['quantity'];
 
         }
         fputcsv( $handle, $value );

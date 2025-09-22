@@ -97,6 +97,7 @@ function upv_ticket_admin()
                                         if( $key == "amended" ) continue;
                                         if( $key == "customer_contact" ) continue;
                                         if( $key == "boxoffice" ) continue;
+                                        if( $key == "fees" ) continue;
                                         $terms  = get_the_terms($note['product_id'], 'product_cat'); 
                                         $term   = reset($terms); 
                                         ?>

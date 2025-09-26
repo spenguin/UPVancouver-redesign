@@ -63,6 +63,7 @@ function weirdspace_filter_posts_columns( $columns ) {
     $columns = [
         'cb' => $columns['cb'],
             'title'     => __( 'Title' ),
+            'date_time' => __( 'Date & Time' ),
             'date'      => __( 'Date' ),
             'show'      => __( 'Show' ),
             'preview'   => __( 'Preview' ),
@@ -99,6 +100,9 @@ function weirdspace_show_column( $column, $post_id )
             break;
         case 'report':
             echo '<a href="/performance-report/?performance_id=' . $post_id . '" target="_blank">Report</a>';
+            break;
+        case 'date_time':
+            echo '<span style="font-size:0.95rem;"><strong>' . date( 'd M Y h:i a', get_the_title( $post_id ) ) . '</strong></span>';
             break;
         endswitch;
 }

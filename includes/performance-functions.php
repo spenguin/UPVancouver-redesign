@@ -12,7 +12,6 @@ function add_custom_query_var( $vars ){
 }
 
 
-
 /**
  * @since: 18 August 2023
  * Get all performance dates and post_meta values, for a specific showId

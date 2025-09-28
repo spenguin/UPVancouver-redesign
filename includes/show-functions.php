@@ -46,50 +46,6 @@ function get_season_shows($which, $override=0, $shows="current")
     $query  = new WP_Query( $args );
 
     return $query;
-
-
-
-    // if( $query->post_count== 0) 
-    // { 
-    //     if( $shows != 'past' ) {
-    //         $season     = read_season(date('Y', strtotime('+1 year')));
-    //     }
-    // } elseif( $season == "next" ) {
-    //     $season = read_season(date('Y', strtotime('+1 year')));
-    // }
-
-    // $args   = [
-    //     'post_type'         => 'show',
-    //     'posts_per_page'    => -1,
-    //     'tax_query'         => [
-    //         [
-    //         'taxonomy'      => 'season',
-    //         'field'         => 'slug',
-    //         'terms'         => $season[0]['slug']
-    //         ]
-    //     ],
-    //     'meta_key'          => 'end_date',
-    //     'meta_value'        => date('Y-m-d'),
-    //     'orderby'           => 'meta_value_num',
-    //     'order'             => 'ASC'
-    //     // 'meta_compare'      => '>='
-    // ];    
-    // switch( $shows )
-    // {
-    //     case 'past':
-    //         // $args['meta_key']       = 'end_date';
-    //         // $args['meta_value']     = date('Y-m-d');
-    //         $args['meta_compare']   = '<';
-    //         break;
-    //     case 'active':
-    //         // $args['meta_key']       = 'end_date';
-    //         // $args['meta_value']     = date('Y-m-d');
-    //         $args['meta_compare']   = '>=';
-    //         break;
-    // }
-    // $query  = new WP_Query( $args ); 
-
-    // return $query;
 }
 
 /**
@@ -132,19 +88,32 @@ function organise_show_content($title)
 
 /**
  * Retrieve all Show titles
+ * @param (str) filter = "full|current"
  * @return (array) titles
  */
-function get_show_titles()
+function get_show_titles($filter='current')
 {
-    global $wpdb;
-
-    $results = $wpdb->get_results( "SELECT ID,post_title FROM {$wpdb->prefix}posts WHERE post_type = 'show' && post_status='publish' ORDER BY post_title ASC" ); 
-    
-    $o      = [];
-    foreach( $results as $r )
+    $args = [
+        'post_type'         => 'show',
+        'posts_per_page'    => -1,
+        'order'             => 'ASC',
+        'order_by'          => 'title',
+        'post_status'       => 'publish' 
+    ];
+    if( $filter == "current" )
     {
-        $o[$r->ID]   = $r->post_title;
+        $args['meta_key']   = 'end_date';
+        $args['meta_value'] = date('Y-m-d');
+        $args['meta_compare']   = '>=';
     }
+
+    $query  = new WP_Query($args);
+
+    $o      = [];
+    if( $query->have_posts()): while($query->have_posts()): $query->the_post();
+        $o[get_the_ID()]    = get_the_title();
+    endwhile; endif; wp_reset_postdata();
+
     return $o;
 }
 

@@ -316,10 +316,11 @@ function save_show_credits()
 
 function showName()
 {
-    global $post;
+    global $post; 
 
     $showArray  = get_show_titles(); 
-    $custom     = get_post_custom($post->ID);
+    // $showArrayAll = get_show_titles("all");
+    $custom     = get_post_custom($post->ID); pvd($custom);
     $show_id    = $custom['show_id'][0] ? $custom['show_id'][0] : '';
     $dropdown   = create_dropdown($showArray, 'show_id', $show_id );
 ?>

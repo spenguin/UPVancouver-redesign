@@ -10,8 +10,6 @@ function initialize()
 {
     add_action('init', '\CustomPosts\custom_post_type', 0);
     add_action('init', '\CustomPosts\custom_taxonomy_type', 0);
-    add_action( 'init', '\CustomPosts\remove_cpt_title_support', 0 );
-
     add_action('admin_init', '\CustomPosts\admin_init');
     add_action('save_post_show', '\CustomPosts\save_show_dates');
     add_action('save_post_show', '\CustomPosts\save_show_credits');
@@ -21,7 +19,8 @@ function initialize()
     
     // add_action('save_post_show', '\CustomPosts\save_promote_show');
     // add_action('save_post_show', '\CustomPosts\save_show_cast');    
-    
+
+    add_action('save_post_performance', '\CustomPosts\save_show_id');
     add_action('save_post_performance', '\CustomPosts\save_performance_time');
     add_action('save_post_performance', '\CustomPosts\save_preview');
     add_action('save_post_performance', '\CustomPosts\save_talkback');
@@ -210,17 +209,15 @@ function admin_init()
     add_meta_box('show_seats', 'Show Seats', '\CustomPosts\show_seats', 'show', 'side' );
     add_meta_box('show_production_photos', 'Show Production Photos', '\CustomPosts\show_production_photos', 'show' );
 
+
     add_meta_box('show_meta', 'Show Name', '\CustomPosts\showName', 'performance', 'normal');
-    add_meta_box('performance_date_meta', 'Performance Date', '\CustomPosts\performanceDate', 'performance', 'normal' );
-    add_meta_box('performance_time_meta', 'Performance Time', '\CustomPosts\performanceTime', 'performance', 'normal' );
-    // add_meta_box('performance_meta', 'Performance Details', '\CustomPosts\performanceDetails', 'performance', 'side');
+    add_meta_box('performance_meta', 'Performance Details', '\CustomPosts\performanceTime', 'performance', 'normal');
     add_meta_box('performance_preview_meta', 'Preview', '\CustomPosts\preview', 'performance', 'side');
     add_meta_box('performance_talkback_meta', 'Talkback', '\CustomPosts\talkback', 'performance', 'side');
     add_meta_box('performance_soldout_meta', 'Sold Out', '\CustomPosts\soldout', 'performance', 'side');
     add_meta_box('performance_tickets_sold', 'Tickets Sold', '\CustomPosts\tickets_sold', 'performance', 'side' );
 
     add_meta_box('member_title', 'Title or Position', '\CustomPosts\member_title', 'member' );
-
     add_meta_box('order_amend_link', 'Amend Order', '\CustomPosts\order_amend_link', 'woocommerce_page_wc-orders', 'side' );
 
     // add_meta_box('show_promote_meta', 'Promote Show', '\CustomPosts\promote_show', 'show', 'side', 'high' );
@@ -320,34 +317,11 @@ function showName()
 
     $showArray  = get_show_titles(); 
     // $showArrayAll = get_show_titles("all");
-    $custom     = get_post_custom($post->ID); pvd($custom);
-    $show_id    = $custom['show_id'][0] ? $custom['show_id'][0] : '';
+    $custom     = get_post_custom($post->ID); //pvd($custom);
+    $show_id    = isset($custom['show_id']) ? $custom['show_id'][0] : '';
     $dropdown   = create_dropdown($showArray, 'show_id', $show_id );
 ?>
     <p><?php echo $dropdown ?></p>
-<?php
-}
-
-function performanceDate()
-{
-    global $post;
-    $performance_date   = isset( $post->post_title) ? date( 'Y-m-d', $post->post_title ) : '';
-    ?>
-
-    <label for="performance_date">Performance Date:</label>
-    <input type="date" name="performance_date" value="<?php echo $performance_date; ?>" />   
-    <?php
-}
-
-function performanceTime()
-{
-    global $post;
-    $performance_time   = isset( $post->post_title) ? date( 'G:i:s', $post->post_title ) : '';
-    ?>
-
-    <label for="performance_time">Performance Time:</label>
-    <input type="time" name="performance_time" value="<?php echo $performance_time; ?>" />
-
 <?php
 }
 
@@ -361,13 +335,77 @@ function tickets_sold()
 <?php
 }
 
+function performanceTime()
+{
+    global $post; 
 
+    // if( !empty( $post->post_title && )
+    // $performance_date   = !empty( $post->post_title) ? date( 'Y-m-d', $post->post_title ) : '';
+    // $performance_time   = !empty( $post->post_title) ? date( 'G:i:s', $post->post_title ) : '';
 
-// function save_performance_time()
+    $performance_time   = get_post_meta($post->ID, 'performance_time', TRUE);
+    $str                = '';
+    if( !empty( $post->post_title) )
+    {
+        if( FALSE !== filter_var($post->post_title, FILTER_VALIDATE_INT) )
+        {
+            $str        = 'Performance Date & Time: ' . date( 'd M Y h:i a', $post->post_title );
+            $performance_time = date( 'H:i', $post->post_title );
+        } else {
+            $dateTime   = strtotime( $post->post_title . ' ' . $performance_time );
+            $str        = 'Replace current Performance title with ' . $dateTime; 
+        }
+    }
+    ?>
+
+    <label for="performance_time">Performance Time:</label>
+    <input type="time" name="performance_time" value="<?php echo $performance_time; ?>" required /> <?php echo $str; ?>
+    <?php
+}
+
+function save_performance_time()
+{
+    global $post;
+    if( !is_null($post))
+    {
+        $performance_time = isset( $_POST['performance_time'] ) ? $_POST['performance_time'] : ''; 
+        update_post_meta($post->ID, 'performance_time', $performance_time);
+        // $current_performance_time = date( 'H:i', (int) $post->post_title); 
+        // if( $current_performance_time != $performance_time )
+        // {
+        //     $performance_date_time = strtotime( date( 'd M Y', (int) $post->post_title) . ' ' . $performance_time );
+        //     $args = [
+        //         'ID'    => $post->ID,
+        //         'post_title'    => $performance_date_time
+        //     ];
+            
+        //     // Update the post
+        //     $result = wp_update_post( $args );
+        // }
+    }
+}
+
+function save_show_id()
+{
+    global $post; 
+    if( !is_null($post))
+    {
+        $show_id    = isset($_POST['show_id']) ? $_POST['show_id'] : '';
+        update_post_meta($post->ID, 'show_id', $show_id);
+    }
+}
+
+// function save_performance_date_time()
 // {
-//     global $post;
-//     $performance_time   = $_POST['performance_time'];
-//     update_post_meta($post->ID, 'performance_time', $performance_time);
+//     global $post; 
+//     $performance_date   = isset($_POST['performance_date']) ? $_POST['performance_date'] : ''; 
+//     $performance_time   = isset( $_POST['performance_time'] ) ? $_POST['performance_time'] : '';//pvd($performance_date . ' ' . $performance_time);
+//     $date               = strtotime( $performance_date . ' ' . $performance_time ); //die(pvd($date));
+//     $show_id            = ( !empty( $_POST['show_id'] ) ) ? $_POST['show_id'] : 0;
+//     if( !empty($post->ID ) )
+//     {
+//         create_performance( $date, $show_id, $performance_time, $post->ID );
+//     }
 // }
 
 
@@ -381,7 +419,7 @@ function create_performance($date, $show_id, $time)
         'comment_status' => 'closed',   // if you prefer
         'ping_status' => 'closed',      // if you prefer
     ));
-
+die(pvd($post_id));
     if ($post_id) {
         add_post_meta($post_id, 'show_id', $show_id);
         add_post_meta($post_id, 'performance_time', $time);
@@ -422,8 +460,12 @@ function preview()
 function save_preview()
 {
     global $post;
-    $preview   = isset($_POST['preview']) ? $_POST['preview'] : '';
-    update_post_meta($post->ID, 'preview', $preview);
+    if (isset($_POST['preview'] ) )
+    {
+        $preview   = $_POST['preview'];
+        update_post_meta($post->ID, 'preview', $preview);
+    }
+
 }
 
 function talkback()
@@ -442,8 +484,12 @@ function talkback()
 function save_talkback()
 {
     global $post;
-    $talkback   = isset($_POST['talkback']) ? $_POST['talkback'] : '';
-    update_post_meta($post->ID, 'talkback', $talkback);
+    if( isset($_POST['talkback'] ) )
+    {
+        $talkback   = $_POST['talkback'];
+        update_post_meta($post->ID, 'talkback', $talkback);
+    }
+
 }
 
 function promote_show()
@@ -553,8 +599,12 @@ function soldout()
 function save_soldout()
 {
     global $post;
-    $sold_out = isset( $_POST['sold_out'] ) ? $_POST['sold_out'] : '';
-    update_post_meta($post->ID, 'sold_out', $sold_out );
+    if( isset($_POST['sold_out'] ) )
+    {
+        $sold_out = $_POST['sold_out'];
+        update_post_meta($post->ID, 'sold_out', $sold_out );
+    }
+
 }
 
 function order_amend_link()
@@ -563,10 +613,6 @@ function order_amend_link()
     <p><a href="/ticket-admin?orderId=<?php echo $_GET['id']; ?>" target="_blank">Amend order</a></p>
 <?php
     
-}
-
-function remove_cpt_title_support() {
-    remove_post_type_support( 'performance', 'title' );
 }
 
 
@@ -641,6 +687,3 @@ function switch_excerpt_boxes()
         ,   $str
         );
     }
-
-
-				

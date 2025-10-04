@@ -107,12 +107,17 @@ function get_show_titles($filter='current')
         $args['meta_compare']   = '>=';
     }
 
-    $query  = new WP_Query($args);
+    $query  = new WP_Query($args); 
 
     $o      = [];
-    if( $query->have_posts()): while($query->have_posts()): $query->the_post();
-        $o[get_the_ID()]    = get_the_title();
-    endwhile; endif; wp_reset_postdata();
+    foreach( $query->posts as $post )
+    {
+        $o[$post->ID]   = $post->post_title;
+    }
+    // if( $query->have_posts()): while($query->have_posts()): $query->the_post();
+    //     $o[get_the_ID()]    = get_the_title();
+    // endwhile; endif; 
+    wp_reset_postdata();
 
     return $o;
 }

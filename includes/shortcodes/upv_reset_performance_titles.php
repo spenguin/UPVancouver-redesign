@@ -30,9 +30,9 @@ function upv_reset_performance_titles( $atts = [], $content = null, $tag = '' )
         if ( is_wp_error( $result ) ) {
             echo 'Error updating post: ' . $result->get_error_message();die();
         } else {
-            echo 'Post title updated successfully for post ID: ' . $post_id;
+            echo 'Post title updated successfully for post ID: ' . $post_args['ID'];
         }
-        
+
 
     endwhile; endif; wp_reset_postdata();
 } 

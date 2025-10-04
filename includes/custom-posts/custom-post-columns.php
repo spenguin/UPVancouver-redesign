@@ -102,7 +102,18 @@ function weirdspace_show_column( $column, $post_id )
             echo '<a href="/performance-report/?performance_id=' . $post_id . '" target="_blank">Report</a>';
             break;
         case 'date_time':
-            echo '<span style="font-size:0.95rem;"><strong>' . date( 'd M Y h:i a', get_the_title( $post_id ) ) . '</strong></span>';
+            if( !empty($post_title = get_the_title( $post_id ) ) )
+            {
+                if( FALSE !== filter_var($post_title, FILTER_VALIDATE_INT) )
+                {
+                    $str        = date( 'd M Y h:i a', $post_title );
+                } else {
+                    $performance_time = get_post_meta( $post_id, 'performance_time', TRUE );
+                    $dateTime   = strtotime( $post_title . ' ' . $performance_time );
+                    $str        = $dateTime; 
+                }
+                echo '<span style="font-size:0.95rem;"><strong>' . $str . '</strong></span>';
+            }
             break;
         endswitch;
 }

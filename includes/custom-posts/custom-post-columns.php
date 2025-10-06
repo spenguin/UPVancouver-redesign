@@ -110,7 +110,7 @@ function weirdspace_show_column( $column, $post_id )
                 } else {
                     $performance_time = get_post_meta( $post_id, 'performance_time', TRUE );
                     $dateTime   = strtotime( $post_title . ' ' . $performance_time );
-                    $str        = $dateTime; 
+                    $str        = date( 'd M Y h:i a', $dateTime );
                 }
                 echo '<span style="font-size:0.95rem;"><strong>' . $str . '</strong></span>';
             }

@@ -344,7 +344,6 @@ function performanceTime()
     // $performance_time   = !empty( $post->post_title) ? date( 'G:i:s', $post->post_title ) : '';
 
     $performance_time   = get_post_meta($post->ID, 'performance_time', TRUE);
-    $str                = '';
     if( !empty( $post->post_title) )
     {
         if( FALSE !== filter_var($post->post_title, FILTER_VALIDATE_INT) )
@@ -352,7 +351,7 @@ function performanceTime()
             $str        = 'Performance Date & Time: ' . date( 'd M Y h:i a', $post->post_title );
             $performance_time = date( 'H:i', $post->post_title );
         } else {
-            $dateTime   = strtotime( $post->post_title . ' ' . $performance_time );
+            $dateTime   = strtotime( $post->post_title . ' ' . $performance_time ); 
             $str        = 'Replace current Performance title with ' . $dateTime; 
         }
     }
@@ -369,7 +368,30 @@ function save_performance_time()
     if( !is_null($post))
     {
         $performance_time = isset( $_POST['performance_time'] ) ? $_POST['performance_time'] : ''; 
-        update_post_meta($post->ID, 'performance_time', $performance_time);
+        $current_performance_time = get_post_meta( $post->ID, 'performance_time', TRUE );
+        if( $performance_time != $current_performance_time )
+        {
+            update_post_meta($post->ID, 'performance_time', $performance_time); pvd($post->post_title);
+            if( FALSE !== filter_var($post->post_title, FILTER_VALIDATE_INT) )
+            {
+                $date   = date( 'd M Y', $post->post_title );
+                $performance_time = date( 'H:i', $post->post_title );
+            } else {
+                $date   = $post->post_title;
+            } 
+            $args = [
+                'ID'            => $post->ID,
+                'post_title'    => $date
+            ];
+            wp_update_post( $args );
+        } 
+        // if( FALSE !== filter_var($post->post_title, FILTER_VALIDATE_INT) )
+        // {
+        //     // $date = date( 'd M Y', (int) $post->post_title ) . 
+        // } else {
+        //     $dateTime   = strtotime( $post_title . ' ' . $performance_time );
+        //     $str        = date( 'd M Y h:i a', $dateTime );
+        // }
         // $current_performance_time = date( 'H:i', (int) $post->post_title); 
         // if( $current_performance_time != $performance_time )
         // {

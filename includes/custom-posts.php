@@ -21,7 +21,7 @@ function initialize()
     // add_action('save_post_show', '\CustomPosts\save_show_cast');    
 
     add_action('save_post_performance', '\CustomPosts\save_show_id');
-    add_action('save_post_performance', '\CustomPosts\save_performance_time');
+    add_action('save_post_performance', '\CustomPosts\save_performance_date_time');
     add_action('save_post_performance', '\CustomPosts\save_preview');
     add_action('save_post_performance', '\CustomPosts\save_talkback');
     add_action('save_post_performance', '\CustomPosts\save_soldout');
@@ -211,7 +211,7 @@ function admin_init()
 
 
     add_meta_box('show_meta', 'Show Name', '\CustomPosts\showName', 'performance', 'normal');
-    add_meta_box('performance_meta', 'Performance Details', '\CustomPosts\performanceTime', 'performance', 'normal');
+    add_meta_box('performance_meta', 'Performance Details', '\CustomPosts\performanceDate_Time', 'performance', 'normal');
     add_meta_box('performance_preview_meta', 'Preview', '\CustomPosts\preview', 'performance', 'side');
     add_meta_box('performance_talkback_meta', 'Talkback', '\CustomPosts\talkback', 'performance', 'side');
     add_meta_box('performance_soldout_meta', 'Sold Out', '\CustomPosts\soldout', 'performance', 'side');
@@ -335,31 +335,37 @@ function tickets_sold()
 <?php
 }
 
-function performanceTime()
+function performanceDate_Time()
 {
     global $post; 
+    $performance_date   = get_post_meta( $post->ID, 'performance_date', TRUE );
+    $performance_time   = get_post_meta( $post->ID, 'performance_time', TRUE );
 
-    // if( !empty( $post->post_title && )
-    // $performance_date   = !empty( $post->post_title) ? date( 'Y-m-d', $post->post_title ) : '';
-    // $performance_time   = !empty( $post->post_title) ? date( 'G:i:s', $post->post_title ) : '';
-
-    $performance_time   = get_post_meta($post->ID, 'performance_time', TRUE);
-    if( !empty( $post->post_title) )
-    {
-        if( FALSE !== filter_var($post->post_title, FILTER_VALIDATE_INT) )
-        {
-            $str        = 'Performance Date & Time: ' . date( 'd M Y h:i a', $post->post_title );
-            $performance_time = date( 'H:i', $post->post_title );
-        } else {
-            $dateTime   = strtotime( $post->post_title . ' ' . $performance_time ); 
-            $str        = 'Replace current Performance title with ' . $dateTime; 
-        }
-    }
+    $dateTime   = strtotime( $performance_date . ' ' . $performance_time ); 
+    $str        = 'Replace current Performance title with ' . $dateTime; 
     ?>
 
+    <label for="performance_date">Performance Date:</label>
+    <input type="date" name="performance_date" value="<?php echo $performance_date; ?>" required />  
     <label for="performance_time">Performance Time:</label>
-    <input type="time" name="performance_time" value="<?php echo $performance_time; ?>" required /> <?php echo $str; ?>
+    <input type="time" name="performance_time" value="<?php echo $performance_time; ?>" required /> 
+    <?php echo $str; ?>
     <?php
+}
+
+function save_performance_date_time()
+{
+    global $post;
+    if( !is_null($post))
+    {
+        $performance_date   = isset( $_POST['performance_date'] ) ? $_POST['performance_date'] : '';
+        $performance_time   = isset( $_POST['performance_time'] ) ? $_POST['performance_time'] : '';
+        if( !empty( $performance_date ) && !empty( $performance_time ) )
+        {
+            update_post_meta( $post->ID, 'performance_date', $performance_date );
+            update_post_meta( $post->ID, 'performance_time', $performance_time );
+        }
+    }
 }
 
 function save_performance_time()
@@ -367,43 +373,31 @@ function save_performance_time()
     global $post;
     if( !is_null($post))
     {
-        $performance_time = isset( $_POST['performance_time'] ) ? $_POST['performance_time'] : ''; 
+        $performance_time   = isset( $_POST['performance_time'] ) ? $_POST['performance_time'] : '';
+        $post_title         = isset( $_POST['post_title'] ) ? $_POST['post_title'] : ''; 
+
         $current_performance_time = get_post_meta( $post->ID, 'performance_time', TRUE );
-        if( $performance_time != $current_performance_time )
+        if( !empty( $performance_time ))
         {
-            update_post_meta($post->ID, 'performance_time', $performance_time); pvd($post->post_title);
-            if( FALSE !== filter_var($post->post_title, FILTER_VALIDATE_INT) )
-            {
-                $date   = date( 'd M Y', $post->post_title );
-                $performance_time = date( 'H:i', $post->post_title );
-            } else {
-                $date   = $post->post_title;
-            } 
-            $args = [
-                'ID'            => $post->ID,
-                'post_title'    => $date
+            update_post_meta($post->ID, 'performance_time', $performance_time); 
+        }
+        if( $current_performance_time == $performance_time )
+        {
+            $args   = [
+                'ID'        => $post->ID,
+                'post_title'=> $post_title
             ];
             wp_update_post( $args );
-        } 
-        // if( FALSE !== filter_var($post->post_title, FILTER_VALIDATE_INT) )
-        // {
-        //     // $date = date( 'd M Y', (int) $post->post_title ) . 
-        // } else {
-        //     $dateTime   = strtotime( $post_title . ' ' . $performance_time );
-        //     $str        = date( 'd M Y h:i a', $dateTime );
-        // }
-        // $current_performance_time = date( 'H:i', (int) $post->post_title); 
-        // if( $current_performance_time != $performance_time )
-        // {
-        //     $performance_date_time = strtotime( date( 'd M Y', (int) $post->post_title) . ' ' . $performance_time );
-        //     $args = [
-        //         'ID'    => $post->ID,
-        //         'post_title'    => $performance_date_time
-        //     ];
-            
-        //     // Update the post
-        //     $result = wp_update_post( $args );
-        // }
+        } else {
+            if( FALSE !== filter_var($post_title, FILTER_VALIDATE_INT) )
+            {
+                $args = [
+                    'ID'            => $post->ID,
+                    'post_title'    => date( 'd M Y', (int) $post_title )
+                ];
+                wp_update_post( $args );
+            }
+        }
     }
 }
 
@@ -417,20 +411,6 @@ function save_show_id()
     }
 }
 
-// function save_performance_date_time()
-// {
-//     global $post; 
-//     $performance_date   = isset($_POST['performance_date']) ? $_POST['performance_date'] : ''; 
-//     $performance_time   = isset( $_POST['performance_time'] ) ? $_POST['performance_time'] : '';//pvd($performance_date . ' ' . $performance_time);
-//     $date               = strtotime( $performance_date . ' ' . $performance_time ); //die(pvd($date));
-//     $show_id            = ( !empty( $_POST['show_id'] ) ) ? $_POST['show_id'] : 0;
-//     if( !empty($post->ID ) )
-//     {
-//         create_performance( $date, $show_id, $performance_time, $post->ID );
-//     }
-// }
-
-
 function create_performance($date, $show_id, $time)
 {
     $post_id = wp_insert_post(array(
@@ -441,7 +421,7 @@ function create_performance($date, $show_id, $time)
         'comment_status' => 'closed',   // if you prefer
         'ping_status' => 'closed',      // if you prefer
     ));
-die(pvd($post_id));
+
     if ($post_id) {
         add_post_meta($post_id, 'show_id', $show_id);
         add_post_meta($post_id, 'performance_time', $time);

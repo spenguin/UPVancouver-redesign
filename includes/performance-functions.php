@@ -27,31 +27,37 @@ function getPerformanceDates( $showId = NULL )
         'post_type'     => 'performance',
         'posts_per_page' => -1,
         'meta_key'   => 'show_id',
-        'meta_value' => $showId
+        'meta_value' => $showId,
+        'order'         => 'ASC',
+        'orderby'       => 'title'
         // ],
         // 'orderby'
     ];
     $query = new WP_Query($args); //pvd($query);
     $o = [];
     if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post();
-            $date       = get_the_title() . ' 23:59:59'; 
-            if( strtotime($date) < time() ) continue;
+            $date_time  = get_the_title(); 
+            // if( strtotime($date) < time() ) continue;
+            if( $date_time < time() ) continue;
             $post_id    = get_the_ID();
             $custom     = get_post_custom($post_id);
             $date       = strtotime(get_the_title());
             $o[$post_id]  = [
+            // $o[$date_time]  = [
                 'id'        => $post_id,
-                'date'      => $date,
+                'date_time' => $date_time,
+                'date'      => date('d M Y', (int) $date_time),
+                'performance_time'  => date( 'h:i a', (int) $date_time ),
                 'preview'   => isset($custom['preview']) ? $custom['preview'][0] : '',
                 'talkback'  => isset($custom['talkback']) ? $custom['talkback'][0] : '',
-                'performance_time'  => isset($custom['performance_time']) ? $custom['performance_time'][0] : '',
+                // 'performance_time'  => isset($custom['performance_time']) ? $custom['performance_time'][0] : '',
                 'sold_out'  => isset($custom['sold_out']) ? $custom['sold_out'][0] : ''
             ];
         endwhile;
     endif;
     wp_reset_postdata();
 
-    ksort($o);
+    // ksort($o);
 
     return $o;
 }

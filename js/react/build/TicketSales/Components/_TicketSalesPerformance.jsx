@@ -7,15 +7,12 @@ import React, { useState, useEffect } from "react";
 const TicketSalesPerformance = ({performance, selectedPerformance, setSelectedPerformance}) => { //console.log('performance', performance );
 
     // set vars
-    const dateFormat        = new Date(performance.date * 1000);
-    dateFormat.setDate(dateFormat.getDate() + 1); // Kludge to get correct date - I hope.
     const options           = { month: "short", day: "numeric", year: "numeric" };
     const performanceClass  = performance.preview ? " show-date--preview" : "";
     const previewMsg        = performance.preview ? "Preview performance" : "";
     const talkbackMsg       = performance.talkback ? "Talkback performance" : ""; 
     const sold_out          = performance.sold_out ? "Sold Out" : ""; 
     const itemClass         = selectedPerformance ? (selectedPerformance == performance.id ? "active" : "unselected") : ""; 
-    const performanceTime   = formatTime(performance.performance_time);
     
     // set functions
     const onSelectPerformance = (e) => { 
@@ -34,8 +31,8 @@ const TicketSalesPerformance = ({performance, selectedPerformance, setSelectedPe
                     }
                 </div>
                 <div className="performance__select--datetime">
-                    {new Intl.DateTimeFormat('en-ca', options).format(dateFormat)}<br />
-                    {performanceTime} 
+                    {performance.date}<br />
+                    {performance.performance_time}
                 </div>               
             </div>
             <div className="performance__notes">
@@ -50,9 +47,3 @@ const TicketSalesPerformance = ({performance, selectedPerformance, setSelectedPe
 }
 
 export default TicketSalesPerformance;
-
-function formatTime(timeString) {
-    const [hourString, minute] = timeString.split(":");
-    const hour = +hourString % 24;
-    return (hour % 12 || 12) + ":" + minute + (hour < 12 ? "AM" : "PM");
-}

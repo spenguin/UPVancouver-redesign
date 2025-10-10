@@ -4,11 +4,11 @@
 // import nodes
 import React, { useState, useEffect } from "react";
 
-const TicketSalesPerformance = ({performance, selectedPerformance, setSelectedPerformance}) => { //console.log('performance', performance );
+const TicketSalesPerformance = ({performance, selectedPerformance, setSelectedPerformance}) => { //console.log('performance', performance.preview );
 
     // set vars
-    const options           = { month: "short", day: "numeric", year: "numeric" };
-    const performanceClass  = performance.preview ? " show-date--preview" : "";
+    // const options           = { month: "short", day: "numeric", year: "numeric" };
+    // const performanceClass  = performance.preview ? " show-date--preview" : "";
     const previewMsg        = performance.preview ? "Preview performance" : "";
     const talkbackMsg       = performance.talkback ? "Talkback performance" : ""; 
     const sold_out          = performance.sold_out ? "Sold Out" : ""; 
@@ -25,7 +25,7 @@ const TicketSalesPerformance = ({performance, selectedPerformance, setSelectedPe
                 <div className="performance__select--radio">
                     {!sold_out.length &&
                         <>
-                            <input type="radio" id={performance.id} value={performance.id} name="selectedPerformance" onChange={(e)=>onSelectPerformance(e)} />
+                            <input type="radio" id={performance.id} value={performance.date_time} name="selectedPerformance" onChange={(e)=>onSelectPerformance(e)} />
                             <label for={performance.id}></label>
                         </>
                     }

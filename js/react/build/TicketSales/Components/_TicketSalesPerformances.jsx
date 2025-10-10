@@ -12,6 +12,10 @@ const TicketSalesPerformances = ({performances, setSelectedPerformance, selected
 
 
     // set vars
+    // performances.sort((a,b) => a.date_time.localeCompare(b.date_time));
+    // let performances = Object.fromEntries(
+    // Object.entries(performances).sort(([, a], [, b]) => b - a)
+// );
 
     // set functions
     const revealPerformances = () => {

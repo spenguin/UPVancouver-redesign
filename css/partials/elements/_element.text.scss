@@ -8,3 +8,11 @@ body {
 .fine-print {
     font-size: 0.75rem;
 }
+
+.notice {
+    margin: 0 -2.5%;
+    padding: 0 2.5%;
+    border: 1px solid $UPVDarkTeal;
+    border-radius: $borderRadius;
+    overflow-wrap: break-word;
+}

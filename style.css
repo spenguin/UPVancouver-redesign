@@ -53,6 +53,14 @@ body {
   font-size: 0.75rem;
 }
 
+.notice {
+  margin: 0 -2.5%;
+  padding: 0 2.5%;
+  border: 1px solid #075C68;
+  border-radius: 0.1875rem;
+  overflow-wrap: break-word;
+}
+
 /** Button styles */
 .button {
   border-radius: 0.5rem;
@@ -866,6 +874,9 @@ input[type=text] {
 .show-page__main-images img {
   width: 100%;
 }
+.show-page__sidebar h3 {
+  text-align: left;
+}
 .show-page__sidebar {
   display: flex;
   flex-direction: column;
@@ -874,9 +885,6 @@ input[type=text] {
   padding: 1rem 6% 3rem 6%;
   margin-left: -6%;
   margin-right: -6%;
-}
-.show-page__sidebar h3 {
-  text-align: left;
 }
 @media screen and (min-width: 768px) {
   .show-page__sidebar {

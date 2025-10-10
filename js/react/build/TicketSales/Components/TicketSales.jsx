@@ -15,7 +15,7 @@ import TicketSalesOrder from "./_TicketSalesOrder.jsx";
 import "../../TicketSales/css/ticketsales.css";
 
 
-const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable}) => {
+const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable}) => {//console.log('showId', showId); console.log('performances', performances );//console.log('tickets', tickets); 
 
     // set State vars
     const [selectedPerformance, setSelectedPerformance] = useState('');
@@ -23,9 +23,11 @@ const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable}) 
     const [ticketData, setTicketData]                   = useState(showId > 0 ? null : tickets); 
     const [localTickets, setLocalTickets]               = useState(ticketData);
 
-    useEffect(()=>{
+    useEffect(()=>{//console.log('selectedPerformance', selectedPerformance );
         if(selectedPerformance.length) {
             var tmp = {};
+            // performance = performances.filter( p =>p.id == selectedPerformance );
+            // {performance.preview
             {performances[selectedPerformance].preview
                 ? tmp = tickets.filter( ticket => ticket.name.indexOf('Preview') == 0 )
                 : tmp = tickets.filter( ticket => ticket.name.indexOf('Preview') != 0 )

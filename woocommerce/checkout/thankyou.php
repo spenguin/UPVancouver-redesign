@@ -54,17 +54,14 @@ defined( 'ABSPATH' ) || exit;
 						'role'		=> 'attendee'
 					]);
 				}
-				$cart		= get_order_note( $orderId );
+				$cart		= get_order_note( $orderId ); 
 				unset($_SESSION['cart']);
 				$title		= "";
 				foreach( $cart as $product_id => $item )
 				{
 					if( in_array( $product_id, ['amended', 'boxoffice']  ) ) continue;
 					
-					if($item['date'] != $title )
-					{
-						$performance = get_post_by_title( $item['date'], '', 'performance' );
-					}
+					$performance	= get_post_by_title($item['performance_title'], NULL, "performance");
 					$tickets_sold = get_post_meta( $performance->ID, 'tickets_sold', TRUE );
 					if( empty($tickets_sold) )
 					{

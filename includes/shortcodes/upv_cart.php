@@ -6,11 +6,11 @@
 
 function upv_cart()
 { 
-    if( isset($_POST['ticketData'] ) ) {
+    if( isset($_POST['ticketData'] ) ) { //pvd($_POST);
         $ticketsOrdered = decodeTicketData($_POST['ticketData']); //die(pvd($ticketsOrdered));
-        $selectedPerformanceId  = $_POST['selectedPerformance']; 
+        $selectedPerformanceTitle  = $_POST['selectedPerformance']; 
         $isTicketSpecialAvailable   = FALSE;
-        if( empty($selectedPerformanceId) )
+        if( empty($selectedPerformanceTitle) )
         {
             $showTitle  = "Seasons Ticket";
             $showTime   = ""; 
@@ -20,12 +20,16 @@ function upv_cart()
             $seasonTicketsOrdered       = [];
 
         } else {
-            $selectedPerformance    = get_post($selectedPerformanceId); 
-            $performanceDate        = $selectedPerformance->post_title;
+            // $selectedPerformance    = get_post($selectedPerformanceTitle); 
+            $selectedPerformance    = get_post_by_title($selectedPerformanceTitle);
+            $performanceDate        = date( 'd M Y', (int) $selectedPerformanceTitle );
+            $performanceTime        = date( 'h:i a', (int) $selectedPerformanceTitle );
+            // $performanceDate        = $selectedPerformance->date;
             // Get show that corresponds to the selected Date
-            $performanceMeta        = get_post_meta($selectedPerformanceId); 
-            $showTime               = $performanceMeta['performance_time'][0];
-            $showTitle              = get_the_title($performanceMeta['show_id'][0]); 
+            // $performanceMeta        = get_post_meta($selectedPerformanceId); 
+            // $showTime               = $performanceMeta['performance_time'][0];
+            // $showTitle              = get_the_title($performanceMeta['show_id'][0]); 
+            $showTitle              = get_show_title_by_performance_date($selectedPerformanceTitle);
         }
 
         $seasonTicketsOrdered   = [];
@@ -35,8 +39,9 @@ function upv_cart()
             $args  = [
                 'product_id'=> $t->ticketid,
                 'quantity'  => $t->quantity,
+                'performance_title' => $selectedPerformanceTitle,
                 'date'      => $performanceDate,
-                'time'      => $showTime,
+                'time'      => $performanceTime,
                 'showTitle' => $showTitle,  
                 'misha_custom_price' => $t->charge,
                 'name'      => $t->name
@@ -105,7 +110,7 @@ function upv_cart()
                 <tbody>
                     <?php
                         $orderTotal = 0; 
-                        foreach($_SESSION['cart']  as $key => $args ) { 
+                        foreach($_SESSION['cart']  as $key => $args ) { //pvd($args);
                             if( $args['quantity'] == 0 ) continue;
                             $showCharge = $args['quantity'] * $args['misha_custom_price'];
                             $orderTotal += $showCharge;
@@ -124,7 +129,7 @@ function upv_cart()
                                                     echo $args['date']  . ' '  . date("g:i a", strtotime($args['time'])) . '<br />';
                                                 } ?>
                                         <?php endif; ?>
-                                        <?php echo $args['name'] . ($args['misha_custom_price'] < 0 ) ? '(&dollar;' . abs($args['misha_custom_price']) . ')' : ' &dollar;' . $args['misha_custom_price']; ?>
+                                        <?php echo $args['name']; ?><?php echo ($args['misha_custom_price'] < 0 ) ? '(&dollar;' . abs($args['misha_custom_price']) . ')' : ' &dollar;' . $args['misha_custom_price']; ?>
                                     </div>
                                 </td>
                                 <td>

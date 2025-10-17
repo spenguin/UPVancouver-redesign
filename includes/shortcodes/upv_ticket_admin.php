@@ -13,7 +13,7 @@ function upv_ticket_admin()
         // Get the order details from the orderId
         $order = wc_get_order( $order_id ); 
 
-        $order_note     = get_order_note( $order_id ); //pvd($order_note);
+        $order_note     = get_order_note( $order_id ); //die(pvd($order_note));
         $customer_note  = $order->get_customer_note();
 
         $customer       = get_order_customer( $order ); 
@@ -44,15 +44,16 @@ function upv_ticket_admin()
                 $changed    = FALSE;
                 foreach($_POST['date'] as $key => $date )
                 {
-                    if( $order_note[$key]['date'] != ($new_date = date('j M Y',$date ) ) )
+                    if( $order_note[$key]['performance_title'] != $date) //($new_date = date('j M Y',$date ) ) )
                     {
                         $changed    = TRUE;
-                        amend_tickets_sold( $order_note[$key]['date'], -1 * $order_note[$key]['quantity'], $order_id );
-                        amend_tickets_sold( $new_date, $order_note[$key]['quantity'], $order_id );
-                        $performance= get_post_by_title( $new_date, NULL, 'performance' );
-                        $time       = get_post_meta($performance->ID, 'performance_time', TRUE );
-                        $order_note[$key]['date'] = $new_date;
-                        $order_note[$key]['time'] = $time;
+                        amend_tickets_sold( $order_note[$key]['performance_title'], -1 * $order_note[$key]['quantity'], $order_id );
+                        amend_tickets_sold( $date, $order_note[$key]['quantity'], $order_id );
+                        // $performance= get_post_by_title( $new_date, NULL, 'performance' );
+                        // $time       = get_post_meta($performance->ID, 'performance_time', TRUE );
+                        $order_note[$key]['performance_title']   = $date;
+                        $order_note[$key]['date'] = date('d M Y', $date );
+                        $order_note[$key]['time'] = date('h:i a', $date );
                     }
                 }
                 if( $changed )
@@ -118,13 +119,14 @@ function upv_ticket_admin()
                                                     } elseif( $term->slug == "uncategorized" && $note['name'] <> "Comp" ) {
                                                         echo "N/A";
                                                     } else { 
-                                                        if( strtotime($note['date']) < time() )
+                                                        if( $note['performance_title'] < time() )
+                                                        // if( strtotime($note['date']) < time() )
                                                         {
                                                             echo $note['showTitle'] . ' ' . $note['date'] . ' ' . $note['time'];
                                                         }
                                                         else 
                                                         {
-                                                            echo $note['showTitle'] . ', <select name="date[' . $key . ']">' . organise_performance_dates($note['showTitle'], $note['date']) . '</select>';
+                                                            echo $note['showTitle'] . ', <select name="date[' . $key . ']">' . organise_performance_dates($note['showTitle'], $note['performance_title']) . '</select>';
                                                         }
 
                                                     }
@@ -376,16 +378,16 @@ function upv_ticket_admin()
 /**
  * Organise performance dates into a dropdown
  */
-function organise_performance_dates( $showTitle, $date )
-{
-    $date = strtotime($date);  
+function organise_performance_dates( $showTitle, $date_time )
+{ 
+    // $date = strtotime($date);  
     $show           = get_post_by_title($showTitle, NULL, 'show' ); 
-    $performances   = getPerformanceDates( $show->ID ); 
+    $performances   = getPerformanceDates( $show->ID ); //pvd($performances);
     $o              = [];
     foreach( $performances as $performance)
     {   
-        $selected   = ($performance['date'] == $date) ? 'selected="selected"' : '';
-        $o[]        = "<option value='" . $performance['date'] . "' " . $selected  . ">" . date('j M Y', $performance['date'] ) . " " . $performance['performance_time'] . "</option>";
+        $selected   = ($performance['date_time'] == $date_time) ? 'selected="selected"' : '';
+        $o[]        = "<option value='" . $performance['date_time'] . "' " . $selected  . ">" . date( 'd M Y h:i a', $performance['date_time'] ) . "</option>";
     }
     return join( '', $o );
 }

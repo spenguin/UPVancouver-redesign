@@ -257,7 +257,7 @@ function render_order_details($notes)
                 <?php else:
                     $products_ordered[] = "Donation";
                 endif; ?>
-                <?php echo $args['name'] . ($args['misha_custom_price'] < 0 ) ? '($' . abs($args['misha_custom_price']) . ')' : ' $' . $args['misha_custom_price']; ?>
+                <?php echo $args['name']; ?><?php echo ($args['misha_custom_price'] < 0 ) ? '($' . abs($args['misha_custom_price']) . ')' : ' $' . $args['misha_custom_price']; ?>
             </td>
             <td>
                 <?php echo $args['quantity']; ?>

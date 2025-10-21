@@ -56,7 +56,9 @@ class Order_note
                                     <?php 
                                         if( isset($args['showTitle']) && $args['showTitle'] != 'Seasons Ticket' && $args['showTitle'] != 'Promotional Discount')
                                         {
-                                            echo $args['date']  . ' '  . date("g:i a", strtotime($args['time'])) . '<br />';
+                                            // echo $args['date']  . ' '  . date("g:i a", strtotime($args['time'])) . '<br />';
+                                            echo date( 'd M Y h:i a', $args['performance_title'] ) . '<br />';
+
                                         } ?>
                                 <?php endif; ?>
                                 <?php echo $args['name'] . ($args['misha_custom_price'] < 0 ) ? '(&dollar;' . abs($args['misha_custom_price']) . ')' : ' &dollar;' . $args['misha_custom_price']; ?>

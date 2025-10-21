@@ -4,7 +4,8 @@
  * Tools
  */
 
-function pvd( $var ) {
+function pvd( $var ) 
+{
     ob_start(); ?>
         <pre>
             <?php var_dump( $var ); ?>

@@ -248,7 +248,8 @@ function render_order_details($notes)
                         if( $args['showTitle'] != 'Seasons Ticket' && $args['showTitle'] != 'Promotional Discount' )
                         {
                             $products_ordered[] = ( 0 == $args['misha_custom_price'] ) ? "Subscriber" : "Show";
-                            echo $args['date']  . ' '  . date("g:i a", strtotime($args['time'])) . '<br />';
+                            echo date( 'd M Y h:i a', $args['performance_title'] ) . '<br />';
+                            // echo $args['date']  . ' '  . date("g:i a", strtotime($args['time'])) . '<br />';
                         } else {
                             $products_ordered[] = "Season";
                         }
@@ -326,7 +327,7 @@ function render_order_details($notes)
 
 function md_custom_woocommerce_checkout_fields( $fields ) 
 {
-    $fields['order']['order_comments']['label'] = 'Seating requests:';
+    $fields['order']['order_comments']['label'] = 'Accessibility notes (if applicable):';
 
     return $fields;
 }

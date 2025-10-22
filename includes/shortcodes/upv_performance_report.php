@@ -19,7 +19,8 @@ function upv_performance_report()
     $ticket_types   = getSingleShowTickets(); 
     $statuses       = [
         'processing'    => 'Pay at Box Office',
-        'complete'      => 'Paid'
+        'complete'      => 'Paid',
+        'completed'     => 'Paid'
     ];
     unset( $tickets_sold['count'] );
     if( empty($tickets_sold) )

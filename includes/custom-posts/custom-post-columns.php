@@ -80,7 +80,7 @@ function weirdspace_show_column( $column, $post_id )
     switch ($column):
         case 'show':
             $show_id    = $custom['show_id'][0] ? $custom['show_id'][0] : '';
-            $showPost   = get_post($show_id);
+            $showPost   = get_post($show_id); 
             echo $showPost->post_title;
             break;
         case 'preview':

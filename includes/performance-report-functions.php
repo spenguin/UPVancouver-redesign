@@ -22,12 +22,13 @@ function array_csv_download( $performance, $filename = "export.csv" )
         'Name',
         'Phone',
         'Paid Status',
-        'Season',
-        'Preview',
-        'Student',
-        'Senior',
         'Adult',
+        'Senior',
+        'Student',
+        'Season',
         'Comp',
+        'Preview',
+        'Comments',
         'Seating',
     ];
 
@@ -74,7 +75,7 @@ function array_csv_download( $performance, $filename = "export.csv" )
         }
  
         $value[2]    = array_key_exists( 'boxoffice', $order_notes ) ? 'Box Office' : 'Paid';
-        $value[9]    = get_admin_order_note( $order_id ); 
+        $value[10]    = get_admin_order_note( $order_id ); 
       
         foreach( $order_notes as $key => $ticket_order )
         {

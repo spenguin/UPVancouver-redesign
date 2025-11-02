@@ -82,7 +82,10 @@ function array_csv_download( $performance, $filename = "export.csv" )
             if( $key == "amended" ) continue; // Are there other keys I need to check for?
             if( $key == "customer_contact" ) continue;
             if( $key == "fees" ) continue;
-
+            if( !isset($ticket_order['performance_title'] ) )
+            {
+                $ticket_order['performance_title'] = strtotime( $ticket_order['date'] . ' ' . $ticket_order['time'] );
+            } 
             if( $ticket_order['performance_title'] != (int) $performance->post_title ) continue; // Not for this performance
             $ticket_name = in_array($ticket_order['name'], ['Season', 'Seasons']) ? 'Season' : $ticket_order['name']; // Another kludge
             $value[array_search($ticket_name, $column_headings)]   = $ticket_order['quantity'];

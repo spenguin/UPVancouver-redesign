@@ -47,6 +47,7 @@ function  parse_show_filter($query)
     $screen = get_current_screen();
    
     if( is_admin() &&
+        !is_null( $screen ) &&
         $screen->id == 'edit-performance' &&
         isset( $_GET['show_filter'] ) &&
         $_GET['show_filter'] != '-1'

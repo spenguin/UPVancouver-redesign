@@ -248,15 +248,15 @@ function organise_performance_dates( $showTitle, $date_time )
 
 function order_id_present()
 {
-    $order_id = filter_var($_GET['orderId'], FILTER_SANITIZE_NUMBER_INT);
+    $order_id = filter_var($_GET['orderId'], FILTER_SANITIZE_NUMBER_INT); 
         
         // Get the order details from the orderId
-        $order = wc_get_order( $order_id ); 
+        $order = wc_get_order( $order_id );
 
         $order_note     = get_order_note( $order_id ); //die(pvd($order_note));
         $customer_note  = $order->get_customer_note();
 
-        $customer       = get_order_customer( $order ); 
+        $customer       = get_order_customer( $order );
 
         $current_admin_user_note    = get_user_meta($customer->ID, 'user-notes-note', true);
 
@@ -359,6 +359,10 @@ function order_id_present()
                                                     } elseif( $term->slug == "uncategorized" && $note['name'] <> "Comp" ) {
                                                         echo "N/A";
                                                     } else { 
+                                                        if( !isset($note['performance_title']) )
+                                                        {
+                                                            $note['performance_title'] = strtotime( $note['date'] . ' ' . $note['time'] );
+                                                        }
                                                         if( $note['performance_title'] < time() )
                                                         // if( strtotime($note['date']) < time() )
                                                         {

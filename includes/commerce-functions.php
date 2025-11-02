@@ -248,6 +248,10 @@ function render_order_details($notes)
                         if( $args['showTitle'] != 'Seasons Ticket' && $args['showTitle'] != 'Promotional Discount' )
                         {
                             $products_ordered[] = ( 0 == $args['misha_custom_price'] ) ? "Subscriber" : "Show";
+                            if( !isset($args['performance_title'] ) )
+                            {
+                                $args['performance_title']  = strtotime( $args['date'] . ' ' . $args[time] );
+                            }
                             echo date( 'd M Y h:i a', $args['performance_title'] ) . '<br />';
                             // echo $args['date']  . ' '  . date("g:i a", strtotime($args['time'])) . '<br />';
                         } else {

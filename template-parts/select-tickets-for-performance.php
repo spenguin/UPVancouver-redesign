@@ -19,4 +19,4 @@ $isTicketSpecialAvailable   = $showId < 0 ? isTicketSpecialAvailable() : FALSE;
         var isTicketSpecialAvailable    = '<?php echo $isTicketSpecialAvailable; ?>';
         // console.log('performances', performances);
     </script>
-    <script type="text/javascript" src="<?php echo CORE_DIST; ?>ticketsales.js"></script>
+    <script type="text/javascript" src="<?php echo CORE_DIST; ?>ticketsales.js?1.2"></script>

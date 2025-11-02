@@ -42,8 +42,9 @@ class Order_note
                 <tbody>
                     <?php
                     $orderTotal = 0; 
-                    foreach($this->_note  as $key => $args ) { 
+                    foreach($this->_note  as $key => $args ) {
                         if( $key =='fees' ) continue;
+                        if( $args == 'changed' ) continue; 
                         if( $args['quantity'] == 0 ) continue;
                         $showCharge = $args['quantity'] * $args['misha_custom_price'];
                         $orderTotal += $showCharge;
@@ -57,6 +58,10 @@ class Order_note
                                         if( isset($args['showTitle']) && $args['showTitle'] != 'Seasons Ticket' && $args['showTitle'] != 'Promotional Discount')
                                         {
                                             // echo $args['date']  . ' '  . date("g:i a", strtotime($args['time'])) . '<br />';
+                                            if( !isset( $args['performance_title'] ) )
+                                            {
+                                                $args['performance_title']  = strtotime( $args['date'] . ' ' . $args['time'] );
+                                            }
                                             echo date( 'd M Y h:i a', $args['performance_title'] ) . '<br />';
 
                                         } ?>

@@ -40,9 +40,9 @@ defined( 'ABSPATH' ) || exit;
 			</p>
 
 		<?php else : ?>
-            <?php
+            <?php 
 				$orderId 	= $order->get_id(); 
-				$order		= wc_get_order( $orderId ); 
+				// $order		= wc_get_order( $orderId ); pvd($order);
 				$user		= $order->get_user(); 
 				if( $user == FALSE )
 				{

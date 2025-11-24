@@ -97,7 +97,8 @@ function weirdspace_show_column( $column, $post_id )
             break;          
         case 'sales':
             $tickets_sold = get_post_meta( $post_id, 'tickets_sold', TRUE );
-            echo empty($tickets_sold) ? 0 : $tickets_sold['count'];
+            $ticket_count = \performance_fns::count_tickets_sold($tickets_sold);
+            echo empty($ticket_count) ? 0 : $ticket_count;
             break;
         case 'report':
             echo '<a href="/performance-report/?performance_id=' . $post_id . '" target="_blank">Report</a>';

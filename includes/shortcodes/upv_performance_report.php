@@ -9,13 +9,13 @@ function upv_performance_report()
     $performance    = get_post( $performance_id );
     $show_id        = get_post_meta( $performance_id, 'show_id', TRUE );
     $show           = get_post( $show_id );
-    echo '<h3>Tickets sold for ' . $performance->post_title . ' performance of ' . $show->post_title . '</h3>';
+    echo '<h3>Tickets sold for ' . date( 'd M Y h:i a', $performance->post_title ) . ' performance of ' . $show->post_title . '</h3>';
     if( isset($_REQUEST['download']) )
     {
         array_csv_download( $performance );
     }
     
-    $tickets_sold   = get_post_meta($performance_id,'tickets_sold', TRUE);
+    $tickets_sold   = get_post_meta($performance_id,'tickets_sold', TRUE); //pvd($tickets_sold);
     $ticket_types   = getSingleShowTickets(); 
     $statuses       = [
         'processing'    => 'Pay at Box Office',

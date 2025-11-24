@@ -60,6 +60,12 @@ defined( 'ABSPATH' ) || exit;
 				foreach( $cart as $product_id => $item )
 				{
 					if( in_array( $product_id, ['amended', 'boxoffice']  ) ) continue;
+					if( $item['name'] == 'Donation' ) continue;
+					if( $item['showTitle'] == 'Seasons Ticket' ) continue;
+					// if( !isset($item['performance_title'] ) )
+					// {
+					// 	$item['performance_title']	= strtotime( $item['date'] . ' ' . $item['time'] );
+					// }
 					
 					$performance	= get_post_by_title($item['performance_title'], NULL, "performance");
 					$tickets_sold = get_post_meta( $performance->ID, 'tickets_sold', TRUE );

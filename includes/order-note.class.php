@@ -42,7 +42,7 @@ class Order_note
                 <tbody>
                     <?php
                     $orderTotal = 0; 
-                    foreach($this->_note  as $key => $args ) {
+                    foreach($this->_note  as $key => $args ) { 
                         if( $key =='fees' ) continue;
                         if( $args == 'changed' ) continue; 
                         if( $args['quantity'] == 0 ) continue;
@@ -65,6 +65,8 @@ class Order_note
                                             echo date( 'd M Y h:i a', $args['performance_title'] ) . '<br />';
 
                                         } ?>
+                                <?php else: ?>
+                                    Donation
                                 <?php endif; ?>
                                 <?php echo $args['name'] . ($args['misha_custom_price'] < 0 ) ? '(&dollar;' . abs($args['misha_custom_price']) . ')' : ' &dollar;' . $args['misha_custom_price']; ?>
                             </td>

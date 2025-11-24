@@ -153,9 +153,16 @@ function decodeTicketData($performance)
 * From https://funnelkit.com/add-a-field-to-checkout-woocommerce/
 */
 function custom_checkout_field($checkout)
-{ 
-    $cart = serialize($_SESSION['cart']);
-    email_cart($cart);
+{
+    if( !test_cart( $_SESSION['cart'] ) )
+    {
+        $cart = serialize($_SESSION['cart']);
+        email_cart($cart);
+        // Redirect to Error Page
+        header('Location: /order-error');
+        exit();
+    }
+
     woocommerce_form_field('custom_field_name', array(
 
     'type' => 'hidden',
@@ -163,7 +170,7 @@ function custom_checkout_field($checkout)
 
     ) 			   ,
 
-    base64_encode( $cart ) );
+    base64_encode( serialize($_SESSION['cart']) ) );
 }
 
 /**
@@ -172,8 +179,13 @@ function custom_checkout_field($checkout)
 */
 function custom_checkout_field_update_order_meta($order_id)
 {
-    if (!empty($_POST['custom_field_name'])) {
-        update_post_meta($order_id, 'custom_field_name',sanitize_text_field($_POST['custom_field_name']));
+    if (!empty($_POST['custom_field_name'])) { 
+        $current_custom_field  = get_post_meta($order_id, 'custom_field_name', TRUE );
+        if( $_POST['custom_field_name'] !== "$current_custom_field" )
+        {
+            update_post_meta($order_id, 'custom_field_name',$_POST['custom_field_name']);
+        }
+        // update_post_meta($order_id, 'custom_field_name',sanitize_text_field($_POST['custom_field_name']));
         // update_post_meta($order_id, 'custom_field_name',$_POST['custom_field_name']);
     }
 }
@@ -250,7 +262,7 @@ function render_order_details($notes)
                             $products_ordered[] = ( 0 == $args['misha_custom_price'] ) ? "Subscriber" : "Show";
                             if( !isset($args['performance_title'] ) )
                             {
-                                $args['performance_title']  = strtotime( $args['date'] . ' ' . $args[time] );
+                                $args['performance_title']  = strtotime( $args['date'] . ' ' . $args['time'] );
                             }
                             echo date( 'd M Y h:i a', $args['performance_title'] ) . '<br />';
                             // echo $args['date']  . ' '  . date("g:i a", strtotime($args['time'])) . '<br />';

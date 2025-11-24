@@ -36,7 +36,7 @@ $title              = get_the_title();
     <div class="hero upvimage">
         <?php if( is_home() || is_front_page() ) { ?>
             <div class="anniversary-flash">
-                <img src="wp-content\themes\upvancouver\assets\UPV_White_Horz.svg" alt="United Players of Vancouver" />
+                <img src="<?php echo CORE_TEMPLATE_URL; ?>/assets/UPV_White_Horz.svg" alt="United Players of Vancouver" />
             </div>
         <?php } ?>
         <div class="feature-image" <?php echo ($title == "Maintenance") ? 'style="height: 200px;"' : ''; ?>>

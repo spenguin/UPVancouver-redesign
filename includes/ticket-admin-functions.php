@@ -69,3 +69,17 @@ function email_cart($cart, $orderId='')
         wp_mail($to, 'Order issue', $orderId); 
     }
 }
+
+function test_cart( $cart )
+{ 
+    foreach( $cart as $key => $item )
+    {
+        if( isset($item['showTitle']) && $item['showTitle'] == 'Seasons Ticket' ) continue;
+        if( $item['name'] == 'Donation' ) continue;
+        if( empty($item['performance_title'] ) )
+        {
+            return FALSE;
+        }
+    }
+    return TRUE;
+}

@@ -44,7 +44,20 @@ function upv_confirm_order()
                 $note           = htmlspecialchars( $_POST['notes'], ENT_QUOTES );
                 $order->add_order_note( $note );
 
-                $performance    = get_post_by_title( $item['date'], '', 'performance' ); 
+                if( !isset($item['performance_title'] ) )
+                {
+                    if( empty($item['date'] . $item['time']) )
+                    {
+                        $cart = serialize($_SESSION['cart']);
+                        email_cart($cart);
+                        // Redirect to Error Page
+                        header('Location: /order-error');
+                        exit();
+                    }                        
+                    $item['performance_title']  = strtotime( $item['date'] . ' ' . $item['time'] );
+                }
+                // $performance    = get_post_by_title( $item['date'], '', 'performance' ); 
+                $performance    = get_post_by_title( $item['performance_title'], '', 'performance' );
                 // $time           = get_post_meta($performance->ID, 'performance_time', TRUE );
                 $tickets_sold   = get_tickets_sold( $performance->ID );
                 

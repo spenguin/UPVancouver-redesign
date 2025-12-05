@@ -17,6 +17,7 @@ require_once CORE_SHORTCODE . 'upv_member_display.php';
 require_once CORE_SHORTCODE . 'upv_show_images.php';
 require_once CORE_SHORTCODE . 'upv_square_reconsciliation.php';
 require_once CORE_SHORTCODE . 'upv_reset_performance_titles.php';
+require_once CORE_SHORTCODE . 'upv_delete_order.php';
 
 
 \Shortcodes\initialize();
@@ -38,4 +39,5 @@ function initialize()
     add_shortcode( 'upv_show_images', '\upv_show_images' );
     add_shortcode( 'upv_square_reconsciliation', '\upv_square_reconsciliation' );
     add_shortcode( 'upv_reset_performance_titles', '\upv_reset_performance_titles' );
+    add_shortcode( 'upv_delete_order', '\upv_delete_order' );
 }

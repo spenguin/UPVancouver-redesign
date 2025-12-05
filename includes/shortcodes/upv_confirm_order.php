@@ -59,7 +59,7 @@ function upv_confirm_order()
                 // $performance    = get_post_by_title( $item['date'], '', 'performance' ); 
                 $performance    = get_post_by_title( $item['performance_title'], '', 'performance' );
                 // $time           = get_post_meta($performance->ID, 'performance_time', TRUE );
-                $tickets_sold   = get_tickets_sold( $performance->ID );
+                $tickets_sold   = performance_fns::get_tickets_sold( $performance->ID );
                 
                 $order->add_product( wc_get_product( $item['product_id'] ), $item['quantity'] );
                 $order->calculate_totals();

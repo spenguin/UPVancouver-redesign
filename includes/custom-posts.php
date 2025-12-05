@@ -462,12 +462,9 @@ function preview()
 function save_preview()
 {
     global $post;
-    if (isset($_POST['preview'] ) )
-    {
-        $preview   = $_POST['preview'];
-        update_post_meta($post->ID, 'preview', $preview);
-    }
 
+    $preview  = isset( $_POST['preview'] ) ? $_POST['preview'] : '';
+    update_post_meta($post->ID, 'preview', $preview );
 }
 
 function talkback()
@@ -486,12 +483,8 @@ function talkback()
 function save_talkback()
 {
     global $post;
-    if( isset($_POST['talkback'] ) )
-    {
-        $talkback   = $_POST['talkback'];
-        update_post_meta($post->ID, 'talkback', $talkback);
-    }
-
+    $talkback  = isset( $_POST['talkback'] ) ? $_POST['talkback'] : '';
+    update_post_meta($post->ID, 'talkback', $talkback );
 }
 
 function promote_show()
@@ -587,6 +580,7 @@ function save_show_production_photos()
     update_post_meta($post->ID, 'show_production_photos', $show_production_photos );
 }
 
+
 function soldout()
 {
     global $post;
@@ -594,19 +588,15 @@ function soldout()
     $sold_out  = isset( $custom['sold_out'] ) ? $custom['sold_out'][0] : '';
 ?>
     <label for="sold_out">Performance Sold Out:</label>
-    <input type="checkbox" name="sold_out" value="1" <?php echo ((int) $sold_out == 1 ) ? 'checked="checked"' : ''; ?> />
+    <input type="checkbox" name="sold_out" value="1" <?php echo !empty( $sold_out ) ? 'checked="checked"' : ''; ?> />
 <?php
 }
 
 function save_soldout()
 {
     global $post;
-    if( isset($_POST['sold_out'] ) )
-    {
-        $sold_out = $_POST['sold_out'];
-        update_post_meta($post->ID, 'sold_out', $sold_out );
-    }
-
+    $sold_out  = isset( $_POST['sold_out'] ) ? $_POST['sold_out'] : '';
+    update_post_meta($post->ID, 'sold_out', $sold_out );
 }
 
 function order_amend_link()

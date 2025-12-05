@@ -236,7 +236,7 @@ function organise_performance_dates( $showTitle, $date_time )
 { 
     // $date = strtotime($date);  
     $show           = get_post_by_title($showTitle, NULL, 'show' ); 
-    $performances   = getPerformanceDates( $show->ID ); //pvd($performances);
+    $performances   = performance_fns::get_performance_dates( $show->ID );//getPerformanceDates( $show->ID ); //pvd($performances);
     $o              = [];
     foreach( $performances as $performance)
     {   
@@ -250,169 +250,177 @@ function order_id_present()
 {
     $order_id = filter_var($_GET['orderId'], FILTER_SANITIZE_NUMBER_INT); 
         
-        // Get the order details from the orderId
-        $order = wc_get_order( $order_id );
+    // Get the order details from the orderId
+    $order = wc_get_order( $order_id ); 
+    $order_note     = get_order_note( $order_id ); //die(pvd($order_note));
+    $customer_note  = $order->get_customer_note();
 
-        $order_note     = get_order_note( $order_id ); //die(pvd($order_note));
-        $customer_note  = $order->get_customer_note();
+    $customer       = get_order_customer( $order );
 
-        $customer       = get_order_customer( $order );
+    $current_admin_user_note    = get_user_meta($customer->ID, 'user-notes-note', true);
 
-        $current_admin_user_note    = get_user_meta($customer->ID, 'user-notes-note', true);
+    $admin_customer_note    = '';
+    $admin_order_note       = get_admin_order_note($order_id); 
 
-        $admin_customer_note    = '';
-        $admin_order_note       = get_admin_order_note($order_id); 
-
-        // Has there been any amendments?
-        if( isset($_POST['amend']) )
+    // Has there been any amendments?
+    if( isset($_POST['amend']) )
+    {
+        $admin_order_note = htmlspecialchars( $_POST['admin_order_note'], ENT_QUOTES ); 
+        if( !empty($admin_order_note) && $admin_order_note != substr($admin_order_notes[0]->content, 4) )
         {
-            $admin_order_note = htmlspecialchars( $_POST['admin_order_note'], ENT_QUOTES ); 
-            if( !empty($admin_order_note) && $admin_order_note != substr($admin_order_notes[0]->content, 4) )
-            {
-                $order->add_order_note( '[ta]' . $admin_order_note );
-            }
-
-            $admin_customer_note = htmlspecialchars( $_POST['admin_customer_note'], ENT_QUOTES ); 
-            if( !empty($admin_customer_note) && $current_admin_user_note != $admin_customer_note )
-            {
-                update_user_meta($customer->ID, 'user-notes-note', $admin_customer_note);
-            }
-
-            // Any changes to performance dates
-            if( isset($_POST['date']))
-            {
-                $changed    = FALSE;
-                foreach($_POST['date'] as $key => $date )
-                {
-                    if( $order_note[$key]['performance_title'] != $date) //($new_date = date('j M Y',$date ) ) )
-                    {
-                        $changed    = TRUE;
-                        amend_tickets_sold( $order_note[$key]['performance_title'], -1 * $order_note[$key]['quantity'], $order_id );
-                        amend_tickets_sold( $date, $order_note[$key]['quantity'], $order_id );
-                        // $performance= get_post_by_title( $new_date, NULL, 'performance' );
-                        // $time       = get_post_meta($performance->ID, 'performance_time', TRUE );
-                        $order_note[$key]['performance_title']   = $date;
-                        $order_note[$key]['date'] = date('d M Y', $date );
-                        $order_note[$key]['time'] = date('h:i a', $date );
-                    }
-                }
-                if( $changed )
-                {
-                    $order_note['amended']   = "changed";
-                    set_order_note( $order_id, $order_note);
-                    $order->update_status( 'processing' );
-                    $order->update_status( 'completed' );
-                } 
-
-            }
+            $order->add_order_note( '[ta]' . $admin_order_note );
         }
-        ?>
-        <div class="ticket-admin">
-            <div class="ticket-admin__edit">
-                <h2>Edit Ticket Purchase</h2>
-                <?php if(!empty($message)): ?>
-                    <div class="error"><?php echo $message; ?>
-                <?php endif; ?>
-                <?php 
-                    if( empty($order_note) )
-                    {
-                        echo '<p>Order not found</p>';
-                    } else {
-                        
-                        $total  = 0;
-                        ?>
-                        <form action="<?php echo get_bloginfo('url') . $_SERVER['REQUEST_URI']; ?>" method="post">
-                            <table>
-                                <thead>
+
+        $admin_customer_note = htmlspecialchars( $_POST['admin_customer_note'], ENT_QUOTES ); 
+        if( !empty($admin_customer_note) && $current_admin_user_note != $admin_customer_note )
+        {
+            update_user_meta($customer->ID, 'user-notes-note', $admin_customer_note);
+        }
+
+        // Any changes to performance dates
+        if( isset($_POST['date']))
+        {
+            $changed    = FALSE;
+            foreach($_POST['date'] as $key => $date )
+            {
+                if( $order_note[$key]['performance_title'] != $date) //($new_date = date('j M Y',$date ) ) )
+                {
+                    $changed    = TRUE;
+                    amend_tickets_sold( $order_note[$key]['performance_title'], -1 * $order_note[$key]['quantity'], $order_id );
+                    amend_tickets_sold( $date, $order_note[$key]['quantity'], $order_id );
+                    // $performance= get_post_by_title( $new_date, NULL, 'performance' );
+                    // $time       = get_post_meta($performance->ID, 'performance_time', TRUE );
+                    $order_note[$key]['performance_title']   = $date;
+                    $order_note[$key]['date'] = date('d M Y', $date );
+                    $order_note[$key]['time'] = date('h:i a', $date );
+                }
+            }
+            if( $changed )
+            {
+                $order_note['amended']   = "changed";
+                set_order_note( $order_id, $order_note);
+                $order->update_status( 'processing' );
+                $order->update_status( 'completed' );
+            } 
+
+        }
+    }
+    ?>
+    <div class="ticket-admin">
+        <div class="ticket-admin__edit">
+            <h2>Edit Ticket Purchase</h2>
+            <?php if(!empty($message)): ?>
+                <div class="error"><?php echo $message; ?>
+            <?php endif; ?>
+            <?php 
+                if( empty($order_note) )
+                {
+                    echo '<p>Order not found</p>';
+                } else {
+                    
+                    $total  = 0;
+                    $delete = TRUE;
+                    ?>
+                    <form action="<?php echo get_bloginfo('url') . $_SERVER['REQUEST_URI']; ?>" method="post">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Ticket</td>
+                                    <td>Quantity</td>
+                                    <td>Performance</td>
+                                    <td>Charge</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+                                foreach( $order_note as $key => $note )
+                                { 
+                                    if( $key == "amended" ) continue;
+                                    if( $key == "customer_contact" ) continue;
+                                    if( $key == "boxoffice" ) continue;
+                                    if( $key == "fees" ) continue;
+                                    if( $key == "deleted" ) continue;
+                                    $terms  = get_the_terms($note['product_id'], 'product_cat'); 
+                                    $term   = reset($terms); 
+                                    if( !in_array( $note['name'], ["Seasons", "Season", "Comp"] ) ) $delete = FALSE;
+                                    ?>
                                     <tr>
-                                        <td>Ticket</td>
-                                        <td>Quantity</td>
-                                        <td>Performance</td>
-                                        <td>Charge</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php 
-                                    foreach( $order_note as $key => $note )
-                                    { 
-                                        if( $key == "amended" ) continue;
-                                        if( $key == "customer_contact" ) continue;
-                                        if( $key == "boxoffice" ) continue;
-                                        if( $key == "fees" ) continue;
-                                        $terms  = get_the_terms($note['product_id'], 'product_cat'); 
-                                        $term   = reset($terms); 
-                                        ?>
-                                        <tr>
-                                            <td><?php echo $note['name'] ; ?>
-                                                <?php 
-                                                if( "Uncategorized" != $term->name)
+                                        <td><?php echo $note['name'] ; ?>
+                                            <?php 
+                                            if( "Uncategorized" != $term->name)
+                                            {
+                                                echo ' (' . $term->name . ')';
+                                            } ?>
+                                        </td>
+                                        <td><?php echo $note['quantity']; ?></td>
+                                        <td>
+                                            <?php 
+                                                if( in_array($term->slug, ['season-ticket', 'donation'] ) )
                                                 {
-                                                    echo ' (' . $term->name . ')';
-                                                } ?>
-                                            </td>
-                                            <td><?php echo $note['quantity']; ?></td>
-                                            <td>
-                                                <?php 
-                                                    if( in_array($term->slug, ['season-ticket', 'donation'] ) )
+                                                    echo "N/A";
+                                                } elseif( $term->slug == "uncategorized" && $note['name'] <> "Comp" ) {
+                                                    echo "N/A";
+                                                } else { 
+                                                    if( !isset($note['performance_title']) )
                                                     {
-                                                        echo "N/A";
-                                                    } elseif( $term->slug == "uncategorized" && $note['name'] <> "Comp" ) {
-                                                        echo "N/A";
-                                                    } else { 
-                                                        if( !isset($note['performance_title']) )
-                                                        {
-                                                            $note['performance_title'] = strtotime( $note['date'] . ' ' . $note['time'] );
-                                                        }
-                                                        if( $note['performance_title'] < time() )
-                                                        // if( strtotime($note['date']) < time() )
-                                                        {
-                                                            echo $note['showTitle'] . ' ' . $note['date'] . ' ' . $note['time'];
-                                                        }
-                                                        else 
-                                                        {
-                                                            echo $note['showTitle'] . ', <select name="date[' . $key . ']">' . organise_performance_dates($note['showTitle'], $note['performance_title']) . '</select>';
-                                                        }
-
+                                                        $note['performance_title'] = strtotime( $note['date'] . ' ' . $note['time'] );
                                                     }
-                                                ?>
-                                            </td>
-                                            <td>&dollar;<?php echo number_format($note['misha_custom_price'] * $note['quantity'], 2); ?></td>
-                                        </tr>
-                                        <?php $total += $note['misha_custom_price'] * $note['quantity'];
-                                    } ?>
-                                    <tr>
-                                        <td colspan="2">&nbsp;</td>
-                                        <td>Total:</td>
-                                        <td>&dollar;<?php echo number_format($total, 2); ?></td>
-                                    </tr>
-                                    <?php if( array_key_exists("boxoffice", $order_note) && $order_note['boxoffice'] ): ?>
-                                        <tr><td>Note: Payment to be made at Box Office</td></tr>
-                                    <?php endif; ?>
-                                    <tr>
-                                        <td>Customer Note:<br/><?php echo $customer_note; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">
-                                            <label for="admin_order_note">Accessibility notes (if applicable):</label><br>
-                                            <textarea name="admin_order_note" style="width:100%;"><?php echo $admin_order_note; ?></textarea>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">
-                                            <label for="admin_customer_note">Customer Note (Admin):</label><br>
-                                            <textarea name="admin_customer_note" style="width:100%;"><?php echo $admin_customer_note; ?></textarea>
-                                        </td>
-                                    </tr>  
-                                    <tr><td><input type="submit" name="amend" value="Amend Order" class="button button--action"/></td>
-                                    </tr>                              
-                                </tbody>
-                            </table>
-                        </form>
-                        <?php
-                    }
-                ?>
-            </div>
-        </div>
+                                                    if( $note['performance_title'] < time() )
+                                                    // if( strtotime($note['date']) < time() )
+                                                    {
+                                                        echo $note['showTitle'] . ' ' . $note['date'] . ' ' . $note['time'];
+                                                    }
+                                                    else 
+                                                    {
+                                                        echo $note['showTitle'] . ', <select name="date[' . $key . ']">' . organise_performance_dates($note['showTitle'], $note['performance_title']) . '</select>';
+                                                    }
 
-        <?php
+                                                }
+                                            ?>
+                                        </td>
+                                        <td>&dollar;<?php echo number_format($note['misha_custom_price'] * $note['quantity'], 2); ?></td>
+                                    </tr>
+                                    <?php $total += $note['misha_custom_price'] * $note['quantity'];
+                                } ?>
+                                <tr>
+                                    <td colspan="2">&nbsp;</td>
+                                    <td>Total:</td>
+                                    <td>&dollar;<?php echo number_format($total, 2); ?></td>
+                                </tr>
+                                <?php if( array_key_exists("boxoffice", $order_note) && $order_note['boxoffice'] ): ?>
+                                    <tr><td>Note: Payment to be made at Box Office</td></tr>
+                                <?php endif; ?>
+                                <?php if( $delete ): ?>
+                                    <tr>
+                                        <td colspan="3">&nbsp;</td>    
+                                        <td><a href="<?php echo site_url(); ?>/delete-order?order_id=<?php echo $order_id; ?>">Delete Order</a></td>
+                                    </tr>
+                                <?php endif; ?>
+                                <tr>
+                                    <td>Customer Note:<br/><?php echo $customer_note; ?></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <label for="admin_order_note">Accessibility notes (if applicable):</label><br>
+                                        <textarea name="admin_order_note" style="width:100%;"><?php echo $admin_order_note; ?></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <label for="admin_customer_note">Customer Note (Admin):</label><br>
+                                        <textarea name="admin_customer_note" style="width:100%;"><?php echo $admin_customer_note; ?></textarea>
+                                    </td>
+                                </tr>  
+                                <tr><td><input type="submit" name="amend" value="Amend Order" class="button button--action"/></td>
+                                </tr>                              
+                            </tbody>
+                        </table>
+                    </form>
+                    <?php
+                }
+            ?>
+        </div>
+    </div>
+
+    <?php
 }

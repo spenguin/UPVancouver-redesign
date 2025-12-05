@@ -44,6 +44,7 @@ class Order_note
                     $orderTotal = 0; 
                     foreach($this->_note  as $key => $args ) { 
                         if( $key =='fees' ) continue;
+                        if( $key == "customer_contact" ) continue;
                         if( $args == 'changed' ) continue; 
                         if( $args['quantity'] == 0 ) continue;
                         $showCharge = $args['quantity'] * $args['misha_custom_price'];
@@ -68,7 +69,7 @@ class Order_note
                                 <?php else: ?>
                                     Donation
                                 <?php endif; ?>
-                                <?php echo $args['name'] . ($args['misha_custom_price'] < 0 ) ? '(&dollar;' . abs($args['misha_custom_price']) . ')' : ' &dollar;' . $args['misha_custom_price']; ?>
+                                <?php echo $args['name']; ?> <?php echo ($args['misha_custom_price'] < 0 ) ? '(&dollar;' . abs($args['misha_custom_price']) . ')' : ' &dollar;' . $args['misha_custom_price']; ?>
                             </td>
                             <td>
                                 <?php echo $args['quantity']; ?>

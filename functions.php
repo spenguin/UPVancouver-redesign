@@ -46,6 +46,7 @@ require_once CORE_INC . 'ticket-admin-functions.php';
 require_once CORE_INC . 'performance-report-functions.php';
 require_once CORE_INC . 'order-note.class.php';
 require_once CORE_INC . 'performance-fns.class.php';
+require_once CORE_INC . 'email-fns.class.php';
 
 
  /**
@@ -67,3 +68,8 @@ function upvancouver_enqueue_scripts()
 
 // Removing front end admin bar because it's ugly
 add_filter('show_admin_bar', '__return_false');
+
+add_action( 'wp_mail_failed', '\Core\log_wp_mail_errors', 10, 1 );
+function log_wp_mail_errors( $wp_error ) {
+    error_log( 'WP Mail Error: ' . print_r( $wp_error, true ) );
+}

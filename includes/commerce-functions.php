@@ -20,6 +20,7 @@ add_action( 'init', 'misha_register_pay_at_box_office_status' );
 add_filter( 'wc_order_statuses', 'misha_add_status_to_list' );
 // add_action( 'woocommerce_email_order_meta', 'add_invoice_notes', 15 );
 add_filter( 'woocommerce_checkout_fields', 'md_custom_woocommerce_checkout_fields' );
+add_action( 'woocommerce_after_checkout_billing_form', 'pre_shipping_address_note' );
 
 use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController;
 
@@ -346,4 +347,9 @@ function md_custom_woocommerce_checkout_fields( $fields )
     $fields['order']['order_comments']['label'] = 'Accessibility notes (if applicable):';
 
     return $fields;
+}
+
+
+function pre_shipping_address_note() {
+    echo '<div class="notice">Please note: Orders for Performance Tickets will be held at the Box Office, and do not need a Shipping Address.</div>';
 }

@@ -70,6 +70,7 @@ function weirdspace_filter_posts_columns( $columns ) {
             'preview'   => __( 'Preview' ),
             'talkback'  => __( 'Talkback' ),
             'sales'     => __( 'Sales'),
+            'sold_out'  => __( 'Sold Out' ),
             'report'    => __( 'Report' ),
     ];
     return $columns;
@@ -99,6 +100,9 @@ function weirdspace_show_column( $column, $post_id )
             $tickets_sold = get_post_meta( $post_id, 'tickets_sold', TRUE );
             $ticket_count = \performance_fns::count_tickets_sold($tickets_sold);
             echo empty($ticket_count) ? 0 : $ticket_count;
+            break;
+        case 'sold_out':
+            echo isset($custom['sold_out']) ? ($custom['sold_out'][0] ?  '<span class="tick">&#10004;</span>' : '' ) : '';
             break;
         case 'report':
             echo '<a href="/performance-report/?performance_id=' . $post_id . '" target="_blank">Report</a>';

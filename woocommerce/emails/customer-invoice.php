@@ -98,6 +98,8 @@ if ( $additional_content ) {
 }
 ?>
 
+<p>Please note: Orders for Performance Tickets will be held at the Box Office, and do not need a Shipping Address. </p>
+
 <?php
 /**
  * Executes the email footer.

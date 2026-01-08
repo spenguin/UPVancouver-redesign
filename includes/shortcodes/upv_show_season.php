@@ -26,20 +26,9 @@ function upv_show_season( $atts = [], $content = null, $tag = '' )
     }
 
     // First, let's get the Season
-    $showObj    = get_season_shows($season, $override, $shows); 
+    $showObj    = showFns::getSeasonShows($season, $override, $shows); 
 
-
-    // return;
-    // $season  = get_current_season($shows); 
-    
-    // $args   = [
-    //     'post_type' => 'show',
-    //     'posts_per_page'    => -1
-    // ];
-
-    // $query = new WP_Query( $args );
-    // if( $query->have_posts() ): 
-        ob_start();
+    ob_start();
     ?>
         <section class="season">
             <?php echo $content; ?>

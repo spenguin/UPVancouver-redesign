@@ -12,8 +12,8 @@ function upv_ticket_admin()
         
     } else {
 
-        $show_titles    = get_show_titles();
-        $tickets        = getSingleShowTickets(); 
+        $show_titles    = showFns::getShowTitles();
+        $tickets        = ticketFns::getSingleShowTickets(); 
 
         $message        = "";
 
@@ -236,7 +236,7 @@ function organise_performance_dates( $showTitle, $date_time )
 { 
     // $date = strtotime($date);  
     $show           = get_post_by_title($showTitle, NULL, 'show' ); 
-    $performances   = performance_fns::get_performance_dates( $show->ID );//getPerformanceDates( $show->ID ); //pvd($performances);
+    $performances   = performanceFns::getPerformanceDates( $show->ID ); //pvd($performances);
     $o              = [];
     foreach( $performances as $performance)
     {   

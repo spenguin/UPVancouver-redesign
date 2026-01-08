@@ -23,7 +23,7 @@ function show_filter()
     if( is_admin() && $screen->id == 'edit-performance' )
     {   
         global $post_type;  // Do I need this?
-        $titles     = get_show_titles(); 
+        $titles     = siteFns::getShowTitles(); 
         $show_filter= isset($_GET['show_filter']) ? $_GET['show_filter'] : '';
         ?>
             <select name="show_filter">

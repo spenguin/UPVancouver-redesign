@@ -2,8 +2,19 @@
 /**
  * Performance Functions class
  */
-class performance_fns
+class performanceFns
 {
+    static function initialise()
+    {
+        add_filter( 'query_vars', ['performanceFns','addCustomQueryVar'] );
+    }
+
+    static function addCustomQueryVar( $vars )
+    {
+        $vars[] = "performance_id";
+        return $vars;
+    }
+    
     public static function count_tickets_sold( $tickets )
     {
         $count = 0;
@@ -29,12 +40,12 @@ class performance_fns
      * @return (array) performanceData
      */
 
-    public static function get_performance_dates( $showId = NULL )
+    public static function getPerformanceDates( $showId = NULL )
     {
         if( is_null( $showId ) || $showId < 0 ) return [];
 
         // Get ticket sales proximity value and start time proximity value (Hard coded for now)
-        $tickets_sold_margin = 10;
+        $tickets_sold_margin = 10; //FIX
         $performance_start_margin = 2 *60 * 60;
         $show_seats = get_post_meta( $showId, 'show_seats', TRUE );
         
@@ -52,33 +63,29 @@ class performance_fns
         $o = [];
         $currentTimestamp   = time() - 8 * 60 * 60; //FIX!!
         if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post();
-                $date_time  = get_the_title(); //pvd($date_time);
+                $date_time  = get_the_title();
                 // if( strtotime($date) < time() ) continue;
                 if( $date_time < $currentTimestamp ) continue;
                 $post_id    = get_the_ID();
                 $custom     = get_post_custom($post_id);
-                // $date       = strtotime(get_the_title());
-                // $o[$post_id]  = [
                 $o[$date_time]  = [
                     'id'        => $post_id,
                     'date_time' => $date_time,
-                    'date'      => date('d M Y', (int) $date_time),
+                    'performance_date'  => date('d M Y', (int) $date_time),
                     'performance_time'  => date( 'h:i a', (int) $date_time ),
                     'preview'   => isset($custom['preview']) ? $custom['preview'][0] : '',
                     'talkback'  => isset($custom['talkback']) ? $custom['talkback'][0] : '',
-                    // 'performance_time'  => isset($custom['performance_time']) ? $custom['performance_time'][0] : '',
                     'sold_out'  => isset($custom['sold_out']) ? $custom['sold_out'][0] : ''
                 ];
                 // Challenge Sold Out
                 if( empty($o[$date_time]['sold_out'] ) )
                 {
-                    
                     if( $currentTimestamp >= ( $date_time - $performance_start_margin ) )
                     {
                         $o[$date_time]['sold_out'] = '1';
                     }
                     $tickets_sold = get_post_meta( $post_id, 'tickets_sold', TRUE );
-                    $ticket_count = \performance_fns::count_tickets_sold($tickets_sold);
+                    $ticket_count = self::count_tickets_sold($tickets_sold);
                     if( ( $show_seats - $ticket_count ) < $tickets_sold_margin )
                     {
                         $o[$date_time]['sold_out'] = '1';

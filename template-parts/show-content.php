@@ -22,24 +22,24 @@ $comp_notice        = get_post_by_title('Notice regarding comps', "content");
 
 <?php
     // Get the page components based on the show title
-    $content    = organise_show_content($post->post_title);
+    $content    = showFns::organiseShowContent($post->post_title);
     ?>
     <div class="show-page">
         <div class="show-page__main">
             <?php echo isset($content['main']) ? apply_filters('the_content', $content['main'] ) : ''; ?>
             <div class="show-page__main-images">
-                <?php echo show_production_photos($post->ID); ?>
+                <?php //echo show_production_photos($post->ID); ?>
             </div>
         </div>
        
         <div class="show-page__sidebar">
             <div class="show-page__sidebar--cast">
                 <h3>Cast</h3>
-                <?php echo isset($content['main']) ? apply_filters('the_content', $content['cast'] ) : ''; ?>
+                <?php echo isset($content['cast']) ? apply_filters('the_content', $content['cast'] ) : ''; ?>
             </div>
             <div class="show-page__sidebar--production">
                 <h3>Production</h3>
-                <?php echo isset($content['main']) ? apply_filters('the_content', $content['production'] ) : ''; ?>
+                <?php echo isset($content['production']) ? apply_filters('the_content', $content['production'] ) : ''; ?>
             </div>
         </div>
 

@@ -26,7 +26,7 @@
 
             <div class="footer__acknowledgement">
                 <?php
-                    echo get_post_by_title('Acknowledgement');
+                    echo siteFns::getPostByTitle('Acknowledgement');
                 ?>
             </div> 
             <div class="footer__fine-print--wrapper">

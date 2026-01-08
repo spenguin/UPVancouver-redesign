@@ -1,10 +1,10 @@
 <?php
 /**
- * Minimal WP Theme
+ * United Players of Vancouver
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
- * @package Minimal WP Theme
+ * @package UPV Theme
  */
 
 namespace Core;
@@ -30,24 +30,30 @@ if (!defined('_S_VERSION')) {
 
 require_once CORE_INC . 'image-settings.php';
 require_once CORE_INC . 'tools.php';
-require_once CORE_INC . 'site-functions.php';
+// require_once CORE_INC . 'site-functions.php';
+require_once CORE_INC . 'siteFns.class.php';
 require_once CORE_INC . 'widgets.php';
 require_once CORE_INC . 'custom-posts.php';
 require_once CORE_INC . 'custom-settings.php';
 require_once CORE_INC . 'shortcodes.php';
-require_once CORE_INC . 'performance-functions.php';
-require_once CORE_INC . 'ticket-functions.php';
+// require_once CORE_INC . 'performance-functions.php';
+require_once CORE_INC . 'performanceFns.class.php';
+// require_once CORE_INC . 'ticket-functions.php';
+require_once CORE_INC . 'ticketFns.class.php';
 require_once CORE_INC . 'commerce-functions.php';
-require_once CORE_INC . 'show-functions.php';
+// require_once CORE_INC . 'show-functions.php';
+require_once CORE_INC . 'showFns.class.php';
 require_once CORE_INC . 'user-functions.php';
 require_once CORE_INC . 'admin-css.php';
 require_once CORE_INC . 'custom-show-settings.php';
 require_once CORE_INC . 'ticket-admin-functions.php';
 require_once CORE_INC . 'performance-report-functions.php';
 require_once CORE_INC . 'order-note.class.php';
-require_once CORE_INC . 'performance-fns.class.php';
 require_once CORE_INC . 'email-fns.class.php';
 
+
+\siteFns::initialise();
+\performanceFns::initialise();
 
  /**
  * Enqueue scripts and styles.

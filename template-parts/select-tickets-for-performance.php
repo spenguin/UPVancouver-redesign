@@ -1,10 +1,10 @@
 <?php
 /** Render performance dates and corresponding tickets for a specific show */
 $showId         = $post->post_type == "show" ? $post->ID : -1; 
-$performances   = performance_fns::get_performance_dates( $post->ID );//getPerformanceDates( $post->ID );
-$tickets        = getTickets($showId);
+$performances   = performanceFns::getPerformanceDates( $post->ID );
+$tickets        = ticketFns::getTickets($showId);
 $string         = $showId < 0 ? "Season Tickets" : "Show Tickets";
-$isTicketSpecialAvailable   = $showId < 0 ? isTicketSpecialAvailable() : FALSE;
+$isTicketSpecialAvailable   = $showId < 0 ? ticketFns::isTicketSpecialAvailable() : FALSE;
 
 // pvd($tickets);
 // pvd($performances);

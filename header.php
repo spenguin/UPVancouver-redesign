@@ -9,7 +9,7 @@
  *
  * @package UPVancouver
  */
-$page_class = get_page_class_by_title(get_the_title());
+$page_class = ''; //get_page_class_by_title(get_the_title());
 
 ?>
 <!doctype html>

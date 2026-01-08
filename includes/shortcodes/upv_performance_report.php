@@ -16,7 +16,7 @@ function upv_performance_report()
     }
     
     $tickets_sold   = get_post_meta($performance_id,'tickets_sold', TRUE); //pvd($tickets_sold);
-    $ticket_types   = getSingleShowTickets(); 
+    $ticket_types   = ticketFns::getSingleShowTickets(); 
     $statuses       = [
         'processing'    => 'Pay at Box Office',
         'complete'      => 'Paid',

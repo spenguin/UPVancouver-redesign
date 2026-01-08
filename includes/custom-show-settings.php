@@ -1,24 +1,25 @@
 <?php
 /**
- * Custom Settings for Show Custom Post Type
+ * Custom Settings for Display New Season
  */
 
 add_action( 'admin_menu', 'show_settings_submenu' );
 
 function show_settings_submenu(){
  
-     add_submenu_page(
+    add_submenu_page(
          'options-general.php', // parent page slug
-         'Display Upcoming Season display_next_season Settings',
-         'Show Settings',
+         'Display Upcoming Season Settings',
+         'New Season Display Settings',
          'manage_options',
          'show_settings',
          'show_settings_page_callback',
          10 // menu position
-     );
+    );
  }
  
- function show_settings_page_callback(){
+function show_settings_page_callback()
+{
     ?>
     <div class="wrap">
         <h1><?php echo get_admin_page_title() ?></h1>
@@ -30,18 +31,12 @@ function show_settings_submenu(){
             ?>
         </form>
     </div>
-
-<!-- 
-    <label for="display_next_season">New Season Shows Control<br>
-        <input type="radio" name="display_next_season" value="0"> Display New Season</input><br>
-        <input type="radio" name="display_next_season" value="1">Suppress New Season</input>
-    </label> -->
     <?php
-
- }
+}
 
 add_action( 'admin_init',  'show_settings_fields' );
-function show_settings_fields(){
+function show_settings_fields()
+{
 
 	// I created variables to make the things clearer
 	$page_slug = 'show_settings';
@@ -70,7 +65,7 @@ function show_settings_fields(){
 }
 
 // custom callback function to print radio field HTML
-function show_settings_radio( $args ) { //pvd($_POST);
+function show_settings_radio( $args ) { 
     if( isset($_POST['submit']))
     {
         $display_next_season = isset($_POST['display_next_season'] ) ? $_POST['display_next_season'] : 1; 

@@ -67,10 +67,34 @@ function performance_settings_init()
             ]          
         )
     );
+
+    add_settings_field(
+        'sold_out_margin',
+        __('Sold Out Performance Ticket Margin', 'performance' ),
+        'performance_sold_out_ticket_margin_cb',
+        'performance',
+        'performance_section_developers',
+        [
+            [
+                'label_for' => 'performance_sold_out_ticket_margin',
+                'class'     => 'performance_sold_out_ticket_margin',
+                'performance_sold_out_ticket_margin_data'   => 'custom'
+            ]      
+        ]
+    );    
 }
 
 
 add_action('admin_init', 'performance_settings_init');
+
+function performance_sold_out_ticket_margin_cb($args)
+{
+    $options = get_option('performance_options');
+    ?>
+    <label for="<?php echo esc_attr($args[0]['label_for']); ?>">Performance Sold Out Margin</label>
+    <input type="number" name="performance_options[<?php echo esc_attr($args[0]['label_for']); ?>]" value="<?php echo isset( $options[$args[0]['label_for']] ) ? $options[$args[0]['label_for']] : 0; ?>" />
+    <?php
+}
 
 function performance_season_ticket_settings_cb($args)
 {

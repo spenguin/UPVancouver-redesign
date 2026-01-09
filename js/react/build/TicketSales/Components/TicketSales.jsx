@@ -15,24 +15,20 @@ import TicketSalesOrder from "./_TicketSalesOrder.jsx";
 import "../../TicketSales/css/ticketsales.css";
 
 
-const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable}) => {//console.log('showId', showId); console.log('performances', performances );//console.log('tickets', tickets); 
+const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable}) => {
 
     // set State vars
     const [selectedPerformance, setSelectedPerformance] = useState('');
-    // const [performanceTickets, setPerformanceTickets]   = useState([]);
     const [ticketData, setTicketData]                   = useState(showId > 0 ? null : tickets); 
     const [localTickets, setLocalTickets]               = useState(ticketData);
 
     useEffect(()=>{//console.log('selectedPerformance', selectedPerformance );
         if(selectedPerformance.length) {
             var tmp = {};
-            // performance = performances.filter( p =>p.id == selectedPerformance );
-            // {performance.preview
             {performances[selectedPerformance].preview
                 ? tmp = tickets.filter( ticket => ticket.name.indexOf('Preview') == 0 )
                 : tmp = tickets.filter( ticket => ticket.name.indexOf('Preview') != 0 )
             }
-            // setPerformanceTickets(tmp);
             setTicketData(tmp)
 
         }
@@ -54,10 +50,9 @@ const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable}) 
                         <p>Note: You must already be a Season Subscriber to select a Season Subscriber Ticket.<br></br><a href="/seasons-tickets">Seasons Tickets</a></p>
                     }
                     <TicketSalesTickets
-                        // tickets         ={performanceTickets}
                         ticketData      = {ticketData}
                         isTicketSpecialAvailable   = {isTicketSpecialAvailable}
-                        setTicketData   = {setTicketData}
+                        // setTicketData   = {setTicketData}
                         setLocalTickets = {setLocalTickets}
                     ></TicketSalesTickets>
 

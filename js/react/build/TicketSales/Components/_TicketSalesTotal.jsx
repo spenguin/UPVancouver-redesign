@@ -18,12 +18,6 @@ return (
                 <span> less 50% discount (applied at Cart)</span>
             }
         </div>
-        {/* <div className="ticket-totals__order">
-            <form method="post" action="./cart">
-                <input type="hidden" name="ticketData" value={tickets} />
-                <input type="submit" className="button" name="order" value="Place Order" />
-            </form>
-        </div> */}
     </div>
 )
 

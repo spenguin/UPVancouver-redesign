@@ -235,7 +235,7 @@ function upv_ticket_admin()
 function organise_performance_dates( $showTitle, $date_time )
 { 
     // $date = strtotime($date);  
-    $show           = get_post_by_title($showTitle, NULL, 'show' ); 
+    $show           = siteFns::getPostByTitle($showTitle, NULL, 'show' ); 
     $performances   = performanceFns::getPerformanceDates( $show->ID ); //pvd($performances);
     $o              = [];
     foreach( $performances as $performance)

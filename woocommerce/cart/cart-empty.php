@@ -25,7 +25,7 @@ if ( wc_get_page_id( 'shop' ) > 0 ) : ?>
 
     <section class="shopping-cart max-wrapper__narrow">
         <h2>Tickets & Reservationstest</h2>
-        <?php echo get_post_by_title('Shopping Cart Intro'); ?>
+        <?php echo siteFns::getPostByTitle('Shopping Cart Intro'); ?>
         <!-- <?php //if( count(WC()->cart->cart_contents ) == 0): ?> -->
              <p>Your Shopping Cart is empty.</p>
              <a href="/" class="button button--information">Continue Shopping</a> 

@@ -7,7 +7,7 @@ $directing_credits  = get_post_meta($post->ID, 'directing_credits', true);
 $writing_credits    = get_post_meta($post->ID, 'writing_credits', true);
 $end_date           = get_post_meta($post->ID, 'end_date', true); //var_dump($end_date);
 $tickets_available  = $end_date >= date('Y-m-d'); 
-$comp_notice        = get_post_by_title('Notice regarding comps', "content");
+$comp_notice        = siteFns::getPostByTitle('Notice regarding comps', "content");
 
 ?>
 <div class="credits">

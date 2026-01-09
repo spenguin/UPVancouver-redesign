@@ -6,15 +6,17 @@
 class Order_note 
 {
     public $_note  = [];
+    public $_order_id;
     
     function __construct($order_id)
     {
-        $this->_note    = $this->get_order_note($order_id);
+        $this->_order_id    = $order_id;
+        $this->_note        = $this->get_order_note($order_id);
     }
 
-    function get_order_note($order_id)
+    function get_order_note()
     {
-        $tmp    = get_post_meta( $order_id, 'custom_field_name', TRUE ); 
+        $tmp    = get_post_meta( $this->order_id, 'custom_field_name', TRUE ); 
 
         if(empty($tmp)) return '';
         $tmp    = unserialize(base64_decode($tmp)); 
@@ -22,10 +24,10 @@ class Order_note
         return $tmp;
     }
 
-    function set_order_note( $order_id, $note )
+    function set_order_note( $note )
     {
         $tmp    = base64_encode(serialize($note)); 
-        update_post_meta( $order_id, 'custom_field_name', $tmp );
+        update_post_meta( $this->_order_id, 'custom_field_name', $tmp );
     }
 
     function render_order_note_table()

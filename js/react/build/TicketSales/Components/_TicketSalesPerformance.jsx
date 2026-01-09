@@ -31,7 +31,7 @@ const TicketSalesPerformance = ({performance, selectedPerformance, setSelectedPe
                     }
                 </div>
                 <div className="performance__select--datetime">
-                    {performance.date}<br />
+                    {performance.performance_date}<br />
                     {performance.performance_time}
                 </div>               
             </div>

@@ -113,4 +113,12 @@ class performanceFns
         }  
         return $tickets_sold;
     }
+
+    static function getShowTitleByPerformanceDate( $date )
+    {
+        $performance= siteFns::getPostByTitle($date, '', 'performance' ); 
+        $showId     = get_post_meta($performance->ID,"show_id",true);
+        $show       = get_post( $showId );
+        return $show->post_title;
+    }    
 }

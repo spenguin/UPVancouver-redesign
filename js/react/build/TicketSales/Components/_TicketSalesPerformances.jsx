@@ -8,14 +8,7 @@ import React, { useState, useEffect } from "react";
 import TicketSalesPerformance from "./_TicketSalesPerformance.jsx";
 
 
-const TicketSalesPerformances = ({performances, setSelectedPerformance, selectedPerformance}) => { //console.log('performances', performances);
-
-
-    // set vars
-    // performances.sort((a,b) => a.date_time.localeCompare(b.date_time));
-    // let performances = Object.fromEntries(
-    // Object.entries(performances).sort(([, a], [, b]) => b - a)
-// );
+const TicketSalesPerformances = ({performances, setSelectedPerformance, selectedPerformance}) => {
 
     // set functions
     const revealPerformances = () => {
@@ -29,7 +22,7 @@ const TicketSalesPerformances = ({performances, setSelectedPerformance, selected
                 <button className="select-performance__button button button--action" onClick={revealPerformances}>Change the date</button>
             }
             <div className="select-performance__list">
-                {Object.keys(performances).map((p, i)=>{ //console.log(performances[p].date);
+                {Object.keys(performances).map((p, i)=>{
                     return (
                     <TicketSalesPerformance
                         performance         = {performances[p]}

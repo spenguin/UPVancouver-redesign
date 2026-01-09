@@ -146,7 +146,16 @@ function renderShoppingCartLogo()
 
 function decodeTicketData($performance)
 {
-    return json_decode( str_replace('\\"', '"', $_POST['ticketData']) ); 
+    $data   = json_decode( str_replace('\\"', '"', $_POST['ticketData']) );
+    $o      = [];
+    foreach( $data as $d )
+    {
+        if( $d->quantity > 0 )
+        {
+            $o[]    = $d;
+        }
+    }
+    return $o;
 }
 
 /**
@@ -224,7 +233,7 @@ function misha_add_status_to_list( $order_statuses ) {
  */
 function add_invoice_notes()
 {
-    $notes = get_post_by_title('Order notes');
+    $notes = siteFns::getPostByTitle('Order notes');
     return $notes;
 }
 

@@ -6,8 +6,9 @@
 
 function upv_cart()
 { 
-    if( isset($_POST['ticketData'] ) ) { //pvd($_POST);
-        $ticketsOrdered = decodeTicketData($_POST['ticketData']); //die(pvd($ticketsOrdered));
+    if( isset($_POST['ticketData'] ) && ($_POST['ticketData'] != "null" ) ) 
+    { //pvd($_POST);
+        $ticketsOrdered = decodeTicketData($_POST['ticketData']); 
         $selectedPerformanceTitle  = $_POST['selectedPerformance']; 
         $isTicketSpecialAvailable   = FALSE;
         if( empty($selectedPerformanceTitle) )
@@ -20,16 +21,10 @@ function upv_cart()
             $seasonTicketsOrdered       = [];
 
         } else {
-            // $selectedPerformance    = get_post($selectedPerformanceTitle); 
-            $selectedPerformance    = get_post_by_title($selectedPerformanceTitle);
+            $selectedPerformance    = siteFns::getPostByTitle($selectedPerformanceTitle);
             $performanceDate        = date( 'd M Y', (int) $selectedPerformanceTitle );
             $performanceTime        = date( 'h:i a', (int) $selectedPerformanceTitle );
-            // $performanceDate        = $selectedPerformance->date;
-            // Get show that corresponds to the selected Date
-            // $performanceMeta        = get_post_meta($selectedPerformanceId); 
-            // $showTime               = $performanceMeta['performance_time'][0];
-            // $showTitle              = get_the_title($performanceMeta['show_id'][0]); 
-            $showTitle              = get_show_title_by_performance_date($selectedPerformanceTitle);
+            $showTitle              = performanceFns::getShowTitleByPerformanceDate($selectedPerformanceTitle);
         }
 
         $seasonTicketsOrdered   = [];
@@ -94,7 +89,7 @@ function upv_cart()
     ?>
     <section class="shopping-cart max-wrapper__narrow">
         <h2>Tickets & Reservations</h2>
-        <?php echo get_post_by_title('Shopping Cart Intro'); ?>
+        <?php echo siteFns::getPostByTitle('Shopping Cart Intro'); ?>
         <?php if( empty($_SESSION['cart']) ): ?>
             <p>Your Shopping Cart is empty.</p>
         <?php else: ?>

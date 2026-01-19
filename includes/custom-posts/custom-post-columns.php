@@ -97,15 +97,23 @@ function weirdspace_show_column( $column, $post_id )
             echo $showPost->post_title;  
             break;          
         case 'sales':
-            $tickets_sold = get_post_meta( $post_id, 'tickets_sold', TRUE );
-            $ticket_count = \performance_fns::count_tickets_sold($tickets_sold);
+            $tickets_sold = get_post_meta( $post_id, 'tickets_sold', TRUE ); 
+
+            if(array_key_exists( 'count', $tickets_sold ) )
+            {
+                $tickets_sold   = update_tickets_sold( $tickets_sold, $post_id );
+                update_post_meta( $post_id, 'tickets_sold', $tickets_sold );
+            }
+
+            $ticket_count = \performance_fns::count_tickets_sold( $tickets_sold );
             echo empty($ticket_count) ? 0 : $ticket_count;
+
             break;
         case 'sold_out':
             echo isset($custom['sold_out']) ? ($custom['sold_out'][0] ?  '<span class="tick">&#10004;</span>' : '' ) : '';
             break;
         case 'report':
-            echo '<a href="/performance-report/?performance_id=' . $post_id . '" target="_blank">Report</a>';
+            echo '<a href="' . site_url() . '/performance-report/?performance_id=' . $post_id . '" target="_blank">Report</a>';
             break;
         case 'date_time':
             if( !empty($post_title = get_the_title( $post_id ) ) )
@@ -141,6 +149,38 @@ function performances_columns_orderby( $query )
     }
 
 }
+
+    /**
+     * @since 10 January 2026
+     * Update Tickets Sold for any given Performance Date/Time
+     * Function is temporary measure to correct Ticket Count
+     */
+    function update_tickets_sold( $tickets_sold, $performance_id )
+    {
+        $performance_title  = get_the_title( $performance_id );
+        unset( $tickets_sold['count'] );
+        $o  = [];
+        foreach( $tickets_sold as $order_id => $tickets )
+        {
+            // Test the actual Order
+            $order_note = new \Order_note($order_id);
+            $note       = $order_note->_note; 
+            $count      = 0;
+            foreach( $note as $key => $value )
+            {
+                if( $key =="boxoffice" ) continue;
+                if( $key == "fees" ) continue; 
+                if( !is_array($value) ) continue;
+                if( !array_key_exists( 'date', $value) ) continue; 
+                if( $performance_title != (string) strtotime( $value['date'] . ' ' . $value['time'] ) ) continue;
+                $count += $value['quantity'];
+            }
+            if( $count == 0 ) continue;
+            $o[$order_id]   = $count;
+        }
+
+        return $o;
+    }
 
 
   

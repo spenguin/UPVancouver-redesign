@@ -4,18 +4,16 @@
  */
 class performance_fns
 {
-    public static function count_tickets_sold( $tickets )
-    {
+    public static function count_tickets_sold( $tickets_sold )
+    { 
         $count = 0;
-        if( empty($tickets) ) return $count;
-        foreach( $tickets as $orderId => $order )
+        if( empty($tickets_sold) ) return $count;
+
+        foreach( $tickets_sold as $order_count )
         {
-            if( $orderId == "count" ) continue;
-            foreach( $order as $order_count )
-            {
-                $count += $order_count;
-            }
+            $count += $order_count;
         }
+
         return $count;
     }
 
@@ -106,4 +104,6 @@ class performance_fns
         }  
         return $tickets_sold;
     }
+
+
 }

@@ -602,7 +602,7 @@ function save_soldout()
 function order_amend_link()
 {
 ?>
-    <p><a href="/ticket-admin?orderId=<?php echo $_GET['id']; ?>" target="_blank">Amend order</a></p>
+    <p><a href="<?php echo site_url(); ?>/ticket-admin?orderId=<?php echo $_GET['id']; ?>" target="_blank">Amend order</a></p>
 <?php
     
 }

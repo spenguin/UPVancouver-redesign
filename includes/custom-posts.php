@@ -328,10 +328,11 @@ function showName()
 function tickets_sold()
 {
     global $post;
-    $tickets_sold       = get_post_meta($post->ID, 'tickets_sold', TRUE ); //pvd($tickets_sold);
+    $tickets_sold   = get_post_meta($post->ID, 'tickets_sold', TRUE ); //pvd($tickets_sold);
+    $ticket_count   = \performance_fns::count_tickets_sold( $tickets_sold );
 
 ?>
-    <p><?php  echo isset( $tickets_sold['count'] ) ? $tickets_sold['count'] : 0; ?></p>
+    <p><?php  echo $ticket_count; ?></p>
 <?php
 }
 

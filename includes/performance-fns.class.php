@@ -11,6 +11,15 @@ class performance_fns
 
         foreach( $tickets_sold as $order_count )
         {
+            if( is_array($order_count)) 
+            {
+                $tmp = 0;
+                foreach( $order_count as $c )
+                {
+                    $tmp += $c;
+                }   
+                $order_count = $tmp;
+            }
             $count += $order_count;
         }
 

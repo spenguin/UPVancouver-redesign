@@ -56,16 +56,19 @@ function upv_confirm_order()
                     }                        
                     $item['performance_title']  = strtotime( $item['date'] . ' ' . $item['time'] );
                 }
-                // $performance    = get_post_by_title( $item['date'], '', 'performance' ); 
                 $performance    = get_post_by_title( $item['performance_title'], '', 'performance' );
-                // $time           = get_post_meta($performance->ID, 'performance_time', TRUE );
-                $tickets_sold   = performance_fns::get_tickets_sold( $performance->ID );
+                $tickets_sold   = get_post_meta($performance->ID, 'tickets_sold', TRUE ); //pvd($tickets_sold);
+
+
+                // $tickets_sold   = performance_fns::get_tickets_sold( $performance->ID );
                 
                 $order->add_product( wc_get_product( $item['product_id'] ), $item['quantity'] );
                 $order->calculate_totals();
                 $orderId = $order->save(); 
-                $tickets_sold[$orderId][$item['product_id']] = $item['quantity'];
-                $tickets_sold['count']  += $item['quantity']; //die(pvd($tickets_sold));
+                $tickets_sold[$orderId] = $item['quantity'];
+
+                // $tickets_sold[$orderId][$item['product_id']] = $item['quantity'];
+                // $tickets_sold['count']  += $item['quantity']; //die(pvd($tickets_sold));
                 update_post_meta( $performance->ID, 'tickets_sold', $tickets_sold );
 
                 // Add order_note to Order

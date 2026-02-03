@@ -42,18 +42,21 @@ function get_admin_order_note($order_id)
 
 function amend_tickets_sold( $date, $quantity, $order_id )
 {
-    $performance    = get_post_by_title( $date, NULL, 'performance' );
+    $performance    = get_post_by_title( $date, NULL, 'performance' ); 
     $tickets_sold   = get_post_meta( $performance->ID, 'tickets_sold', TRUE ); 
     if( empty($tickets_sold) )
     {
         $tickets_sold           = [];
-        $tickets_sold['count']  = 0;
+        // $tickets_sold['count']  = 0;
     } 
-    $tickets_sold['count'] += $quantity;
+    // $tickets_sold['count'] += $quantity;
     if( !array_key_exists( $order_id, $tickets_sold ))
     {
-        $tickets_sold[$order_id][]    = $quantity;
-    } 
+        $tickets_sold[$order_id]    = $quantity;
+    } else {
+        $tickets_sold[$order_id]    += $quantity;
+    }
+    if( 0 == $tickets_sold[$order_id] ) unset($tickets_sold[$order_id]);
     update_post_meta( $performance->ID, 'tickets_sold', $tickets_sold );
 }
 

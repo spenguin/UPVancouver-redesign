@@ -327,10 +327,11 @@ function showName()
 function tickets_sold()
 {
     global $post;
-    $tickets_sold       = get_post_meta($post->ID, 'tickets_sold', TRUE ); //pvd($tickets_sold);
+    $tickets_sold   = get_post_meta($post->ID, 'tickets_sold', TRUE ); //pvd($tickets_sold);
+    $ticket_count   = \performance_fns::count_tickets_sold( $tickets_sold );
 
 ?>
-    <p><?php  echo isset( $tickets_sold['count'] ) ? $tickets_sold['count'] : 0; ?></p>
+    <p><?php  echo $ticket_count; ?></p>
 <?php
 }
 
@@ -601,7 +602,7 @@ function save_soldout()
 function order_amend_link()
 {
 ?>
-    <p><a href="/ticket-admin?orderId=<?php echo $_GET['id']; ?>" target="_blank">Amend order</a></p>
+    <p><a href="<?php echo site_url(); ?>/ticket-admin?orderId=<?php echo $_GET['id']; ?>" target="_blank">Amend order</a></p>
 <?php
     
 }

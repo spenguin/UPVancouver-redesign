@@ -14,6 +14,7 @@ ReactDOM.render(
         performances= {performances}
         tickets     = {tickets}
         isTicketSpecialAvailable    = {isTicketSpecialAvailable}
+        currentURL  = {currentURL}
     />,
     document.getElementById('TicketSales')
 );

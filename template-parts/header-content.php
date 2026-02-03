@@ -10,17 +10,17 @@ $title              = get_the_title();
     if( $title != "Maintenance" ):
         if( !$override ): ?>
             <div class="header-bar">
-                <a href="/seasons-tickets"><?php echo $options['performance_field_season_ticket_string']; ?></a>
+                <a href="<?php echo site_url(); ?>/seasons-tickets"><?php echo $options['performance_field_season_ticket_string']; ?></a>
             </div>
         <?php endif; ?>
         <div class="primary-navigation">
             <div class="primary-navigation-wrapper max-wrapper">
                 <div class="primary-navigation__left">
-                    <a href="/donate" class="button button-primary-nav button--little">Donate</a>
-                    <a href="/about" class="button button-primary-nav button--little">About</a>
+                    <a href="<?php echo site_url(); ?>/donate" class="button button-primary-nav button--little">Donate</a>
+                    <a href="<?php echo site_url(); ?>/about" class="button button-primary-nav button--little">About</a>
                 </div>
                 <div class="primary-navigation__right">
-                    <a href="/" class="nav nav--icon nav__home"><i class="fa-solid fa-house"></i></a>
+                    <a href="<?php echo site_url(); ?>/" class="nav nav--icon nav__home"><i class="fa-solid fa-house"></i></a>
                     <?php echo $shoppingCartString; ?>
                     <div class="sidebar-btn-wrapper">
                         <input type="checkbox" id="btn" hidden />

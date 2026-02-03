@@ -8,21 +8,21 @@ import React, { useState, useEffect } from "react";
 import TicketSalesPerformances from "./_TicketSalesPerformances.jsx";
 import TicketSalesTickets from "./_TicketSalesTickets.jsx";
 import TicketSalesOrder from "./_TicketSalesOrder.jsx";
-// import Tickets from "../../Tickets/Components/Tickets.jsx";
-
 
 // import css
 import "../../TicketSales/css/ticketsales.css";
 
 
-const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable}) => {
+const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable, currentURL}) => {
 
     // set State vars
     const [selectedPerformance, setSelectedPerformance] = useState('');
     const [ticketData, setTicketData]                   = useState(showId > 0 ? null : tickets); 
     const [localTickets, setLocalTickets]               = useState(ticketData);
 
-    useEffect(()=>{//console.log('selectedPerformance', selectedPerformance );
+    var linkURL = currentURL + '/seasons-tickets'; console.log('link', linkURL);
+
+    useEffect(()=>{
         if(selectedPerformance.length) {
             var tmp = {};
             {performances[selectedPerformance].preview
@@ -47,7 +47,7 @@ const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable}) 
                 <>
                     <h3>Please select your tickets</h3>
                     {!(performances instanceof Array) &&
-                        <p>Note: You must already be a Season Subscriber to select a Season Subscriber Ticket.<br></br><a href="/seasons-tickets">Seasons Tickets</a></p>
+                        <p>Note: You must already be a Season Subscriber to select a Season Subscriber Ticket.<br></br><a href={linkURL}>Seasons Tickets</a></p>
                     }
                     <TicketSalesTickets
                         ticketData      = {ticketData}
@@ -59,6 +59,7 @@ const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable}) 
                     <TicketSalesOrder
                         selectedPerformance = {selectedPerformance}
                         localTickets        = {localTickets}
+                        currentURL          = {currentURL}
                     >
                     </TicketSalesOrder>
                 </>

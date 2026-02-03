@@ -177,8 +177,10 @@ function upv_ticket_admin()
                 <h2>Single Performance Ticket Purchases</h2>
                 <?php if(!empty($message)): ?>
                     <div class="error"><?php echo $message; ?>
-                <?php endif; ?>
-                <form action="/ticket-admin" method="post" class="upv-form">
+                <?php endif; 
+                    $url    = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                ?>
+                <form action="<?php echo $url ?>" method="post" class="upv-form">
                     <label for="show">Which show:
                         <select name="show_title" required>
                             <option value="">Select Show</option>
@@ -252,7 +254,7 @@ function order_id_present()
         
     // Get the order details from the orderId
     $order = wc_get_order( $order_id ); 
-    $order_note     = get_order_note( $order_id ); //die(pvd($order_note));
+    $order_note     = get_order_note( $order_id ); 
     $customer_note  = $order->get_customer_note();
 
     $customer       = get_order_customer( $order );
@@ -283,7 +285,7 @@ function order_id_present()
             $changed    = FALSE;
             foreach($_POST['date'] as $key => $date )
             {
-                if( $order_note[$key]['performance_title'] != $date) //($new_date = date('j M Y',$date ) ) )
+                if( $order_note[$key]['performance_title'] != $date) 
                 {
                     $changed    = TRUE;
                     amend_tickets_sold( $order_note[$key]['performance_title'], -1 * $order_note[$key]['quantity'], $order_id );
@@ -320,8 +322,9 @@ function order_id_present()
                     
                     $total  = 0;
                     $delete = TRUE;
+                    $url    = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                     ?>
-                    <form action="<?php echo get_bloginfo('url') . $_SERVER['REQUEST_URI']; ?>" method="post">
+                    <form action="<?php echo $url ?>" method="post">
                         <table>
                             <thead>
                                 <tr>

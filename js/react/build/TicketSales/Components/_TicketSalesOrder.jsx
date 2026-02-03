@@ -4,11 +4,13 @@
 // import nodes
 import React, { useState, useEffect } from "react";
 
-const TicketSalesOrder = ({selectedPerformance, localTickets}) => { console.log('localTickets', localTickets);
+const TicketSalesOrder = ({selectedPerformance, localTickets, currentURL}) => {
+    var formURL = currentURL + '/cart';
 
     return (
         <div className="ticket-totals__order">
-            <form method="post" action="/cart">
+            <form method="post" action={formURL}>
+                {/* <input type="hidden" name="ticketData" value={tickets} /> */}
                 <input type="hidden" name="ticketData" value={JSON.stringify(localTickets)} />
                 <input type="hidden" name="selectedPerformance" value={selectedPerformance} />
                 <input type="submit" className="button button--action" name="order" value="Place Order" />

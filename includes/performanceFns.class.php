@@ -18,15 +18,22 @@ class performanceFns
     public static function count_tickets_sold( $tickets )
     {
         $count = 0;
-        if( empty($tickets) ) return $count;
-        foreach( $tickets as $orderId => $order )
+        if( empty($tickets_sold) ) return $count;
+
+        foreach( $tickets_sold as $order_count )
         {
-            if( $orderId == "count" ) continue;
-            foreach( $order as $order_count )
+            if( is_array($order_count)) 
             {
-                $count += $order_count;
+                $tmp = 0;
+                foreach( $order_count as $c )
+                {
+                    $tmp += $c;
+                }   
+                $order_count = $tmp;
             }
+            $count += $order_count;
         }
+
         return $count;
     }
 
@@ -45,7 +52,7 @@ class performanceFns
         if( is_null( $showId ) || $showId < 0 ) return [];
 
         // Get ticket sales proximity value and start time proximity value (Hard coded for now)
-        $tickets_sold_margin = 10; //FIX
+        $tickets_sold_margin = 4; // As per email dated 2/2/2026
         $performance_start_margin = 2 *60 * 60;
         $show_seats = get_post_meta( $showId, 'show_seats', TRUE );
         

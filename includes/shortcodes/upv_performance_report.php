@@ -28,7 +28,7 @@ function upv_performance_report()
         return '<p>No tickets sold.</p>';
     }
     ?>
-    <p><a href="/performance-report/?performance_id=<?php echo $performance_id; ?>&download=true">Download CSV</a><p>
+    <p><a href="<?php echo site_url(); ?>/performance-report/?performance_id=<?php echo $performance_id; ?>&download=true">Download CSV</a><p>
     <table class="upv-table order-table">
         <thead>
             <tr>
@@ -41,7 +41,8 @@ function upv_performance_report()
         <tbody>
             <?php
                 foreach( $tickets_sold as $order_id => $tickets )
-                { 
+                {  
+                    if( $order_id == "2427" ) continue;
                     $order          = new WC_Order( $order_id ); 
                     $last_name      = $order->get_billing_last_name();
                     $first_name     = $order->get_billing_first_name();
@@ -50,9 +51,9 @@ function upv_performance_report()
                     $note           = $order->get_customer_note();
                     ?>
                     <tr>
-                        <td><a href="/wp-admin/admin.php?page=wc-orders&action=edit&id=<?php echo $order_id; ?>" target="_blank"><?php echo $name; ?></a></td>
+                        <td><a href="<?php echo site_url(); ?>/wp-admin/admin.php?page=wc-orders&action=edit&id=<?php echo $order_id; ?>" target="_blank"><?php echo $name; ?></a></td>
                         <td><?php echo $statuses[$status]; ?></td>
-                        <td><?php echo array_sum($tickets); ?></td>
+                        <td><?php echo $tickets; ?> <!--array_sum($tickets); ?>--></td>
                         <td><?php echo $note; ?></td>
                     </tr>
                     <?php

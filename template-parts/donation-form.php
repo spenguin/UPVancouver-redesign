@@ -11,7 +11,7 @@ if( !array_key_exists($donation, $_SESSION['cart']) ):
             <label>&dollar;&nbsp;<input type="text" name="donation" /></label>
             <input type="submit" value="Donate" class="button button--action">
             <?php if(!is_page('Donate')): ?>
-                <span><a href="/donate">Learn more about donating to United Players</a></span>
+                <span><a href="<?php echo site_url(); ?>/donate">Learn more about donating to United Players</a></span>
             <?php endif; ?>
         </form>
     </div>

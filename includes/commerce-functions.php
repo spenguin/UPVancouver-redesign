@@ -77,7 +77,7 @@ function upv_session_cart_to_wc_cart()
 function upv_redirect_button()
 {
     ?>
-    <div class="cta--wrapper"><a class="button button--special" href="/cart">Return to Shopping Cart</a></div>
+    <div class="cta--wrapper"><a class="button button--special" href="<?php echo site_url(); ?>/cart">Return to Shopping Cart</a></div>
     <?php
 }
 

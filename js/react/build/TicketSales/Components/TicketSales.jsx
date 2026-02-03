@@ -8,31 +8,25 @@ import React, { useState, useEffect } from "react";
 import TicketSalesPerformances from "./_TicketSalesPerformances.jsx";
 import TicketSalesTickets from "./_TicketSalesTickets.jsx";
 import TicketSalesOrder from "./_TicketSalesOrder.jsx";
-// import Tickets from "../../Tickets/Components/Tickets.jsx";
-
 
 // import css
 import "../../TicketSales/css/ticketsales.css";
 
 
-const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable}) => {//console.log('showId', showId); console.log('performances', performances );//console.log('tickets', tickets); 
+const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable, currentURL}) => {
 
     // set State vars
     const [selectedPerformance, setSelectedPerformance] = useState('');
-    // const [performanceTickets, setPerformanceTickets]   = useState([]);
     const [ticketData, setTicketData]                   = useState(showId > 0 ? null : tickets); 
     const [localTickets, setLocalTickets]               = useState(ticketData);
 
-    useEffect(()=>{//console.log('selectedPerformance', selectedPerformance );
+    useEffect(()=>{
         if(selectedPerformance.length) {
             var tmp = {};
-            // performance = performances.filter( p =>p.id == selectedPerformance );
-            // {performance.preview
             {performances[selectedPerformance].preview
                 ? tmp = tickets.filter( ticket => ticket.name.indexOf('Preview') == 0 )
                 : tmp = tickets.filter( ticket => ticket.name.indexOf('Preview') != 0 )
             }
-            // setPerformanceTickets(tmp);
             setTicketData(tmp)
 
         }
@@ -64,6 +58,7 @@ const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable}) 
                     <TicketSalesOrder
                         selectedPerformance = {selectedPerformance}
                         localTickets        = {localTickets}
+                        currentURL          = {currentURL}
                     >
                     </TicketSalesOrder>
                 </>

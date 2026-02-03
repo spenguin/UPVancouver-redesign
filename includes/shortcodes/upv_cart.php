@@ -151,12 +151,12 @@ function upv_cart()
         <div class="shopping-cart__buttons">
             <?php if( !empty($_SESSION['cart']) ): 
                 if( $orderTotal > 0 ): ?>
-                    <a href="/checkout" class="button button--action">Proceed to Checkout</a>
+                    <a href="<?php echo site_url(); ?>/checkout" class="button button--action">Proceed to Checkout</a>
                 <?php else: ?>
-                    <a href="/confirm-order" class="button button--action">Confirm Order</a>                
+                    <a href="<?php echo site_url(); ?>/confirm-order" class="button button--action">Confirm Order</a>                
                 <?php endif; ?>
             <?php endif; ?>
-            <a href="/" class="button button--information">Continue Shopping</a> 
+            <a href="<?php echo site_url(); ?>" class="button button--information">Continue Shopping</a> 
         </div>
     </section>
 <?php

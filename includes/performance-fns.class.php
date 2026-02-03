@@ -41,7 +41,7 @@ class performance_fns
         if( is_null( $showId ) || $showId < 0 ) return [];
 
         // Get ticket sales proximity value and start time proximity value (Hard coded for now)
-        $tickets_sold_margin = 10;
+        $tickets_sold_margin = 4; // As per email dated 2/2/2026
         $performance_start_margin = 2 *60 * 60;
         $show_seats = get_post_meta( $showId, 'show_seats', TRUE );
         

@@ -135,7 +135,7 @@ function renderShoppingCartLogo()
 {   
     $count = count($_SESSION['cart']); //pvd($count);
     ob_start(); ?>
-        <a href="/cart" class="nav nav--icon nav__shopping"><i class="fas fa-shopping-cart">
+        <a href="<?php echo site_url(); ?>/cart" class="nav nav--icon nav__shopping"><i class="fas fa-shopping-cart">
             <?php if($count > 0 ): ?>
                 <span>&check;</span>
             <?php endif; ?>

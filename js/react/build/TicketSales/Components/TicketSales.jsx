@@ -20,6 +20,8 @@ const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable, c
     const [ticketData, setTicketData]                   = useState(showId > 0 ? null : tickets); 
     const [localTickets, setLocalTickets]               = useState(ticketData);
 
+    var linkURL = currentURL + '/seasons-tickets'; console.log('link', linkURL);
+
     useEffect(()=>{
         if(selectedPerformance.length) {
             var tmp = {};
@@ -45,7 +47,7 @@ const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable, c
                 <>
                     <h3>Please select your tickets</h3>
                     {!(performances instanceof Array) &&
-                        <p>Note: You must already be a Season Subscriber to select a Season Subscriber Ticket.<br></br><a href="/seasons-tickets">Seasons Tickets</a></p>
+                        <p>Note: You must already be a Season Subscriber to select a Season Subscriber Ticket.<br></br><a href={linkURL}>Seasons Tickets</a></p>
                     }
                     <TicketSalesTickets
                         // tickets         ={performanceTickets}

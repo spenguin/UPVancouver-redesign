@@ -8,7 +8,7 @@
                     </div>
                     <div class="footer__connection">
                         <div class="footer__directions">
-                            <div class="cta--wrapper"><a class="button button--action" href="/plan-your-visit">Plan Your Visit</a></div>
+                            <div class="cta--wrapper"><a class="button button--action" href="<?php echo site_url(); ?>/plan-your-visit">Plan Your Visit</a></div>
                         </div>                
                         <div class="footer__subscribe">
                             <p class="footer__subscribe--instructions">Subscribe for updates</p>

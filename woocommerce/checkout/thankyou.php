@@ -67,7 +67,7 @@ defined( 'ABSPATH' ) || exit;
 					// 	$item['performance_title']	= strtotime( $item['date'] . ' ' . $item['time'] );
 					// }
 					
-					$performance	= get_post_by_title($item['performance_title'], NULL, "performance");
+					$performance	= siteFns::getPostByTitle($item['performance_title'], NULL, "performance");
 					$tickets_sold = get_post_meta( $performance->ID, 'tickets_sold', TRUE );
 					if( empty($tickets_sold) )
 					{

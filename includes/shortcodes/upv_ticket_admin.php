@@ -40,7 +40,7 @@ function upv_ticket_admin()
             $performance_date   = $_POST['performance_date'];
             $performance_time   = $_POST['performance_time'];
             $performance_title  = strtotime( $performance_date .  ' ' . $performance_time ); 
-            $performance    = get_post_by_title( $performance_title, '', 'performance' ); 
+            $performance    = siteFns::getPostByTitle( $performance_title, '', 'performance' ); 
             if( is_null($performance) )
             {
                 $error      = TRUE;
@@ -48,7 +48,7 @@ function upv_ticket_admin()
             }
 
             $show_title     = $_POST['show_title'];
-            $show           = get_post_by_title( $show_title, '', 'show' );
+            $show           = siteFns::getPostByTitle( $show_title, '', 'show' );
             $performance_show_id = get_post_meta( $performance->ID, 'show_id', TRUE );
 
             if( $performance_show_id != $show->ID )
@@ -157,9 +157,9 @@ function upv_ticket_admin()
                 if( empty($tickets_sold) )
                 {
                     $tickets_sold           = [];
-                    $tickets_sold['count']  = 0;
+                    // $tickets_sold['count']  = 0;
                 } 
-                $tickets_sold['count']  += $ordered_count;
+                // $tickets_sold['count']  += $ordered_count;
                 $tickets_sold[$orderId] = $tickets_ordered;
                 update_post_meta( $performance->ID, 'tickets_sold', $tickets_sold );
                 $_POST = [];

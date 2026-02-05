@@ -10,7 +10,7 @@ function upv_artistic_director( $atts = [], $content = null, $tag = '' )
         'name' => '',
      ), $atts));
     if( empty($name)) return '';
-    $ad     = get_post_by_title($name, '', 'member' ); 
+    $ad     = siteFns::getPostByTitle($name, '', 'member' ); 
     $url    = get_the_post_thumbnail_url($ad->ID);
     $o      = <<<EOD
         <section class="artistic_director">

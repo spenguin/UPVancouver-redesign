@@ -56,7 +56,7 @@ function upv_confirm_order()
                     }                        
                     $item['performance_title']  = strtotime( $item['date'] . ' ' . $item['time'] );
                 }
-                $performance    = get_post_by_title( $item['performance_title'], '', 'performance' );
+                $performance    = siteFns::getPostByTitle( $item['performance_title'], '', 'performance' );
                 $tickets_sold   = get_post_meta($performance->ID, 'tickets_sold', TRUE ); //pvd($tickets_sold);
 
 
@@ -133,7 +133,7 @@ function upv_confirm_order()
         ?>
         <section class="shopping-cart max-wrapper__narrow">
             <h2>Tickets & Reservations</h2>
-            <?php echo get_post_by_title('Shopping Cart Intro'); ?>
+            <?php echo SiteFns::getPostByTitle('Shopping Cart Intro'); ?>
                 <p>Your Shopping Cart is empty.</p>
                 <a href="/" class="button button--information">Continue Shopping</a> 
         </section>

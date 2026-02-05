@@ -24,7 +24,7 @@ function upv_delete_order()
         $order_line = reset( $order_note ); 
         // Remove order from Performance ticket count
         $date_time      = strtotime( $order_line['date'] . ' ' . $order_line['time'] );
-        $performance    = get_post_by_title( $date_time, '', 'performance' ); //pvd($performance);
+        $performance    = siteFns::getPostByTitle( $date_time, '', 'performance' ); //pvd($performance);
         $tickets_sold   = performance_fns::get_tickets_sold( $performance->ID );//pvd($tickets_sold);
         $tickets_sold['count'] -= $order_line['quantity'];
         unset($tickets_sold[$order_id]); //pvd($tickets_sold);

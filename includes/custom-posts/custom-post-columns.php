@@ -23,7 +23,7 @@ function show_filter()
     if( is_admin() && $screen->id == 'edit-performance' )
     {   
         global $post_type;  // Do I need this?
-        $titles     = siteFns::getShowTitles(); 
+        $titles     = \showFns::getShowTitles(); 
         $show_filter= isset($_GET['show_filter']) ? $_GET['show_filter'] : '';
         ?>
             <select name="show_filter">
@@ -105,7 +105,7 @@ function weirdspace_show_column( $column, $post_id )
                 update_post_meta( $post_id, 'tickets_sold', $tickets_sold );
             }
 
-            $ticket_count = \performance_fns::count_tickets_sold( $tickets_sold );
+            $ticket_count = \performanceFns::count_tickets_sold( $tickets_sold );
             echo empty($ticket_count) ? 0 : $ticket_count;
 
             break;

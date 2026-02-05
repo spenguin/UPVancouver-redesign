@@ -94,10 +94,10 @@ class ticketFns
             $o[get_the_ID()]    = strtolower(get_the_title());
         endwhile; endif; wp_reset_postdata(); 
 
-        $comp   = get_post_by_title('Comp', '', 'product');
+        $comp   = siteFns::getPostByTitle('Comp', '', 'product');
         $o[$comp->ID]   = 'comp'; //$comp->post_title;
 
-        $season = get_post_by_title( 'Season Subscriber', '', 'product' );
+        $season = siteFns::getPostByTitle( 'Season Subscriber', '', 'product' );
         $o[$season->ID] = 'seasons'; //$season->post_title;
     
         wp_reset_postdata();

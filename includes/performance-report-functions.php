@@ -6,7 +6,7 @@
 function array_csv_download( $performance, $filename = "export.csv" )
 { 
     $tickets_sold   = get_post_meta($performance->ID,'tickets_sold', TRUE); //die(pvd($tickets_sold));
-    $tickets        = getSingleShowTickets(); //die(pvd($tickets));
+    $tickets        = ticketFns::getSingleShowTickets(); //die(pvd($tickets));
     $column_headings= [
         // 'name'      => 'Name',
         // 'status'    => 'Paid Status',
@@ -82,8 +82,9 @@ function array_csv_download( $performance, $filename = "export.csv" )
             if( $key == "amended" ) continue; // Are there other keys I need to check for?
             if( $key == "customer_contact" ) continue;
             if( $key == "fees" ) continue;
+            if( $ticket_order['name'] == "Donation" ) continue;
             if( !isset($ticket_order['performance_title'] ) )
-            {
+            { 
                 $ticket_order['performance_title'] = strtotime( $ticket_order['date'] . ' ' . $ticket_order['time'] );
             } 
             if( $ticket_order['performance_title'] != (int) $performance->post_title ) continue; // Not for this performance

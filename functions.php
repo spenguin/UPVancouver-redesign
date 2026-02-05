@@ -50,6 +50,8 @@ require_once CORE_INC . 'ticket-admin-functions.php';
 require_once CORE_INC . 'performance-report-functions.php';
 require_once CORE_INC . 'order-note.class.php';
 require_once CORE_INC . 'email-fns.class.php';
+require_once CORE_INC . 'performance-fns.class.php';
+
 
 
 \siteFns::initialise();

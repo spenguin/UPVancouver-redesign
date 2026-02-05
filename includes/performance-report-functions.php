@@ -8,17 +8,6 @@ function array_csv_download( $performance, $filename = "export.csv" )
     $tickets_sold   = get_post_meta($performance->ID,'tickets_sold', TRUE); //die(pvd($tickets_sold));
     $tickets        = ticketFns::getSingleShowTickets(); //die(pvd($tickets));
     $column_headings= [
-        // 'name'      => 'Name',
-        // 'status'    => 'Paid Status',
-        // 'season'    => 'Season',
-        // 'preview'   => 'Preview',
-        // 'student'   => 'Student',
-        // 'senior'    => 'Senior',
-        // 'adult'     => 'Adult',
-        // 'comp'      => 'Comp',
-        // 'order_note'=> 'Order Note',
-        // 'order_note_admin'      => 'Order Note (Admin)',
-        // 'customer_note_admin'   => 'Customer Note (Admin)'
         'Name',
         'Phone',
         'Paid Status',
@@ -79,6 +68,7 @@ function array_csv_download( $performance, $filename = "export.csv" )
       
         foreach( $order_notes as $key => $ticket_order )
         {
+            if( $ticket_order === TRUE ) continue; // FIX
             if( $key == "amended" ) continue; // Are there other keys I need to check for?
             if( $key == "customer_contact" ) continue;
             if( $key == "fees" ) continue;
@@ -88,7 +78,8 @@ function array_csv_download( $performance, $filename = "export.csv" )
                 $ticket_order['performance_title'] = strtotime( $ticket_order['date'] . ' ' . $ticket_order['time'] );
             } 
             if( $ticket_order['performance_title'] != (int) $performance->post_title ) continue; // Not for this performance
-            $ticket_name = in_array($ticket_order['name'], ['Season', 'Seasons']) ? 'Season' : $ticket_order['name']; // Another kludge
+            // $ticket_name = in_array($ticket_order['name'], ['Season', 'Seasons', 'Season Subsc']) ? 'Season' : $ticket_order['name']; // Another kludge
+            $ticket_name = str_contains( $ticket_order['name'], 'Season' ) ? 'Season' : $ticket_order['name'];
             $value[array_search($ticket_name, $column_headings)]   = $ticket_order['quantity'];
 
         } //die(pvd($value));

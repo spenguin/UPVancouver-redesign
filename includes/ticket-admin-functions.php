@@ -42,7 +42,7 @@ function get_admin_order_note($order_id)
 
 function amend_tickets_sold( $date, $quantity, $order_id )
 {
-    $performance    = get_post_by_title( $date, NULL, 'performance' ); 
+    $performance    = SiteFns::getPostByTitle( $date, NULL, 'performance' ); 
     $tickets_sold   = get_post_meta( $performance->ID, 'tickets_sold', TRUE ); 
     if( empty($tickets_sold) )
     {

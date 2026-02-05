@@ -53,6 +53,7 @@ function upv_performance_report()
                     <tr>
                         <td><a href="<?php echo site_url(); ?>/wp-admin/admin.php?page=wc-orders&action=edit&id=<?php echo $order_id; ?>" target="_blank"><?php echo $name; ?></a></td>
                         <td><?php echo $statuses[$status]; ?></td>
+                        <?php if( is_array($tickets)) $tickets = array_sum($tickets); ?>
                         <td><?php echo $tickets; ?> <!--array_sum($tickets); ?>--></td>
                         <td><?php echo $note; ?></td>
                     </tr>

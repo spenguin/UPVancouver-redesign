@@ -285,6 +285,11 @@ function order_id_present()
             $changed    = FALSE;
             foreach($_POST['date'] as $key => $date )
             {
+                if( !isset($order_note[$key]['performance_title']) )
+                {
+                    $order_note[$key]['performance_title'] = strtotime( $order_note[$key]['date'] . ' ' . $order_note[$key]['time'] );
+                }
+                
                 if( $order_note[$key]['performance_title'] != $date) 
                 {
                     $changed    = TRUE;

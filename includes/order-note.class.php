@@ -16,7 +16,7 @@ class Order_note
 
     function get_order_note()
     {
-        $tmp    = get_post_meta( $this->order_id, 'custom_field_name', TRUE ); 
+        $tmp    = get_post_meta( $this->_order_id, 'custom_field_name', TRUE ); 
 
         if(empty($tmp)) return '';
         $tmp    = unserialize(base64_decode($tmp)); 

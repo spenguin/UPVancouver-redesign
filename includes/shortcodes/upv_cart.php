@@ -16,8 +16,9 @@ function upv_cart()
             $showTitle  = "Seasons Ticket";
             $showTime   = ""; 
             $performanceDate = "";
+            $performanceTime = "";
             // Test for promo
-            $isTicketSpecialAvailable   = isTicketSpecialAvailable(); 
+            $isTicketSpecialAvailable   = ticketFns::isTicketSpecialAvailable(); 
             $seasonTicketsOrdered       = [];
 
         } else {

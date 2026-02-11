@@ -315,7 +315,7 @@ function showName()
 {
     global $post; 
 
-    $showArray  = showFns::getShowTitles(); 
+    $showArray  = \showFns::getShowTitles(); 
     $custom     = get_post_custom($post->ID); 
     $show_id    = isset($custom['show_id']) ? $custom['show_id'][0] : '';
     $dropdown   = create_dropdown($showArray, 'show_id', $show_id );

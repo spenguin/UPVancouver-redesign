@@ -79,10 +79,14 @@ function weirdspace_filter_posts_columns( $columns ) {
 function weirdspace_show_column( $column, $post_id )
 {   
     $custom     = get_post_custom($post_id); 
+    $show_id    = $custom['show_id'][0] ? $custom['show_id'][0] : '';
+    $showPost   = get_post($show_id);
+    $showSeatsAvailable = get_post_meta( $show_id, 'show_seats', TRUE );
+
     switch ($column):
         case 'show':
-            $show_id    = $custom['show_id'][0] ? $custom['show_id'][0] : '';
-            $showPost   = get_post($show_id); 
+            // $show_id    = $custom['show_id'][0] ? $custom['show_id'][0] : '';
+            // $showPost   = get_post($show_id); 
             echo $showPost->post_title;
             break;
         case 'preview':
@@ -92,12 +96,11 @@ function weirdspace_show_column( $column, $post_id )
             echo isset($custom['talkback']) ? ($custom['talkback'][0] ?  '<span class="tick">&#10004;</span>' : '' ) : '';
             break;
         case 'date':
-            $show_id    = $custom['show_id'][0] ? $custom['show_id'][0] : '';
-            $showPost   = get_post($show_id);
+            // $showPost   = get_post($show_id);
             echo $showPost->post_title;  
             break;          
         case 'sales':
-            $tickets_sold = get_post_meta( $post_id, 'tickets_sold', TRUE ); 
+            $tickets_sold = get_post_meta( $post_id, 'tickets_sold', TRUE );
 
             if(array_key_exists( 'count', $tickets_sold ) )
             {
@@ -106,6 +109,7 @@ function weirdspace_show_column( $column, $post_id )
             }
 
             $ticket_count = \performanceFns::count_tickets_sold( $tickets_sold );
+            \performanceFns::challengeSoldOut( $showSeatsAvailable, $ticket_count, $post_id );
             echo empty($ticket_count) ? 0 : $ticket_count;
 
             break;
@@ -157,7 +161,7 @@ function performances_columns_orderby( $query )
      */
     function update_tickets_sold( $tickets_sold, $performance_id )
     {
-        $performance_title  = get_the_title( $performance_id );
+        $performance_title  = get_the_title( $performance_id ); 
         unset( $tickets_sold['count'] );
         $o  = [];
         foreach( $tickets_sold as $order_id => $tickets )

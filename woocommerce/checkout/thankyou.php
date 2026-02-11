@@ -43,7 +43,7 @@ defined( 'ABSPATH' ) || exit;
             <?php 
 				$orderId 	= $order->get_id(); 
 				// $order		= wc_get_order( $orderId ); pvd($order);
-				$user		= $order->get_user(); 
+				$user		= $order->get_user();
 				if( $user == FALSE )
 				{
 					$email = $order->get_billing_email();
@@ -72,15 +72,22 @@ defined( 'ABSPATH' ) || exit;
 					if( empty($tickets_sold) )
 					{
 						$tickets_sold	= [
-							'count'		=> 0
+							// 'count'		=> 0
 						];
 					}
-					if( !isset($tickets_sold[$orderId][$product_id] ) )
+					// if( !isset($tickets_sold[$orderId][$product_id] ) )
+					// {
+					// 	$tickets_sold[$orderId][$product_id]	= $item['quantity'];
+					// 	// $tickets_sold['count']					+= $item['quantity']; 
+					// 	
+					// }
+					if( !isset( $tickets_sold[$orderId] ) )
 					{
-						$tickets_sold[$orderId][$product_id]	= $item['quantity'];
-						$tickets_sold['count']					+= $item['quantity']; 
-						update_post_meta( $performance->ID, 'tickets_sold', $tickets_sold );
+						$tickets_sold[$orderId]	= $item['quantity'];
+					} else {
+						$tickets_sold[$orderId] += $item['quantity'];
 					}
+					update_post_meta( $performance->ID, 'tickets_sold', $tickets_sold );
 				}
 				// Change order status to completed
 				$order->update_status('completed');

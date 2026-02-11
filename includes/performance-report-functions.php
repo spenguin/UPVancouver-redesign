@@ -8,6 +8,17 @@ function array_csv_download( $performance, $filename = "export.csv" )
     $tickets_sold   = get_post_meta($performance->ID,'tickets_sold', TRUE); //die(pvd($tickets_sold));
     $tickets        = ticketFns::getSingleShowTickets(); //die(pvd($tickets));
     $column_headings= [
+        // 'name'      => 'Name',
+        // 'status'    => 'Paid Status',
+        // 'season'    => 'Season',
+        // 'preview'   => 'Preview',
+        // 'student'   => 'Student',
+        // 'senior'    => 'Senior',
+        // 'adult'     => 'Adult',
+        // 'comp'      => 'Comp',
+        // 'order_note'=> 'Order Note',
+        // 'order_note_admin'      => 'Order Note (Admin)',
+        // 'customer_note_admin'   => 'Customer Note (Admin)'
         'Name',
         'Phone',
         'Paid Status',
@@ -37,7 +48,8 @@ function array_csv_download( $performance, $filename = "export.csv" )
         if( $order_id == "count" ) continue;
         $value  = array_fill(0, 10, '' );
 
-        $order_notes    = get_order_note($order_id); 
+        $order_notes    = get_order_note($order_id); //pvd($order_notes);
+        
         // If there's an issue with the Order Notes, echo the Order Id
         if( empty($order_notes) )
         {
@@ -49,7 +61,6 @@ function array_csv_download( $performance, $filename = "export.csv" )
         // Get the customer details first
         $order  = wc_get_order( $order_id ); 
         $email  = $order->get_billing_email();
-        
         
         if( $email == get_option('admin_email') ) // Using default email
         {   
@@ -65,10 +76,10 @@ function array_csv_download( $performance, $filename = "export.csv" )
  
         $value[2]    = array_key_exists( 'boxoffice', $order_notes ) ? 'Box Office' : 'Paid';
         $value[10]    = get_admin_order_note( $order_id ); 
-      
+
         foreach( $order_notes as $key => $ticket_order )
         {
-            if( $ticket_order === TRUE ) continue; // FIX
+            if( $ticket_order === TRUE ) continue; // Fix
             if( $key == "amended" ) continue; // Are there other keys I need to check for?
             if( $key == "customer_contact" ) continue;
             if( $key == "fees" ) continue;
@@ -82,8 +93,8 @@ function array_csv_download( $performance, $filename = "export.csv" )
             $ticket_name = str_contains( $ticket_order['name'], 'Season' ) ? 'Season' : $ticket_order['name'];
             $value[array_search($ticket_name, $column_headings)]   = $ticket_order['quantity'];
 
-        } //die(pvd($value));
-        fputcsv( $handle, $value );
+        } 
+        fputcsv( $handle, $value ); 
     }
 
     fclose( $handle );

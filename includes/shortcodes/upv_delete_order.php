@@ -26,14 +26,14 @@ function upv_delete_order()
         $date_time      = strtotime( $order_line['date'] . ' ' . $order_line['time'] );
         $performance    = siteFns::getPostByTitle( $date_time, '', 'performance' ); //pvd($performance);
         $tickets_sold   = performance_fns::get_tickets_sold( $performance->ID );//pvd($tickets_sold);
-        $tickets_sold['count'] -= $order_line['quantity'];
+        // $tickets_sold['count'] -= $order_line['quantity'];
         unset($tickets_sold[$order_id]); //pvd($tickets_sold);
         update_post_meta( $performance->ID, 'tickets_sold', $tickets_sold ); 
 
         email_fns::customer_delete_order( $order_id, $order );
 
         // Change status of order to Cancelled; should trigger an automatic email
-        // $order->update_status('cancelled');
+        $order->update_status('cancelled');
         echo '<p>Order has been cancelled</p>';
 
     } else {
@@ -49,6 +49,7 @@ function confirm_deleteable($order_note)
     $delete = TRUE;
     foreach( $order_note as $key => $order_line )
     {
+        if( $key == 'amended' ) continue;
         if( !in_array( $order_line['name'], ["Seasons", "Season", "Comp"] ) ) $delete = FALSE;
         
     }

@@ -22,7 +22,7 @@ function set_order_note( $order_id, $note )
 
 function get_order_customer( $order )
 {
-    $billing_email  = $order->get_billing_email(); 
+    $billing_email  = $order->get_billing_email();
     return get_user_by( 'email', $billing_email ); 
 }
 
@@ -44,22 +44,16 @@ function amend_tickets_sold( $date, $quantity, $order_id )
 {
     $performance    = SiteFns::getPostByTitle( $date, NULL, 'performance' ); 
     $tickets_sold   = get_post_meta( $performance->ID, 'tickets_sold', TRUE ); 
-    
     if( empty($tickets_sold) )
     {
         $tickets_sold           = [];
         // $tickets_sold['count']  = 0;
     } 
     // $tickets_sold['count'] += $quantity;
-
     if( !array_key_exists( $order_id, $tickets_sold ))
     {
         $tickets_sold[$order_id]    = $quantity;
     } else {
-        if(is_array($tickets_sold[$order_id] ) )
-        {
-            $tickets_sold[$order_id]    = $tickets_sold[$order_id][0];
-        }
         $tickets_sold[$order_id]    += $quantity;
     }
     if( 0 == $tickets_sold[$order_id] ) unset($tickets_sold[$order_id]);

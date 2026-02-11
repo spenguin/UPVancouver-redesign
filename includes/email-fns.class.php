@@ -20,4 +20,9 @@ class email_fns
 
     }
 
+    public static function showSoldOut( $performanceId )
+    {
+        
+    }
+
 }

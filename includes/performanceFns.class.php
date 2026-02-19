@@ -131,7 +131,7 @@ class performanceFns
 
     static function challengeSoldOut( $showSeatsAvailable, $ticketCount, $performanceId )
     {
-        $ticketsSoldMargin = 10; // As per email dated 2/2/2026
+        $ticketsSoldMargin = 4; // As per email dated 2/2/2026
         if( $showSeatsAvailable - $ticketCount < $ticketsSoldMargin )
         {
             update_post_meta( $performanceId, 'sold_out', TRUE );

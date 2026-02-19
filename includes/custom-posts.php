@@ -271,15 +271,23 @@ function save_show_dates()
         $end        = new \DateTime($end_date);
         $interval   = new \DateInterval('P1D');
         $daterange  = new \DatePeriod($begin, $interval, $end);
+        $matinee_start_time = $options['performance_field_matinee_starttime'];
+        $evening_start_time = $options['performance_field_evening_starttime'];
 
         for ($i = $begin; $i <= $end; $i->modify('+1 day')) {
             $dateTime = $i->format('j M Y');
             $dayofweek  = (date('w', strtotime($dateTime)) + 6) % 7;
             if (isset($options["'m'"][$dayofweek])) {
-                \CustomPosts\create_performance($dateTime, $show_id, $options['performance_field_matinee_starttime']);
+                $performanceTitle = strtotime( $dateTime . ' ' . $matinee_start_time );
+                // \CustomPosts\create_performance($dateTime, $show_id, $options['performance_field_matinee_starttime']);
+                \CustomPosts\create_performance($performanceTitle, $show_id, $options['performance_field_matinee_starttime']);
+
             }
             if (isset($options["'e'"][$dayofweek])) {
-                \CustomPosts\create_performance($dateTime, $show_id, $options['performance_field_evening_starttime']);
+                $performanceTitle = strtotime( $dateTime . ' ' . $evening_start_time );
+                // \CustomPosts\create_performance($dateTime, $show_id, $options['performance_field_evening_starttime']);
+                \CustomPosts\create_performance($performanceTitle, $show_id, $options['performance_field_evening_starttime']);
+
             }
         }
     }
@@ -315,7 +323,7 @@ function showName()
 {
     global $post; 
 
-    $showArray  = showFns::getShowTitles(); 
+    $showArray  = \showFns::getShowTitles(); 
     $custom     = get_post_custom($post->ID); 
     $show_id    = isset($custom['show_id']) ? $custom['show_id'][0] : '';
     $dropdown   = create_dropdown($showArray, 'show_id', $show_id );
@@ -425,6 +433,9 @@ function create_performance($date, $show_id, $time)
     if ($post_id) {
         add_post_meta($post_id, 'show_id', $show_id);
         add_post_meta($post_id, 'performance_time', $time);
+        add_post_meta($post_id, 'tickets_sold', [] );
+        add_post_meta($post_id, 'performance_date', date( 'Y-m-d', $date ) );
+        add_post_meta( $post_id, 'performance_time', date( 'G:i', $date ) );
     }
 }
 

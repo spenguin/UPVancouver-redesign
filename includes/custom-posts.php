@@ -16,6 +16,7 @@ function initialize()
     add_action('save_post_member', '\CustomPosts\save_member_title');
     add_action('save_post_show', '\CustomPosts\save_show_seats');
     add_action('save_post_show', '\CustomPosts\save_show_production_photos');
+    add_action('save_post_show', '\CustomPosts\save_ticket_prices');
     
     // add_action('save_post_show', '\CustomPosts\save_promote_show');
     // add_action('save_post_show', '\CustomPosts\save_show_cast');    
@@ -208,6 +209,7 @@ function admin_init()
     add_meta_box('show_credits_meta', 'Show Credits', '\CustomPosts\show_credits', 'show');
     add_meta_box('show_seats', 'Show Seats', '\CustomPosts\show_seats', 'show', 'side' );
     add_meta_box('show_production_photos', 'Show Production Photos', '\CustomPosts\show_production_photos', 'show' );
+    add_meta_box('show_ticket_prices', 'Show Ticket Prices', '\CustomPosts\show_ticket_prices', 'show' );
 
 
     add_meta_box('show_meta', 'Show Name', '\CustomPosts\showName', 'performance', 'normal');
@@ -417,6 +419,128 @@ function save_show_id()
         $show_id    = isset($_POST['show_id']) ? $_POST['show_id'] : '';
         update_post_meta($post->ID, 'show_id', $show_id);
     }
+}
+
+function show_ticket_prices() {
+    global $post; 
+    $post_id = $post->ID;
+    ?>
+    <h3>Season Prices</h3>
+    <?php
+    /*
+     * Retrieve season ticket names and default prices
+     */
+    $season_args = [
+        'post_type' => 'product',
+        'posts_per_page' => -1,
+        'post_status' => 'publish',
+        'tax_query' => [
+            [
+                'taxonomy'  => 'product_cat',
+                'field'     => 'slug',
+                'terms'     => 'season-ticket'
+             ]
+        ]
+    ]; 
+    $season_query = new WP_Query($season_args); 
+    if ($season_query->have_posts()) :
+        while ($season_query->have_posts()) : $season_query->the_post(); 
+            $price_title = get_the_title();
+            $price_code = 'season-' . strtolower( $price_title );
+            /*
+             * If this is not a newly created show, then we should already have a set of ticket charges. Retrieve those, otherwise get the defaults
+             * from the product prices
+             */
+            $ticket_charge = get_post_meta( $post_id, $price_code, TRUE) ? get_post_meta( $post_id, $price_code, TRUE) : get_post_meta(get_the_ID(), '_regular_price', TRUE);
+            ?>
+            <label for="<?php echo $price_code; ?>"><?php echo $price_title; ?>:</label><br />
+            <input type="text" name="<?php echo $price_code; ?>" value="<?php echo $ticket_charge; ?>" required />  
+            <br />
+            <?php
+        endwhile;
+    endif;
+    ?>
+    <h3>Single Show Prices</h3>
+    <?php
+    /*
+     * Retrieve single show ticket names and default prices
+     */
+    $single_args = [
+        'post_type' => 'product',
+        'post_status' => 'publish',
+        'posts_per_page' => -1,
+        'tax_query' => [
+            [
+                'taxonomy'  => 'product_cat',
+                'field'     => 'slug',
+                'terms'     => 'single-show'
+             ]
+        ]
+    ]; 
+    $single_query = new WP_Query($single_args); 
+    if ($single_query->have_posts()) : 
+        while ($single_query->have_posts()) : $single_query->the_post(); 
+            $price_title = get_the_title();
+            $price_code = 'single-' . strtolower(get_the_title());
+            /*
+             * If this is not a newly created show, then we should already have a set of ticket charges. Retrieve those, otherwise get the defaults
+             * from the product prices
+             */
+            $ticket_charge = get_post_meta( $post_id, $price_code, TRUE) ? get_post_meta( $post_id, $price_code, TRUE) : get_post_meta(get_the_ID(), '_regular_price', TRUE);
+            ?>
+            <label for="<?php echo $price_code; ?>"><?php echo $price_title; ?>:</label><br />
+            <input type="text" name="<?php echo $price_code; ?>" value="<?php echo $ticket_charge; ?>" required />  
+            <br />
+        <?php
+        endwhile;
+    endif;
+    wp_reset_postdata();
+}
+
+function save_ticket_prices() {
+    global $post; 
+    $post_id = $post->ID;
+    if( !is_null($post)) {
+        $season_args = [
+            'post_type' => 'product',
+            'posts_per_page' => -1,
+            'tax_query' => [
+                [
+                'taxonomy'  => 'product_cat',
+                'field'     => 'slug',
+                'terms'     =>  'season-ticket',
+                ]
+            ]
+        ]; 
+        $season_query = new WP_Query($season_args); 
+        if ($season_query->have_posts()) :
+            while ($season_query->have_posts()) : $season_query->the_post(); 
+                $ticket_code = 'season-' . strtolower(get_the_title());
+                $ticket_price = isset($_POST[$ticket_code]) ? $_POST[$ticket_code] : '';
+                update_post_meta( $post_id, $ticket_code, $ticket_price);
+            endwhile;
+        endif;
+        $single_args = [
+            'post_type' => 'product',
+            'posts_per_page' => -1,
+            'tax_query' => [
+                [
+                'taxonomy'  => 'product_cat',
+                'field'     => 'slug',
+                'terms'     =>  'single-show',
+                ]
+            ]
+        ]; 
+        $single_query = new WP_Query($single_args); 
+        if ($single_query->have_posts()) :
+            while ($single_query->have_posts()) : $single_query->the_post(); 
+                $ticket_code = 'single-' . strtolower(get_the_title());
+                $ticket_price    = isset($_POST[$ticket_code]) ? $_POST[$ticket_code] : '';
+                update_post_meta( $post_id, $ticket_code, $ticket_price);
+            endwhile;
+        endif;
+    }
+    wp_reset_postdata();
 }
 
 function create_performance($date, $show_id, $time)

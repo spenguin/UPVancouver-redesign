@@ -117,7 +117,7 @@ function upv_confirm_order()
         else
         {
             ?>
-            <form action="/confirm-order/" method="post" class="upv-form">
+            <form action="<?php echo site_url(); ?>/confirm-order/" method="post" class="upv-form">
                 <label>Name: <input type="text" name="userName" required/></label>
                 <label>Phone number: <input type="phone" name="phone" required/></label>
                 <label>Email: <input type="email" name="email" required/></label>

@@ -46,6 +46,13 @@ function upv_ticket_admin()
                 $error      = TRUE;
                 $message    = "Performance date is invalid.";
             }
+            // Is Performance Sold Out?
+            $sold_out       = get_post_meta($performance->ID, 'sold_out', TRUE );
+            if( $sold_out )
+            {
+                $error      = TRUE;
+                $message    = 'Performance Date is sold out';
+            }
 
             $show_title     = $_POST['show_title'];
             $show           = siteFns::getPostByTitle( $show_title, '', 'show' );

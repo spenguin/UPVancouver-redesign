@@ -15,7 +15,7 @@ class performanceFns
         return $vars;
     }
     
-    public static function count_tickets_sold( $tickets )
+    public static function count_tickets_sold( $tickets_sold )
     {
         $count = 0;
         if( empty($tickets_sold) ) return $count;

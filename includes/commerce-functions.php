@@ -354,7 +354,7 @@ function render_order_details($notes)
 function md_custom_woocommerce_checkout_fields( $fields ) 
 {
     $fields['order']['order_comments']['label'] = 'Accessibility notes (if applicable):';
-    $fields['order']['order_comments']['placeholder'] = 'Notes re. seating requirements';
+    $fields['order']['order_comments']['placeholder'] = 'Accessibility notes (if applicable):';
 
     return $fields;
 }

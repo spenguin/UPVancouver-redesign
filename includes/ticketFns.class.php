@@ -105,4 +105,49 @@ class ticketFns
 
     }
 
+    /**
+     * @author: John Anderson
+     * @since: 16 March 2026
+     * Count the number of Tickets in an order that is either Complete or Box Office
+     * @return (int)
+     */
+    static function countTicketsInOrder($orderId)
+    {
+        $order  = new WC_Order( $order_id );
+        $status = $order->get_status();
+        if( $status == "cancelled") return 0;
+        $orderNotes    = get_order_note($orderId); 
+        if( empty( $orderNotes) ) return 0;
+        $o      = 0;
+        foreach( $orderNotes as $key => $ticketOrder )
+        {
+            if( $ticketOrder === TRUE ) continue; // FIX
+            if( $key == "amended" ) continue; // Are there other keys I need to check for?
+            if( $key == "customer_contact" ) continue;
+            if( $key == "fees" ) continue;
+            if( $ticket_order['name'] == "Donation" ) continue;
+            $o  += $ticketOrder['quantity'];            
+        }
+        return $o;
+    }
+
+
+        //     foreach( $order_notes as $key => $ticket_order )
+        // {
+        //     if( $ticket_order === TRUE ) continue; // FIX
+        //     if( $key == "amended" ) continue; // Are there other keys I need to check for?
+        //     if( $key == "customer_contact" ) continue;
+        //     if( $key == "fees" ) continue;
+        //     if( $ticket_order['name'] == "Donation" ) continue;
+        //     if( !isset($ticket_order['performance_title'] ) )
+        //     { 
+        //         $ticket_order['performance_title'] = strtotime( $ticket_order['date'] . ' ' . $ticket_order['time'] );
+        //     } 
+        //     if( $ticket_order['performance_title'] != (int) $performance->post_title ) continue; // Not for this performance
+        //     // $ticket_name = in_array($ticket_order['name'], ['Season', 'Seasons', 'Season Subsc']) ? 'Season' : $ticket_order['name']; // Another kludge
+        //     $ticket_name = str_contains( $ticket_order['name'], 'Season' ) ? 'Season' : $ticket_order['name'];
+        //     $value[array_search($ticket_name, $column_headings)]   = $ticket_order['quantity'];
+
+        // }
+
 }

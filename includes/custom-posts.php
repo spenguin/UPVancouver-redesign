@@ -23,6 +23,7 @@ function initialize()
     add_action('save_post_performance', '\CustomPosts\save_show_id');
     add_action('save_post_performance', '\CustomPosts\save_performance_date_time');
     add_action('save_post_performance', '\CustomPosts\save_preview');
+    add_action('save_post_performance', '\CustomPosts\save_openingNight');
     add_action('save_post_performance', '\CustomPosts\save_talkback');
     add_action('save_post_performance', '\CustomPosts\save_soldout');
     // add_action('add_meta_boxes', '\CustomPosts\switch_excerpt_boxes');
@@ -213,6 +214,7 @@ function admin_init()
     add_meta_box('show_meta', 'Show Name', '\CustomPosts\showName', 'performance', 'normal');
     add_meta_box('performance_meta', 'Performance Details', '\CustomPosts\performanceDate_Time', 'performance', 'normal');
     add_meta_box('performance_preview_meta', 'Preview', '\CustomPosts\preview', 'performance', 'side');
+    add_meta_box('performance_openingnight_meta', 'Opening Night', '\CustomPosts\openingNight', 'performance', 'side');
     add_meta_box('performance_talkback_meta', 'Talkback', '\CustomPosts\talkback', 'performance', 'side');
     add_meta_box('performance_soldout_meta', 'Sold Out', '\CustomPosts\soldout', 'performance', 'side');
     add_meta_box('performance_tickets_sold', 'Tickets Sold', '\CustomPosts\tickets_sold', 'performance', 'side' );
@@ -477,6 +479,28 @@ function save_preview()
     $preview  = isset( $_POST['preview'] ) ? $_POST['preview'] : '';
     update_post_meta($post->ID, 'preview', $preview );
 }
+
+function openingNight()
+{
+    global $post;
+    $custom             = get_post_custom($post->ID);
+    $openingNight   = isset($custom['openingNight']) ? $custom['openingNight'][0] : '';
+?>
+    <label for="openingNight">Opening Night performance:</label>
+    <input type="checkbox" name="openingNight" value="1" <?php echo ((int) $openingNight == 1) ? 'checked="checked"' : ''; ?> />
+
+<?php
+
+}
+
+function save_openingNight()
+{
+    global $post;
+
+    $openingNight  = isset( $_POST['openingNight'] ) ? $_POST['openingNight'] : '';
+    update_post_meta($post->ID, 'openingNight', $openingNight );
+}
+
 
 function talkback()
 {

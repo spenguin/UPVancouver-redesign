@@ -36,7 +36,7 @@ require_once CORE_INC . 'widgets.php';
 require_once CORE_INC . 'siteFns.class.php';
 require_once CORE_INC . 'custom-posts.php';
 require_once CORE_INC . 'custom-settings.php';
-require_once CORE_INC . 'custom-show-settings.php';
+// require_once CORE_INC . 'custom-show-settings.php';
 require_once CORE_INC . 'shortcodes.php';
 
 // require_once CORE_INC . 'custom-settings-test.php';

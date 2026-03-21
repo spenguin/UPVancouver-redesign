@@ -5,10 +5,11 @@
 $options            = get_option('performance_options');
 $shoppingCartString = renderShoppingCartLogo();
 $override           = get_option('override'); 
+$display_next_season= get_option( 'display_next_season' );
 $title              = get_the_title();
 
     if( $title != "Maintenance" ):
-        if( !$override ): ?>
+        if( !$display_next_season ): ?>
             <div class="header-bar">
                 <a href="<?php echo site_url(); ?>/seasons-tickets"><?php echo $options['performance_field_season_ticket_string']; ?></a>
             </div>

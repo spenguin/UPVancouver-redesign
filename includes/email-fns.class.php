@@ -20,4 +20,18 @@ class email_fns
 
     }
 
+    public static function performanceSoldOut( $performance )
+    {
+        $to     = get_option( 'admin_email' );
+        $subject= 'Performance dated' . date( 'd M Y h:i a', $performance->post_title ) . ' Sold Out';
+        $message= '<p>Performance dated ' . date( 'd M Y h:i a', $performance->post_title ) . ' is within margin of being Sold Out and has been market as Sold Out</p>';
+        $headers = array( 'Content-Type: text/html; charset=UTF-8' );
+
+        $_res = wp_mail($to, $subject, $message, $headers); 
+        if(!$_res)
+        {
+            wp_mail($to, 'Sold Out issue', $performance->ID); 
+        }        
+    }
+
 }

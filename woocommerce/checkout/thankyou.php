@@ -54,9 +54,32 @@ defined( 'ABSPATH' ) || exit;
 						'role'		=> 'attendee'
 					]);
 				}
-				$cart		= get_order_note( $orderId ); 
+				$orderDetails	= get_order_note( $orderId ); //die(pvd($orderDetails));
 				unset($_SESSION['cart']);
 				$title		= "";
+
+				foreach( $orderDetails as $product_id => $orderDetail )
+				{
+					if( in_array( $product_id, ['amended', 'boxoffice']  ) ) continue;
+					if( $orderDetail['name'] == 'Donation' ) continue;
+					if( $orderDetail['showTitle'] == 'Seasons Ticket' ) continue;
+					
+					$performance	= siteFns::getPostByTitle($orderDetail['performance_title'], NULL, "performance");
+					$tickets_sold = get_post_meta( $performance->ID, 'tickets_sold', TRUE );
+					// if( empty($tickets_sold) )
+					// {
+					// 	$tickets_sold	= [];
+					// }	
+					
+					// if( !isset($tickets_sold[$orderId]) )
+					// {
+					// 	$tickets_sold[$orderId] = 0;
+					// }
+					// $tickets_sold[$orderId] += $orderDetail['quantity'];
+					PerformanceFns::challengeTicketCountForPerformance( $tickets_sold, $performance );
+				}
+
+
 				foreach( $cart as $product_id => $item )
 				{
 					if( in_array( $product_id, ['amended', 'boxoffice']  ) ) continue;
@@ -71,9 +94,7 @@ defined( 'ABSPATH' ) || exit;
 					$tickets_sold = get_post_meta( $performance->ID, 'tickets_sold', TRUE );
 					if( empty($tickets_sold) )
 					{
-						$tickets_sold	= [
-							'count'		=> 0
-						];
+						$tickets_sold	= [];
 					}
 					if( !isset($tickets_sold[$orderId][$product_id] ) )
 					{

@@ -127,5 +127,36 @@ class performanceFns
         $showId     = get_post_meta($performance->ID,"show_id",true);
         $show       = get_post( $showId );
         return $show->post_title;
-    }    
+    }  
+    
+    /**
+     * @since: 23 March 2026
+     * @author: John Anderson/Weirdspace
+     * Compare tickets Sold against seating for Show and appropriate margin
+     * If tickets sold exceeds margin, 
+     * - set Performance to Sold Out
+     * - alert UPV Admin that Performance is Sold Out
+     * 
+     * @param: tickets_sold (array)
+     * @param: performance (object)
+     * @return: Nothing
+     */
+    static function challengeTicketCountForPerformance( $ticketsSold, $performance )
+    {
+        $ticketCount        = self::count_tickets_sold($ticketsSold);
+        $showId             = get_post_meta( $performance->ID, 'show_id', TRUE ); 
+        $openingNightFlag   = get_post_meta( $performance->ID, 'openingNight', TRUE ); 
+        $showSeats          = get_post_meta( $showId, 'show_seats', TRUE ); 
+        $soldOutMargin      = get_option( 'soldOutMargin', 0 );
+        $openingNightOver   = get_option( 'overbookingOpeningNightMargin', 0 ); 
+        $soldOutThreshold   = $showSeats - $soldOutMargin; + (int) ( $openingNightFlag ? $openingNightOver : 0 ); 
+        if( $ticketCount > $soldOutThreshold )
+        {
+            // Set Performance to Sold Out
+            update_post_meta( $performance->ID, 'sold_out', TRUE );
+
+            // Alert Admin
+            email-fns::performanceSoldOut( $performance );
+        }
+    }
 }

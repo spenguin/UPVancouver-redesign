@@ -20,6 +20,8 @@ require_once CORE_SHORTCODE . 'upv_reset_performance_titles.php';
 require_once CORE_SHORTCODE . 'upv_delete_order.php';
 require_once CORE_SHORTCODE . 'upv_correct_order_notes.php';
 
+require_once CORE_SHORTCODE . 'testOrders.php';
+
 
 \Shortcodes\initialize();
 
@@ -42,4 +44,6 @@ function initialize()
     add_shortcode( 'upv_reset_performance_titles', '\upv_reset_performance_titles' );
     add_shortcode( 'upv_delete_order', '\upv_delete_order' );
     add_shortcode( 'upv_correct_order_notes', '\upv_correct_order_notes' );
+
+    add_shortcode( 'testOrders', '\testOrders' );
 }

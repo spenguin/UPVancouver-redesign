@@ -54,7 +54,7 @@ defined( 'ABSPATH' ) || exit;
 						'role'		=> 'attendee'
 					]);
 				}
-				$orderDetails	= get_order_note( $orderId ); //die(pvd($orderDetails));
+				$orderDetails	= get_order_note( $orderId ); 
 				unset($_SESSION['cart']);
 				$title		= "";
 
@@ -64,45 +64,9 @@ defined( 'ABSPATH' ) || exit;
 					if( $orderDetail['name'] == 'Donation' ) continue;
 					if( $orderDetail['showTitle'] == 'Seasons Ticket' ) continue;
 					
-					$performance	= siteFns::getPostByTitle($orderDetail['performance_title'], NULL, "performance");
-					$tickets_sold = get_post_meta( $performance->ID, 'tickets_sold', TRUE );
-					// if( empty($tickets_sold) )
-					// {
-					// 	$tickets_sold	= [];
-					// }	
-					
-					// if( !isset($tickets_sold[$orderId]) )
-					// {
-					// 	$tickets_sold[$orderId] = 0;
-					// }
-					// $tickets_sold[$orderId] += $orderDetail['quantity'];
-					PerformanceFns::challengeTicketCountForPerformance( $tickets_sold, $performance );
+					performanceFns::updateTicketsSold( $item['performance_title'], $orderId, $orderDetail['quantity'] );
 				}
-
-
-				foreach( $cart as $product_id => $item )
-				{
-					if( in_array( $product_id, ['amended', 'boxoffice']  ) ) continue;
-					if( $item['name'] == 'Donation' ) continue;
-					if( $item['showTitle'] == 'Seasons Ticket' ) continue;
-					// if( !isset($item['performance_title'] ) )
-					// {
-					// 	$item['performance_title']	= strtotime( $item['date'] . ' ' . $item['time'] );
-					// }
-					
-					$performance	= siteFns::getPostByTitle($item['performance_title'], NULL, "performance");
-					$tickets_sold = get_post_meta( $performance->ID, 'tickets_sold', TRUE );
-					if( empty($tickets_sold) )
-					{
-						$tickets_sold	= [];
-					}
-					if( !isset($tickets_sold[$orderId][$product_id] ) )
-					{
-						$tickets_sold[$orderId][$product_id]	= $item['quantity'];
-						$tickets_sold['count']					+= $item['quantity']; 
-						update_post_meta( $performance->ID, 'tickets_sold', $tickets_sold );
-					}
-				}
+				
 				// Change order status to completed
 				$order->update_status('completed');
             

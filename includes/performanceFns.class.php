@@ -159,4 +159,23 @@ class performanceFns
             email-fns::performanceSoldOut( $performance );
         }
     }
+
+    static function updateTicketsSold( $performanceTitle, $orderId, $addedTickets )
+    {
+        $performance    = siteFns::getPostByTitle( $performanceTitle, '', 'performance' );
+        $tickets_sold   = get_post_meta($performance->ID, 'tickets_sold', TRUE ); //pvd($tickets_sold);
+
+        if( empty($tickets_sold) )
+        {
+            $tickets_sold	= [];
+        }	
+        
+        if( !isset($tickets_sold[$orderId]) )
+        {
+            $tickets_sold[$orderId] = 0;
+        }
+        $tickets_sold[$orderId] += $addedTickets;
+        update_post_meta( $performance->ID, 'tickets_sold', $tickets_sold );
+        PerformanceFns::challengeTicketCountForPerformance( $tickets_sold, $performance );
+    }
 }

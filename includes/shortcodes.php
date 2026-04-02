@@ -21,6 +21,7 @@ require_once CORE_SHORTCODE . 'upv_delete_order.php';
 require_once CORE_SHORTCODE . 'upv_correct_order_notes.php';
 
 require_once CORE_SHORTCODE . 'testOrders.php';
+require_once CORE_SHORTCODE . 'correctTicketsSold.php';
 
 
 \Shortcodes\initialize();
@@ -46,4 +47,5 @@ function initialize()
     add_shortcode( 'upv_correct_order_notes', '\upv_correct_order_notes' );
 
     add_shortcode( 'testOrders', '\testOrders' );
+    add_shortcode( 'correctTicketsSold', '\correctTicketsSold' );
 }

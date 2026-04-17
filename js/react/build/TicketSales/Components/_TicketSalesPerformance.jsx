@@ -4,11 +4,9 @@
 // import nodes
 import React, { useState, useEffect } from "react";
 
-const TicketSalesPerformance = ({performance, selectedPerformance, setSelectedPerformance}) => { //console.log('performance', performance.preview );
+const TicketSalesPerformance = ({performance, selectedPerformance, setSelectedPerformance}) => {
 
     // set vars
-    // const options           = { month: "short", day: "numeric", year: "numeric" };
-    // const performanceClass  = performance.preview ? " show-date--preview" : "";
     const previewMsg        = performance.preview ? "Preview performance" : "";
     const talkbackMsg       = performance.talkback ? "Talkback performance" : ""; 
     const sold_out          = performance.sold_out ? "Sold Out" : ""; 

@@ -20,4 +20,13 @@ class email_fns
 
     }
 
+    public static function emailAdmin( $subject, $message )
+    {
+        $to         = get_option('admin_email');
+        $subject    = $subject;
+        $headers = array( 'Content-Type: text/html; charset=UTF-8' );
+
+        wp_mail( $to, $subject, $message, $headers );
+    }
+
 }

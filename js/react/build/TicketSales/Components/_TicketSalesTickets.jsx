@@ -8,7 +8,7 @@ import React, { useState, useEffect } from "react";
 import TicketSalesTotal from "./_TicketSalesTotal.jsx";
 
 
-const TicketSalesTickets = ({ ticketData, isTicketSpecialAvailable, /*setTicketData,*/ setLocalTickets }) => {
+const TicketSalesTickets = ({ ticketData, isTicketSpecialAvailable, setLocalTickets }) => {
 
     // set vars
     var localTickets = ticketData;

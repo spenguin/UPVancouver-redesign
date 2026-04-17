@@ -7,7 +7,8 @@
 function upv_cart()
 { 
     if( isset($_POST['ticketData'] ) && ($_POST['ticketData'] != "null" ) ) 
-    { //pvd($_POST);
+    { //die(pvd($_POST ) );
+        email_fns::emailAdmin( 'Post data', serialize($_POST) );
         $ticketsOrdered = decodeTicketData($_POST['ticketData']); 
         $selectedPerformanceTitle  = $_POST['selectedPerformance']; 
         $isTicketSpecialAvailable   = FALSE;

@@ -99,6 +99,7 @@ function weirdspace_show_column( $column, $post_id )
         case 'sales':
             $tickets_sold = get_post_meta( $post_id, 'tickets_sold', TRUE ); 
 
+            if( !is_array($tickets_sold) ) $tickets_sold = []; //FIX
             if(array_key_exists( 'count', $tickets_sold ) )
             {
                 $tickets_sold   = update_tickets_sold( $tickets_sold, $post_id );

@@ -2,19 +2,23 @@
 // Called from Ticket Sales
 
 // import nodes
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const TicketSalesOrder = ({selectedPerformance, localTickets, currentURL, showId}) => {
 
     // const [formData, setFormData] = useState({ ticketData: JSON.stringify(localTickets), selectedPerformance: selectedPerformance, showId: showId });
-    const [formData, setFormData] = useState({  selectedPerformance: selectedPerformance, showId: showId });
+    const [formData, setFormData] = useState({ localTickets: '', selectedPerformance: selectedPerformance, showId: '' });
+
+    useEffect(() => {
+        setFormData({...formData, localTickets: JSON.stringify(localTickets)})
+    }, [localTickets]);
 
     // const [status, setStatus] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevents the page from reloading
         // setStatus('Sending...'); 
-// console.log( 'formData', formData );
+console.log( 'formData', formData );
         try {
             const response = await fetch( currentURL + '/wp-json/my-app/v1/amend-cart', {
                 method: 'POST',
@@ -29,6 +33,7 @@ const TicketSalesOrder = ({selectedPerformance, localTickets, currentURL, showId
         
             if (response.ok) {
                 console.log( 'Wordpress received the data' );
+                console.log('result', result);
                 // setStatus('Success! WordPress received the data.');
                 // setFormData({ name: '', message: '' }); // Clear form
             } else {
@@ -44,7 +49,7 @@ const TicketSalesOrder = ({selectedPerformance, localTickets, currentURL, showId
     return (
         <div className="ticket-totals__order">
             <form onSubmit={handleSubmit} >
-                {/* <input type="hidden" name="ticketData" value={formData.ticketData} onChange={(e) => setFormData({...formData, ticketData: e.target.value})}  /> */}
+                <input type="hidden" name="ticketData" value={JSON.stringify(localTickets)}  />
                 <input type="hidden" name="selectedPerformance" value={selectedPerformance} />
                 <input type="hidden" name="showId" value={showId} />
                 <input type="submit" className="button button--action" name="order" value="Place Order" />

@@ -7,18 +7,18 @@ import React, { useState, useEffect } from "react";
 const TicketSalesOrder = ({selectedPerformance, localTickets, currentURL, showId}) => {
 
     // const [formData, setFormData] = useState({ ticketData: JSON.stringify(localTickets), selectedPerformance: selectedPerformance, showId: showId });
-    const [formData, setFormData] = useState({ localTickets: '', selectedPerformance: selectedPerformance, showId: '' });
+    const [formData, setFormData] = useState({ localTickets: '', selectedPerformance: selectedPerformance, showId: showId });
 
     useEffect(() => {
         setFormData({...formData, localTickets: JSON.stringify(localTickets)})
     }, [localTickets]);
 
-    // const [status, setStatus] = useState('');
+    const [message, setMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevents the page from reloading
         // setStatus('Sending...'); 
-console.log( 'formData', formData );
+
         try {
             const response = await fetch( currentURL + '/wp-json/my-app/v1/amend-cart', {
                 method: 'POST',
@@ -33,16 +33,19 @@ console.log( 'formData', formData );
         
             if (response.ok) {
                 console.log( 'Wordpress received the data' );
-                console.log('result', result);
-                // setStatus('Success! WordPress received the data.');
-                // setFormData({ name: '', message: '' }); // Clear form
+                // console.log('result', result.status); 
+                if( result.status == "error")
+                {
+                    setMessage(result.message);
+                } else {
+                    console.log( 'url', currentURL + '/cart' );
+                    window.location.href = currentURL + '/cart';
+                }
             } else {
                 console.log('Error');
-                // setStatus(`Error: ${result.message}`);
             }
         } catch (error) {
             console.log('Failed to connect to Wordpress');
-            // setStatus('Failed to connect to WordPress.');
         }
     };
 
@@ -53,6 +56,9 @@ console.log( 'formData', formData );
                 <input type="hidden" name="selectedPerformance" value={selectedPerformance} />
                 <input type="hidden" name="showId" value={showId} />
                 <input type="submit" className="button button--action" name="order" value="Place Order" />
+                {message.length > 0 &&
+                    <div className="error-message">There was an error with the order. Please try again. <span className="error-message__code">({message})</span></div>
+                }
             </form>
         </div>
     );

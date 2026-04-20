@@ -6,8 +6,7 @@ import React, { useState, useEffect } from "react";
 
 const TicketSalesOrder = ({selectedPerformance, localTickets, currentURL, showId}) => {
 
-    // const [formData, setFormData] = useState({ ticketData: JSON.stringify(localTickets), selectedPerformance: selectedPerformance, showId: showId });
-    const [formData, setFormData] = useState({ localTickets: '', selectedPerformance: selectedPerformance, showId: showId });
+    const [formData, setFormData] = useState({ localTickets: '', selectedPerformanceTitle: selectedPerformance, showId: showId });
 
     useEffect(() => {
         setFormData({...formData, localTickets: JSON.stringify(localTickets)})
@@ -16,9 +15,8 @@ const TicketSalesOrder = ({selectedPerformance, localTickets, currentURL, showId
     const [message, setMessage] = useState('');
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Prevents the page from reloading
-        // setStatus('Sending...'); 
-
+        e.preventDefault(); 
+console.log( 'formData', formData );
         try {
             const response = await fetch( currentURL + '/wp-json/my-app/v1/amend-cart', {
                 method: 'POST',
@@ -33,12 +31,11 @@ const TicketSalesOrder = ({selectedPerformance, localTickets, currentURL, showId
         
             if (response.ok) {
                 console.log( 'Wordpress received the data' );
-                // console.log('result', result.status); 
+                console.log('data', result.data );
                 if( result.status == "error")
                 {
                     setMessage(result.message);
                 } else {
-                    console.log( 'url', currentURL + '/cart' );
                     window.location.href = currentURL + '/cart';
                 }
             } else {

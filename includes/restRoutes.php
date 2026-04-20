@@ -25,6 +25,7 @@ function amendCartSessionVariable( $request )
 {
     $params         = $request->get_json_params(); 
     extract( $params );
+
     $ticketsOrdered = json_decode($localTickets);
     $isTicketSpecialAvailable   = FALSE;
 
@@ -42,7 +43,7 @@ function amendCartSessionVariable( $request )
 
     } else {
         // Performance purchase
-        if( empty( $selectedPerformance ) )
+        if( empty( $selectedPerformanceTitle ) )
         {
             return ['status' => 'error', 'message' => 'Err: 002'];
         }
@@ -99,7 +100,7 @@ function amendCartSessionVariable( $request )
     }     
     
     // Do your custom manipulation...
-    return array('status' => 'success', 'result' => 'Data processed!');    
+    return array('status' => 'success', 'result' => 'Data processed!' );    
 }
 
 

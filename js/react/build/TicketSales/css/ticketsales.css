@@ -132,6 +132,12 @@
     margin-bottom: 2rem;
 }
 
+.ticket-totals__order form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
 .ticket--note {
     font-size:.85rem;
     line-height: 1.25rem;
@@ -155,3 +161,6 @@
 .fa-minus {
     margin-right: 0.5rem;
 }
+
+
+

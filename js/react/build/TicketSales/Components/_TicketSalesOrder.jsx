@@ -4,19 +4,61 @@
 // import nodes
 import React, { useState, useEffect } from "react";
 
-const TicketSalesOrder = ({selectedPerformance, localTickets, currentURL}) => {
-    var formURL = currentURL + '/cart';
+const TicketSalesOrder = ({selectedPerformance, localTickets, currentURL, showId}) => {
+
+    const [formData, setFormData] = useState({ localTickets: '', selectedPerformanceTitle: selectedPerformance, showId: showId });
+
+    useEffect(() => {
+        setFormData({...formData, localTickets: JSON.stringify(localTickets)})
+    }, [localTickets]);
+
+    const [message, setMessage] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault(); 
+console.log( 'formData', formData );
+        try {
+            const response = await fetch( currentURL + '/wp-json/my-app/v1/amend-cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'X-WP-Nonce': window.wpApiSettings.nonce // Add if you need authentication
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const result = await response.json();
+        
+            if (response.ok) {
+                console.log( 'Wordpress received the data' );
+                console.log('data', result.data );
+                if( result.status == "error")
+                {
+                    setMessage(result.message);
+                } else {
+                    window.location.href = currentURL + '/cart';
+                }
+            } else {
+                console.log('Error');
+            }
+        } catch (error) {
+            console.log('Failed to connect to Wordpress');
+        }
+    };
 
     return (
         <div className="ticket-totals__order">
-            <form method="post" action={formURL}>
-                {/* <input type="hidden" name="ticketData" value={tickets} /> */}
-                <input type="hidden" name="ticketData" value={JSON.stringify(localTickets)} />
+            <form onSubmit={handleSubmit} >
+                <input type="hidden" name="ticketData" value={JSON.stringify(localTickets)}  />
                 <input type="hidden" name="selectedPerformance" value={selectedPerformance} />
+                <input type="hidden" name="showId" value={showId} />
                 <input type="submit" className="button button--action" name="order" value="Place Order" />
+                {message.length > 0 &&
+                    <div className="error-message">There was an error with the order. Please try again. <span className="error-message__code">({message})</span></div>
+                }
             </form>
         </div>
-    )
-}
+    );
+};
 
 export default TicketSalesOrder;

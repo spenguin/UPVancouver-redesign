@@ -146,7 +146,8 @@ function renderShoppingCartLogo()
 
 function decodeTicketData($performance)
 {
-    $data   = json_decode( str_replace('\\"', '"', $_POST['ticketData']) );
+    // $data   = json_decode( str_replace('\\"', '"', $_POST['ticketData']) );
+    $data   = json_decode( str_replace('\\', '', $_POST['ticketData']));
     $o      = [];
     foreach( $data as $d )
     {
@@ -173,14 +174,13 @@ function custom_checkout_field($checkout)
         exit();
     }
 
-    woocommerce_form_field('custom_field_name', array(
-
-    'type' => 'hidden',
-        'required' => 'true',
-
-    ) 			   ,
-
-    base64_encode( serialize($_SESSION['cart']) ) );
+    woocommerce_form_field('custom_field_name', [
+            'type' => 'hidden',
+            'required' => 'true',
+     	],
+        base64_encode( serialize($_SESSION['cart']) ) 
+    );
+    email_fns::emailAdmin( 'Initial Cart Data', serialize($_SESSION['cart'] ) );
 }
 
 /**
@@ -194,6 +194,7 @@ function custom_checkout_field_update_order_meta($order_id)
         if( $_POST['custom_field_name'] !== "$current_custom_field" )
         {
             update_post_meta($order_id, 'custom_field_name',$_POST['custom_field_name']);
+            email_fns::emailAdmin( 'Saved Cart Data', $_POST['custom_field_name'] );
         }
         // update_post_meta($order_id, 'custom_field_name',sanitize_text_field($_POST['custom_field_name']));
         // update_post_meta($order_id, 'custom_field_name',$_POST['custom_field_name']);

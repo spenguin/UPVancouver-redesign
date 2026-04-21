@@ -18,6 +18,6 @@ $isTicketSpecialAvailable   = $showId < 0 ? ticketFns::isTicketSpecialAvailable(
         var tickets         = <?php echo json_encode($tickets); ?>;
         var isTicketSpecialAvailable    = '<?php echo $isTicketSpecialAvailable; ?>';
         var currentURL      = '<?php echo site_url(); ?>';
-        // console.log('currentURL', currentURL);
+        // console.log('showId', showId);
     </script>
     <script type="text/javascript" src="<?php echo CORE_DIST; ?>ticketsales.js?v=1770251037"></script>

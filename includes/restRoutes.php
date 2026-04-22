@@ -27,6 +27,7 @@ function amendCartSessionVariable( $request )
     extract( $params );
 
     $ticketsOrdered = json_decode($localTickets);
+    if( empty($ticketsOrdered ) ) return ['status' => 'error', 'message' => 'Err: 003'];
     $isTicketSpecialAvailable   = FALSE;
 
     if( empty( $showId ))

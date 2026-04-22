@@ -54,7 +54,7 @@ console.log( 'formData', formData );
                 <input type="hidden" name="showId" value={showId} />
                 <input type="submit" className="button button--action" name="order" value="Place Order" />
                 {message.length > 0 &&
-                    <div className="error-message">There was an error with the order. Please try again. <span className="error-message__code">({message})</span></div>
+                    <div className="error-message">There was an error with the order. Please try again. If the error persists, please contact Patron Services to complete your order.<span className="error-message__code">({message})</span></div>
                 }
             </form>
         </div>

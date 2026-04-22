@@ -39,9 +39,11 @@ console.log( 'formData', formData );
                     window.location.href = currentURL + '/cart';
                 }
             } else {
+                setMessage('Err: 005');
                 console.log('Error');
             }
         } catch (error) {
+            setMessage('Err: 004');
             console.log('Failed to connect to Wordpress');
         }
     };

@@ -63,8 +63,9 @@ function array_csv_download( $performance, $filename = "export.csv" )
             $value[1]   = $order->get_billing_phone();
         }
  
-        $value[2]    = array_key_exists( 'boxoffice', $order_notes ) ? 'Box Office' : 'Paid';
-        $value[10]    = get_admin_order_note( $order_id ); 
+        $value[2]   = array_key_exists( 'boxoffice', $order_notes ) ? 'Box Office' : 'Paid';
+        $value[9]   = $order->get_customer_note();
+        $value[10]  = get_admin_order_note( $order_id ); 
       
         foreach( $order_notes as $key => $ticket_order )
         {

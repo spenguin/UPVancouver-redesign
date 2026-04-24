@@ -35,20 +35,22 @@ function upv_performance_report()
                 <td>Name</td>
                 <td>Paid status</td>
                 <td>Ticket Qty</td>
-                <td>Notes</td>
+                <td>Customer Note</td>
+                <td>Admin Order Note</td>
             </tr>
         </thead>
         <tbody>
             <?php
                 foreach( $tickets_sold as $order_id => $tickets )
                 {  
-                    if( $order_id == "2427" ) continue;
+                    // if( $order_id == "2427" ) continue;
                     $order          = new WC_Order( $order_id ); 
                     $last_name      = $order->get_billing_last_name();
                     $first_name     = $order->get_billing_first_name();
                     $name           = empty( $last_name . $first_name ) ? $order_id : $last_name . ', ' . $first_name;
                     $status         = $order->get_status();
                     $note           = $order->get_customer_note();
+                    $adminOrderNote = get_admin_order_note($order_id); 
                     ?>
                     <tr>
                         <td><a href="<?php echo site_url(); ?>/wp-admin/admin.php?page=wc-orders&action=edit&id=<?php echo $order_id; ?>" target="_blank"><?php echo $name; ?></a></td>
@@ -56,6 +58,7 @@ function upv_performance_report()
                         <?php if( is_array($tickets)) $tickets = array_sum($tickets); ?>
                         <td><?php echo $tickets; ?> <!--array_sum($tickets); ?>--></td>
                         <td><?php echo $note; ?></td>
+                        <td><?php echo $adminOrderNote; ?></td>
                     </tr>
                     <?php
                 }

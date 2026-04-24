@@ -13,6 +13,7 @@ function upv_confirm_order()
             $email  = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); 
             $phone  = filter_var($_POST['phone'], FILTER_SANITIZE_FULL_SPECIAL_CHARS ); 
             $userName   = filter_var($_POST['userName'], FILTER_SANITIZE_FULL_SPECIAL_CHARS ); 
+            $note       = htmlspecialchars( $_POST['notes'], ENT_QUOTES ); 
 
             // User already exist
             $user = get_user_by( 'email', $email ); 
@@ -41,8 +42,7 @@ function upv_confirm_order()
                 array_shift($name); 
                 if( !empty( $name ) ) $order->set_billing_last_name( join(' ', $name) );
                 
-                $note           = htmlspecialchars( $_POST['notes'], ENT_QUOTES );
-                $order->add_order_note( $note );
+                $order->set_customer_note( $note );
 
                 if( !isset($item['performance_title'] ) )
                 {
@@ -65,10 +65,9 @@ function upv_confirm_order()
                 $order->add_product( wc_get_product( $item['product_id'] ), $item['quantity'] );
                 $order->calculate_totals();
                 $orderId = $order->save(); 
+
                 $tickets_sold[$orderId] = $item['quantity'];
 
-                // $tickets_sold[$orderId][$item['product_id']] = $item['quantity'];
-                // $tickets_sold['count']  += $item['quantity']; //die(pvd($tickets_sold));
                 update_post_meta( $performance->ID, 'tickets_sold', $tickets_sold );
 
                 // Add order_note to Order
@@ -83,29 +82,7 @@ function upv_confirm_order()
                 ]; 
                 set_order_note( $orderId, $order_note );
 
-
-
-
-                // $order_note[]   = [
-                //     'product_id'    => $ticketId,
-                //     'quantity'      => $_POST[$ticketName],
-                //     'date'          => $performance_date, //date('j M Y', strtotime($_POST['performance_date'])),
-                //     'time'          => $time,
-                //     'showTitle'     => $_POST['show_title'],
-                //     'misha_custom_price' => $product->get_price(),
-                //     'name'          => ucfirst($ticketName)
-                // ];
-
                 $order->update_status( 'completed' );
-
-
-
-                // // Send order confirmation email
-                // $subject    = "Your United Players of Vancouver confirmation has been received!";
-                // $body[]     = "Hi " . $email . ",";
-                // $body[]     = "Just to let you know we've received your ticket confirmation for the " . $item['date'] . " performance of " . $item['showTitle'];
-
-                // mail( $email, $subject, join("\n", $body));                
             }
 
             unset($_SESSION['cart']);
@@ -115,7 +92,7 @@ function upv_confirm_order()
             <?php
         }
         else
-        {
+        { 
             ?>
             <form action="<?php echo site_url(); ?>/confirm-order/" method="post" class="upv-form">
                 <label>Name: <input type="text" name="userName" required/></label>
@@ -135,7 +112,7 @@ function upv_confirm_order()
             <h2>Tickets & Reservations</h2>
             <?php echo SiteFns::getPostByTitle('Shopping Cart Intro'); ?>
                 <p>Your Shopping Cart is empty.</p>
-                <a href="/" class="button button--information">Continue Shopping</a> 
+                <a href="<?php echo site_url(); ?>/" class="button button--information">Continue Shopping</a> 
         </section>
         <?php
     }

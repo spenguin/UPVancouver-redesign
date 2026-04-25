@@ -904,6 +904,7 @@ input[type=text] {
     border-radius: 0 0 5rem;
     width: 543px;
     margin-top: -140px;
+    justify-content: flex-start;
   }
 }
 @media screen and (min-width: 768px) {

@@ -19,6 +19,7 @@ require_once CORE_SHORTCODE . 'upv_square_reconsciliation.php';
 require_once CORE_SHORTCODE . 'upv_reset_performance_titles.php';
 require_once CORE_SHORTCODE . 'upv_delete_order.php';
 require_once CORE_SHORTCODE . 'upv_correct_order_notes.php';
+require_once CORE_SHORTCODE . 'upv_faqs.php';
 
 
 \Shortcodes\initialize();

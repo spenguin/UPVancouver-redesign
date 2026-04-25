@@ -32,7 +32,7 @@ function initialize()
 function custom_post_type()
 {
 
-    // Set UI labels for Custom Post Type Performances
+    // Set UI labels for Custom Post Type Show
     $labels = array(
         'name'                => _x('Shows', 'Post Type General Name', 'upv'),
         'singular_name'       => _x('Show', 'Post Type Singular Name', 'upv'),
@@ -82,7 +82,8 @@ function custom_post_type()
     // Registering Custom Post Type Blogs
     register_post_type('show', $args);
 
-    // Set UI labels for Custom Post Type Performances
+
+    // Set UI labels for Custom Post Type Performance
     $labels = array(
         'name'                => _x('Performances', 'Post Type General Name', 'upv'),
         'singular_name'       => _x('Performance', 'Post Type Singular Name', 'upv'),
@@ -131,7 +132,7 @@ function custom_post_type()
     register_post_type('performance', $args);
 
 
-    // Set UI labels for Custom Post Type Members
+    // Set UI labels for Custom Post Type Member
     $labels = array(
         'name'                => _x('Members', 'Post Type General Name', 'upv'),
         'singular_name'       => _x('Member', 'Post Type Singular Name', 'upv'),
@@ -177,7 +178,56 @@ function custom_post_type()
     );
 
     // Registering Custom Post Type Blogs
-    register_post_type('member', $args);    
+    register_post_type('member', $args);   
+
+
+    // Set UI labels for Custom Post Type Faq
+    $labels = array(
+        'name'                => _x('Faqs', 'Post Type General Name', 'upv'),
+        'singular_name'       => _x('Faq', 'Post Type Singular Name', 'upv'),
+        'menu_name'           => __('Faqs', 'upv'),
+        'parent_item_colon'   => __('Parent Faq', 'upv'),
+        'all_items'           => __('All Faqs', 'upv'),
+        'view_item'           => __('View Faq', 'upv'),
+        'add_new_item'        => __('Add New Faq', 'upv'),
+        'add_new'             => __('Add New', 'upv'),
+        'edit_item'           => __('Edit Faq', 'upv'),
+        'update_item'         => __('Update Faq', 'upv'),
+        'search_items'        => __('Search Faq', 'upv'),
+        'not_found'           => __('Not Found', 'upv'),
+        'not_found_in_trash'  => __('Not found in Trash', 'upv'),
+    );
+
+    // Set other options for Custom Post Type
+    $args = array(
+        'label'               => __('faq', 'upv'),
+        'description'         => __('Faqs listing', 'upv'),
+        'labels'              => $labels,
+        // Features this CPT supports in Post Editor
+        'supports'            => ['title', 'editor', 'thumbnail'],
+        // You can associate this CPT with a taxonomy or custom taxonomy. 
+        'taxonomies'          => array('capacities'),
+        'rewrite' => array('slug' => 'faq', 'with_front' => false),
+        /* A hierarchical CPT is like Pages and can have
+		* Parent and child items. A non-hierarchical CPT
+		* is like Posts.
+		*/
+        'hierarchical'        => true,
+        'public'              => true,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'show_in_nav_menus'   => true,
+        'show_in_admin_bar'   => true,
+        'menu_position'       => 18,
+        'can_export'          => true,
+        'has_archive'         => true,
+        'exclude_from_search' => false,
+        'publicly_queryable'  => true,
+        'capability_type'     => 'page',
+    );
+
+    // Registering Custom Post Type Blogs
+    register_post_type('faq', $args);      
 }
 
 

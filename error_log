@@ -1,0 +1,112 @@
+[09-Nov-2025 07:31:47 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[09-Nov-2025 07:31:47 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[17-Nov-2025 20:22:06 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[25-Nov-2025 11:09:46 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[30-Nov-2025 07:35:07 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[30-Nov-2025 10:59:13 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[01-Dec-2025 18:44:37 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[01-Dec-2025 18:56:21 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[01-Dec-2025 19:41:30 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[05-Dec-2025 12:57:44 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[09-Dec-2025 01:05:45 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[17-Dec-2025 12:43:21 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[18-Dec-2025 10:50:19 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[19-Dec-2025 10:15:14 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[23-Dec-2025 08:18:45 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[27-Dec-2025 06:56:19 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[30-Dec-2025 01:57:00 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[06-Jan-2026 22:07:42 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[09-Jan-2026 17:54:03 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[11-Jan-2026 17:17:55 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[12-Jan-2026 18:10:13 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[19-Jan-2026 13:33:36 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[23-Jan-2026 03:59:44 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[26-Jan-2026 12:36:19 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[29-Jan-2026 00:46:58 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver-redux/index.php on line 16
+[08-Apr-2026 08:52:32 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver/index.php on line 16
+[08-Apr-2026 08:56:26 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver/index.php on line 16
+[08-Apr-2026 09:01:58 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/unitegx1/public_html/wp-content/themes/upvancouver/index.php:16
+Stack trace:
+#0 {main}
+  thrown in /home3/unitegx1/public_html/wp-content/themes/upvancouver/index.php on line 16

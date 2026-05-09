@@ -40,7 +40,7 @@ function amendCartSessionVariable( $request )
         $showTime   = ""; 
         $performanceDate = "";
         // Test for promo
-        $isTicketSpecialAvailable   = isTicketSpecialAvailable(); 
+        $isTicketSpecialAvailable   = TicketFns::isTicketSpecialAvailable(); 
 
     } else {
         // Performance purchase

@@ -23,7 +23,7 @@ add_action('rest_api_init', function () {
 
 function amendCartSessionVariable( $request )
 {
-    $params         = $request->get_json_params(); 
+   $params         = $request->get_json_params(); 
     extract( $params );
 
     $ticketsOrdered = json_decode($localTickets);
@@ -54,9 +54,16 @@ function amendCartSessionVariable( $request )
         $performanceTime        = date( 'h:i a', (int) $selectedPerformanceTitle );
         $showTitle              = performanceFns::getShowTitleByPerformanceDate($selectedPerformanceTitle);
     }
-
+    
     $seasonTicketsOrdered       = [];
 
+    //read season tickets ordered from the session cart. That's why it's there!
+    foreach ($_SESSION['cart'] as $cartItemOrdered ) {
+        if( 'Seasons Ticket' == $cartItemOrdered['showTitle'] && $cartItemOrdered['quantity'] != 0) {
+            $array = array_fill( 0, $cartItemOrdered['quantity'], $cartItemOrdered['misha_custom_price'] );
+            $seasonTicketsOrdered   = array_merge( $seasonTicketsOrdered, $array );
+        }
+    }
     foreach( $ticketsOrdered as $t )
     {
         if( $t->quantity == 0 ) continue;
@@ -71,15 +78,18 @@ function amendCartSessionVariable( $request )
             'misha_custom_price' => $t->charge,
             'name'      => $t->name
         ];   
-
+        /*
         if( $isTicketSpecialAvailable )
         {
             $array                  = array_fill( 0, $t->quantity, $t->charge );
+            error_log( 'ARRAY: ' . print_r( $array, true ) );
             $seasonTicketsOrdered   = array_merge( $seasonTicketsOrdered, $array );
+            error_log( 'SEASON TICKETS ORDERED 2: ' . print_r( $seasonTicketsOrdered, true ) );
         }
+        */
         $_SESSION['cart'][] = $args;
     }
-
+    /*
     if( count( $seasonTicketsOrdered ) >= 3 )   // If there are fewer than three tickets ordered, the promo doesn't apply anyway
     {
         rsort($seasonTicketsOrdered);
@@ -99,7 +109,7 @@ function amendCartSessionVariable( $request )
             'name'                  => 'Promotional Discount'
         ];
     }     
-    
+    */
     // Do your custom manipulation...
     return array('status' => 'success', 'result' => 'Data processed!' );    
 }

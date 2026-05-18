@@ -85,6 +85,7 @@ function test_cart( $cart )
     {
         if( isset($item['showTitle']) && $item['showTitle'] == 'Seasons Ticket' ) continue;
         if( $item['name'] == 'Donation' ) continue;
+		if( $item['name'] == 'Promotional Discount' ) continue;
         if( empty($item['performance_title'] ) )
         {
             return FALSE;

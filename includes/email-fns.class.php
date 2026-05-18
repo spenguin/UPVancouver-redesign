@@ -22,7 +22,7 @@ class email_fns
 
     public static function emailAdmin( $subject, $message )
     {
-        $to         = get_option('admin_email');
+        $to         = 'info@weirdspace.com'; //get_option('admin_email');
         $subject    = $subject;
         $headers = array( 'Content-Type: text/html; charset=UTF-8' );
 

@@ -14,7 +14,6 @@ $page_class = ''; //get_page_class_by_title(get_the_title());
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
-
 <head>
 	<meta charset="<?php bloginfo('charset'); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">

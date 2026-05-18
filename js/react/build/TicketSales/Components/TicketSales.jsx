@@ -60,7 +60,6 @@ const TicketSales = ({showId, performances, tickets, isTicketSpecialAvailable, c
                         selectedPerformance = {selectedPerformance}
                         localTickets        = {localTickets}
                         currentURL          = {currentURL}
-                        showId              = {showId}
                     >
                     </TicketSalesOrder>
                 </>

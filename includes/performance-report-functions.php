@@ -48,6 +48,8 @@ function array_csv_download( $performance, $filename = "export.csv" )
 
         // Get the customer details first
         $order  = wc_get_order( $order_id ); 
+        $status = $order->get_status();
+        if( $status == "cancelled" ) continue;
         $email  = $order->get_billing_email();
         
         
@@ -63,9 +65,8 @@ function array_csv_download( $performance, $filename = "export.csv" )
             $value[1]   = $order->get_billing_phone();
         }
  
-        $value[2]   = array_key_exists( 'boxoffice', $order_notes ) ? 'Box Office' : 'Paid';
-        $value[9]   = $order->get_customer_note();
-        $value[10]  = get_admin_order_note( $order_id ); 
+        $value[2]    = array_key_exists( 'boxoffice', $order_notes ) ? 'Box Office' : 'Paid';
+        $value[10]    = get_admin_order_note( $order_id ); 
       
         foreach( $order_notes as $key => $ticket_order )
         {
@@ -74,6 +75,7 @@ function array_csv_download( $performance, $filename = "export.csv" )
             if( $key == "customer_contact" ) continue;
             if( $key == "fees" ) continue;
             if( $ticket_order['name'] == "Donation" ) continue;
+            if( empty( $ticket_order['quantity'] ) ) continue;
             if( !isset($ticket_order['performance_title'] ) )
             { 
                 $ticket_order['performance_title'] = strtotime( $ticket_order['date'] . ' ' . $ticket_order['time'] );

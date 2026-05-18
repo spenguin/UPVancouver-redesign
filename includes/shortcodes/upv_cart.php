@@ -2,75 +2,62 @@
 
 /**
  * Render Cart for UPV
+ * ND: also recalculate the discount item
  */
-
 function upv_cart()
 { 
-    // if( isset($_POST['ticketData'] ) && ($_POST['ticketData'] != "null" ) ) 
-    // { //die(pvd($_POST ) );
-    //     email_fns::emailAdmin( 'Post data', serialize($_POST) );
-    //     $ticketsOrdered = decodeTicketData($_POST['ticketData']); 
-    //     $selectedPerformanceTitle  = $_POST['selectedPerformance']; 
-    //     $isTicketSpecialAvailable   = FALSE;
-    //     if( empty($selectedPerformanceTitle) )
-    //     {
-    //         $showTitle  = "Seasons Ticket";
-    //         $showTime   = ""; 
-    //         $performanceDate = "";
-    //         // Test for promo
-    //         $isTicketSpecialAvailable   = isTicketSpecialAvailable(); 
-    //         $seasonTicketsOrdered       = [];
+    $recalculateCartDiscount = FALSE;
+    if( isset($_POST['ticketData'] ) && ($_POST['ticketData'] != "null" ) ) 
+    {
+        // email_fns::emailAdmin( 'Post data', serialize($_POST) );
+        $ticketsOrdered = decodeTicketData($_POST['ticketData']); 
+        $selectedPerformanceTitle  = $_POST['selectedPerformance']; 
+        $isTicketSpecialAvailable   = FALSE;
+        if( empty($selectedPerformanceTitle) )
+        {
+            $showTitle  = "Seasons Ticket";
+            $showTime   = ""; 
+            $performanceDate = "";
+            $performanceTime = "";
+            // Test for promo
+            $isTicketSpecialAvailable   = ticketFns::isTicketSpecialAvailable(); 
+            $seasonTicketsOrdered       = [];
+            // ND: we're adding 
+            if( $isTicketSpecialAvailable ) {
+                $recalculateCartDiscount = TRUE;
+            }
+        } else {
+            $selectedPerformance    = siteFns::getPostByTitle($selectedPerformanceTitle);
+            $performanceDate        = date( 'd M Y', (int) $selectedPerformanceTitle );
+            $performanceTime        = date( 'h:i a', (int) $selectedPerformanceTitle );
+            $showTitle              = performanceFns::getShowTitleByPerformanceDate($selectedPerformanceTitle);
+        }
 
-    //     } else {
-    //         $selectedPerformance    = siteFns::getPostByTitle($selectedPerformanceTitle);
-    //         $performanceDate        = date( 'd M Y', (int) $selectedPerformanceTitle );
-    //         $performanceTime        = date( 'h:i a', (int) $selectedPerformanceTitle );
-    //         $showTitle              = performanceFns::getShowTitleByPerformanceDate($selectedPerformanceTitle);
-    //     }
-
-    //     $seasonTicketsOrdered   = [];
-    //     foreach( $ticketsOrdered as $t ) 
-    //     { 
-    //         if( $t->quantity == 0 ) continue;
-    //         $args  = [
-    //             'product_id'=> $t->ticketid,
-    //             'quantity'  => $t->quantity,
-    //             'performance_title' => $selectedPerformanceTitle,
-    //             'date'      => $performanceDate,
-    //             'time'      => $performanceTime,
-    //             'showTitle' => $showTitle,  
-    //             'misha_custom_price' => $t->charge,
-    //             'name'      => $t->name
-    //         ];
+        $seasonTicketsOrdered   = [];
+        foreach( $ticketsOrdered as $t ) 
+        { 
+            if( $t->quantity == 0 ) continue;
+            $args  = [
+                'product_id'=> $t->ticketid,
+                'quantity'  => $t->quantity,
+                'performance_title' => $selectedPerformanceTitle,
+                'date'      => $performanceDate,
+                'time'      => $performanceTime,
+                'showTitle' => $showTitle,  
+                'misha_custom_price' => $t->charge,
+                'name'      => $t->name
+            ];
             
-    //         if( $isTicketSpecialAvailable )
-    //         {
-    //             $array                  = array_fill( 0, $t->quantity, $t->charge );
-    //             $seasonTicketsOrdered   = array_merge( $seasonTicketsOrdered, $array );
-    //         }
-    //         $_SESSION['cart'][] = $args;
-    //     }
-    //     if( count( $seasonTicketsOrdered ) >= 3 )   // If there are fewer than three tickets ordered, the promo doesn't apply anyway
-    //     {
-    //         rsort($seasonTicketsOrdered);
-    //         $discountTotal = 0;
-    //         foreach( $seasonTicketsOrdered as $k => $s )
-    //         {
-    //             if( ($k+1)%3 == 0 )
-    //             {
-    //                 $discountTotal += $s/2;
-    //             }
-    //         }
-    //         $_SESSION['cart']['promoDiscount'] = [
-    //             'product_id'            => getPromoProduct(),
-    //             'showTitle'             => 'Promotional Discount',
-    //             'quantity'              => 1,
-    //             'misha_custom_price'    => -1 * $discountTotal,
-    //             'name'                  => 'Promotional Discount'
-    //         ];
-    //     } 
+            if( $isTicketSpecialAvailable )
+            {
+                $array                  = array_fill( 0, $t->quantity, $t->charge );
+                $seasonTicketsOrdered   = array_merge( $seasonTicketsOrdered, $array );
+            }
+            $_SESSION['cart'][] = $args;
+        }
         
-    // }
+        
+    }
 
     if( isset($_POST['donation']) ){
         // Do something with the donation
@@ -84,8 +71,47 @@ function upv_cart()
     }
 
     if( isset($_GET['del']) ){
+        // check that the removed item is a season ticket
+        if( 'Seasons Ticket' == $_SESSION['cart'][$_GET['del']]['showTitle'] && ticketFns::isTicketSpecialAvailable() ) {
+            $recalculateCartDiscount = TRUE;
+            // only remove the discount if we're removing a season ticket
+            unset($_SESSION['cart']['promoDiscount']);
+        }
         // Remove item from cart
         unset($_SESSION['cart'][$_GET['del']]);
+        
+    }
+    /*
+     * ND: If we've modified (added or removed) season tickets, recalculate and repost the discount
+     */
+    if( $recalculateCartDiscount ) {
+        $seasonTicketsOrdered       = [];
+        //read season tickets ordered from the session cart. That's why it's there!
+        foreach ($_SESSION['cart'] as $cartItemOrdered ) {
+            if( 'Seasons Ticket' == $cartItemOrdered['showTitle'] && $cartItemOrdered['quantity'] != 0) {
+                $cartItemArray = array_fill( 0, $cartItemOrdered['quantity'], $cartItemOrdered['misha_custom_price'] );
+                $seasonTicketsOrdered   = array_merge( $seasonTicketsOrdered, $cartItemArray );
+            }
+        }
+        if( count( $seasonTicketsOrdered ) >= 3 )   // If there are fewer than three tickets ordered, the promo doesn't apply anyway
+        {
+            rsort( $seasonTicketsOrdered );
+            $discountTotal = 0;
+            foreach( $seasonTicketsOrdered as $k => $s )
+            {
+                if( ($k+1)%3 == 0 )
+                {
+                    $discountTotal += $s/2;
+                }
+            }
+            $_SESSION['cart']['promoDiscount'] = [
+                'product_id'            => getPromoProduct(),
+                'showTitle'             => 'Promotional Discount',
+                'quantity'              => 1,
+                'misha_custom_price'    => -1 * $discountTotal,
+                'name'                  => 'Promotional Discount'
+            ];
+        } 
     }
     ?>
     <section class="shopping-cart max-wrapper__narrow">

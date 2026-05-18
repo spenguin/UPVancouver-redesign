@@ -68,7 +68,7 @@ class performanceFns
         ];
         $query = new WP_Query($args); //pvd($query);
         $o = [];
-        $currentTimestamp   = time() - 8 * 60 * 60; //FIX!!
+        $currentTimestamp   = time() - 7 * 60 * 60; //FIX!!
         if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post();
                 $date_time  = get_the_title();
                 // if( strtotime($date) < time() ) continue;

@@ -11,7 +11,7 @@
                             <div class="cta--wrapper"><a class="button button--action" href="<?php echo site_url(); ?>/plan-your-visit">Plan Your Visit</a></div>
                         </div>                
                         <div class="footer__subscribe">
-                            <p class="footer__subscribe--instructions">Subscribe for updates</p>
+                            <!-- <p class="footer__subscribe--instructions">Subscribe for updates</p> -->
                             <?php dynamic_sidebar( 'footer_social_media' ); ?>
                         </div>  
                     </div>

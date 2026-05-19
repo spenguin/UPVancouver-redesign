@@ -23,7 +23,11 @@ function correctTicketsSold()
         $title          = get_the_title(); 
         echo '<p>' . $performanceId . ' ' .  date( 'd M Y h:i a', $title ) . ' (' . $title . ')</p>';
         $tickets_sold = get_post_meta( $performanceId, 'tickets_sold', TRUE ); 
-        if( empty( $tickets_sold) ) continue;
+        if( empty( $tickets_sold) )
+        {
+            update_post_meta( $performanceId, 'tickets_sold', [] );
+            continue;
+        } 
         $o  = [];
         foreach( $tickets_sold as $orderId => $quantities )
         {

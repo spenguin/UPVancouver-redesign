@@ -12,6 +12,7 @@ function initialize()
     add_filter( 'manage_performance_posts_columns', '\CustomPostColumns\weirdspace_filter_posts_columns' );
     add_action( 'manage_performance_posts_custom_column', '\CustomPostColumns\weirdspace_show_column', 10, 2);
     add_action( 'pre_get_posts', '\CustomPostColumns\performances_columns_orderby' );
+    add_action( 'pre_get_posts', '\CustomPostColumns\recalcTicketsSold' );
     add_action( 'restrict_manage_posts', '\CustomPostColumns\show_filter' );
     add_filter( 'parse_query', '\CustomPostColumns\parse_show_filter' );
 
@@ -72,6 +73,7 @@ function weirdspace_filter_posts_columns( $columns ) {
             'sales'     => __( 'Sales'),
             'sold_out'  => __( 'Sold Out' ),
             'report'    => __( 'Report' ),
+            'recalc'    => __( 'Recalc')
     ];
     return $columns;
 }
@@ -130,6 +132,10 @@ function weirdspace_show_column( $column, $post_id )
                 echo '<span style="font-size:0.95rem;"><strong>' . $str . '</strong></span>';
             }
             break;
+        case 'recalc':
+            $url    = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            echo '<a href="' . $url . '&recalc=' . $post_id .'">Recalc</a>';
+            break;
         endswitch;
 }
 
@@ -181,6 +187,46 @@ function performances_columns_orderby( $query )
         }
 
         return $o;
+    }
+
+    function recalcTicketsSold()
+    {
+        if( !isset($_GET['recalc']) ) return;
+
+        $performanceId  = filter_input(INPUT_GET, 'recalc', FILTER_SANITIZE_NUMBER_INT);
+
+        $performance    = get_post( $performanceId ); 
+        
+        $query          = new \WC_Order_Query([
+            'limit'     => -1,
+            'status'    => 'wc-completed',
+            'return'    => 'ids'
+            ]
+        );
+
+        $o          = [];        
+        $orderIds   = $query->get_orders();
+        foreach( $orderIds as $orderId )
+        {
+            $orderNoteClass = new \Order_note($orderId);
+            $orderNote      = $orderNoteClass->get_order_note();
+            if( !is_array($orderNote) ) continue;
+            foreach( $orderNote as $key => $note )
+            {
+                if( $key =="boxoffice" ) continue;
+                if( $key == "fees" ) continue; 
+                if( !is_array($note) ) continue;
+                if( !array_key_exists( 'date', $note) ) continue; 
+                if( !array_key_exists( 'performance_title', $note ) )
+                {
+                    $note['performance_title'] = strtotime( $note['date'] . ' ' . $note['time'] );
+                } //pvd($note['performance_title']); pvd($performance->post_title); die(pvd($note));
+                if( $note['performance_title'] != (int) $performance->post_title ) continue;
+                $o[$orderId][$note['product_id']] = $note['quantity'];
+            }
+        } 
+
+        update_post_meta( $performanceId, 'tickets_sold', $o );
     }
 
 

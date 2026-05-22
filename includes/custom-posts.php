@@ -4,6 +4,8 @@ namespace CustomPosts;
 
 use WP_Query;
 
+require_once CORE_INC . 'customPosts/sponsors.php';
+
 \CustomPosts\initialize();
 
 function initialize()
@@ -32,7 +34,7 @@ function initialize()
 function custom_post_type()
 {
 
-    // Set UI labels for Custom Post Type Performances
+    // Set UI labels for Custom Post Type show
     $labels = array(
         'name'                => _x('Shows', 'Post Type General Name', 'upv'),
         'singular_name'       => _x('Show', 'Post Type Singular Name', 'upv'),
@@ -79,7 +81,7 @@ function custom_post_type()
 
     );
 
-    // Registering Custom Post Type Blogs
+    // Registering Custom Post Type show
     register_post_type('show', $args);
 
     // Set UI labels for Custom Post Type Performances

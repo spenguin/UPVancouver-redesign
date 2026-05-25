@@ -88,6 +88,8 @@ defined( 'ABSPATH' ) || exit;
 						$tickets_sold[$orderId] += $item['quantity'];
 					}
 					update_post_meta( $performance->ID, 'tickets_sold', $tickets_sold );
+					
+					performanceFns::challengeSoldOutMargin($performance->ID);
 				}
 				// Change order status to completed
 				$order->update_status('completed');

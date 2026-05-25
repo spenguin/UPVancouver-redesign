@@ -127,5 +127,31 @@ class performanceFns
         $showId     = get_post_meta($performance->ID,"show_id",true);
         $show       = get_post( $showId );
         return $show->post_title;
-    }    
-}
+    }   
+    
+    /**
+     * @since 25 May 2026
+     * 
+     * Test if Tickets Sold for specific Performance is within margin to Sold Out status
+     * If within margin, send email alert
+     * @param (int) PerformanceId
+     * @return Nothing
+     */
+    static function challengeSoldOutMargin($performanceId)
+    {
+        if( is_null( $performanceId ) ) return;
+
+        $tickets_sold   = get_post_meta($performanceId, 'tickets_sold', TRUE );
+        $ticketCount    = self::count_tickets_sold($tickets_sold);
+        $showId         = get_post_meta($performanceId,"show_id",true);
+        $showSeats      = get_post_meta( $showId, 'show_seats', TRUE );
+        if( ( $showSeats - $ticketCount ) > 20 ) return;
+
+        // Send email
+        $showTitle          = get_the_title( $showId );
+        $performanceTitle   = get_the_title( $performanceId );
+        $message            = "Performance date of " . date( 'd M Y h:i a', $performanceTitle ) . " for Show " . $showTitle . " is within 20 seats of being sold out.";
+        $subject            = "Almost Sold Out Alert";
+        email_fns::emailAdmin( $subject, $message );
+    }
+}   

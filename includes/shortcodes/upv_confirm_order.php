@@ -70,6 +70,8 @@ function upv_confirm_order()
 
                 update_post_meta( $performance->ID, 'tickets_sold', $tickets_sold );
 
+                performanceFns::challengeSoldOutMargin($performance->ID);
+
                 // Add order_note to Order
                 $order_note[] = [
                     'product_id'    => $item['product_id'],

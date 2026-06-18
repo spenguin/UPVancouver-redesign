@@ -180,7 +180,7 @@ function custom_checkout_field($checkout)
      	],
         base64_encode( serialize($_SESSION['cart']) ) 
     );
-    email_fns::emailAdmin( 'Initial Cart Data', serialize($_SESSION['cart'] ) );
+    // email_fns::emailAdmin( 'Initial Cart Data', serialize($_SESSION['cart'] ) );
 }
 
 /**
@@ -194,7 +194,7 @@ function custom_checkout_field_update_order_meta($order_id)
         if( $_POST['custom_field_name'] !== "$current_custom_field" )
         {
             update_post_meta($order_id, 'custom_field_name',$_POST['custom_field_name']);
-            email_fns::emailAdmin( 'Saved Cart Data', $_POST['custom_field_name'] );
+            // email_fns::emailAdmin( 'Saved Cart Data', $_POST['custom_field_name'] );
         }
         // update_post_meta($order_id, 'custom_field_name',sanitize_text_field($_POST['custom_field_name']));
         // update_post_meta($order_id, 'custom_field_name',$_POST['custom_field_name']);

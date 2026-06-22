@@ -14,37 +14,108 @@ class ticketFns
     static function getTickets( $showId )
     {
         $seasonTickets  = $showId > 0 ? FALSE : TRUE;
-        $showCount      = $showId > 0 ? 1 : self::getActiveSeasonShowCount();  // Need to actually determine number of remaining shows in the season
-    
-        $args = [
-            'post_type' => 'product',
-            'posts_per_page' => -1,
-            'tax_query' => [
-                [
-                'taxonomy'  => 'product_cat',
-                'field'     => 'slug',
-                'terms'     => $seasonTickets ? 'season-ticket' : 'single-show'
-                ]
-            ]
-        ]; 
-        $o  = [];
-        $query = new WP_Query($args); 
-        if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post(); 
-                $ticketId       = get_the_ID();
-                // $ticket_charge  = get_post_meta($ticketId, 'ticket_charge', TRUE) * $showCount;
-            $ticket_charge = get_post_meta($ticketId, '_regular_price', TRUE) * $showCount;
-                $o[]   = [
-                    'ticketid'  => $ticketId,
-                    'name'      => get_the_title(),
-                    'charge'    => $ticket_charge,
-                    'quantity'  => 0
-                ];
-            endwhile;
-        endif;
-        wp_reset_postdata(); //pvd($o);
-        return $o;
+        if( $seasonTickets ) {
+            $upcomingShows = self::getActiveSeasonShows();
+        } else {
+            $upcomingShows = array( $showId );
+        }
+        //$showCount      = $showId > 0 ? 1 : self::getActiveSeasonShowCount();  // Need to actually determine number of remaining shows in the season
+        $totalCharges = [];
+        foreach( $upcomingShows as $upcomingShowId ) {
+            $ticketCharges = ticketFns::getActualTicketPrices( $upcomingShowId, $seasonTickets );
+            $totalCharges = ticketFns::mergeTicketCharges( $totalCharges, $ticketCharges );
+            //add to total prices
+        }
+        return $totalCharges;
     }
 
+     /**
+     * @author: Nicolas Demers
+     * @since:  2026
+     * Get all ticket prices for a given show. By default from the show's meta fields, then from WooCommerce products if they
+     * don't exist
+     * @param (int) ID of the show
+     * @param (boolean) whether this is a season pass or single ticket
+     * @return (array)
+     */
+    private static function getActualTicketPrices( $showId, $seasonTickets ) {
+        global $wpdb;
+        $prefix = $seasonTickets > 0 ? 'season-ticket' : 'single-show';
+        $prices_sql = $wpdb->prepare(
+            "SELECT * FROM {$wpdb->prefix}postmeta WHERE post_id = %d AND meta_key LIKE %s",
+            $showId,
+            $prefix.'-price-%'
+        );
+        //check if we do get a result. If not, read from WooCommerce products
+        $prices_result = $wpdb->get_results( $prices_sql , ARRAY_A ); 
+        $return = [];
+        if( $prices_result ) {
+            //show prices are stored in the meta? Massage and return them!
+            foreach( $prices_result as $ticket_price ) {
+                //we need to get the product name / title.
+                $ticketId = substr( $ticket_price['meta_key'], strlen( $prefix ) + 7 );
+                $return[] = [
+                    'ticketId' => $ticketId,
+                    'name' => get_the_title( $ticketId ),
+                    'charge' => $ticket_price['meta_value'],
+                    'quantity' => 0,
+                ];
+            }
+            return $return;
+        } else {
+            //show prices are not yet stored in the meta? Retrieve from WooCommerce products as per the old olgic
+            $prices_args = [
+                'post_type' => 'product',
+                'posts_per_page' => -1,
+                'post_status' => 'publish',
+                'tax_query' => [
+                    [
+                        'taxonomy'  => 'product_cat',
+                        'field'     => 'slug',
+                        'terms'     => $prefix
+                    ]
+                ]
+            ]; 
+            $prices_query = new WP_Query($prices_args); 
+            if ($prices_query->have_posts()) {
+                while ($prices_query->have_posts()) : $prices_query->the_post(); 
+                    $return[] = [
+                        'ticketId' => get_the_ID(),
+                        'name' => get_the_title(),
+                        'charge' => get_post_meta( get_the_ID(), '_regular_price', TRUE),
+                        'quantity' => 0,
+                    ];
+                endwhile;
+                wp_reset_postdata();
+                return $return;
+            } else {
+                return array();
+            }
+        }
+ 
+    }
+    /*
+     * @author: Nicolas Demers
+     * @since:  2026
+     * 
+     * don't exist
+     * @param (array) the existing array of charges
+     * @param (boolean) the new array of charges, to add charges into the existing charges
+     * @return (array) */
+    private static function mergeTicketCharges( $baseCharges, $newCharges ) {
+        if( is_array( $baseCharges ) && !empty( $baseCharges ) ) {
+            foreach( $newCharges as $newCharge ) {
+                foreach( $baseCharges as $idx => $baseCharge ) {
+                    if( $baseCharge['ticketId'] == $newCharge['ticketId'] ) {
+                        $baseCharges[$idx]['charge'] = (string) (floatval( $baseCharges[$idx]['charge'] ) + floatval( $newCharge['charge'] ) );
+                    }
+                }
+            }
+            return $baseCharges;
+        } else {
+            return $newCharges;
+        }
+    }
     /**
      * @author: John Anderson
      * @since: 10 August 2023
@@ -68,6 +139,24 @@ class ticketFns
         $shows = showFns::getSeasonShows('current', 2, 'current' );
         return $shows->post_count > 2 ? $shows->post_count : 5; // Assumes 5 shows in the next season. BICBW
     }    
+
+    /**
+     * @author: Nicolas Demers
+     * @since: 6 March 2026
+     * Return the shows left in the current season
+     * @return (array)
+     */
+    private static function getActiveSeasonShows() {
+        $shows_query = showFns::getSeasonShows('current', 2, 'current' );
+        $show_ids = array();
+        if( $shows_query->have_posts() ) {
+            while ($shows_query->have_posts()) : $shows_query->the_post(); 
+                $show_ids[] = get_the_ID();
+            endwhile;
+            wp_reset_postdata();
+        }
+        return $show_ids;
+    }
 
     /**
      * @author: John Anderson

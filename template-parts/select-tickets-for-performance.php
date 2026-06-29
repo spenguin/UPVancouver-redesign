@@ -11,8 +11,8 @@ $isTicketSpecialAvailable   = $showId < 0 ? ticketFns::isTicketSpecialAvailable(
 ?>
     <p><?php echo $string; ?></p>
     <div id="TicketSales"></div>
-    <p>We anticipate that individual ticket sales (and the ability of subscribers to book seats) will be available in early August.</p>    
-    <!-- <script>
+    <?php if( $showId < 0 ): ?>
+    <script>
         var showId          = '<?php echo $showId; ?>'; 
         var performances    = <?php echo json_encode($performances); ?>;
         var tickets         = <?php echo json_encode($tickets); ?>;
@@ -20,4 +20,7 @@ $isTicketSpecialAvailable   = $showId < 0 ? ticketFns::isTicketSpecialAvailable(
         var currentURL      = '<?php echo site_url(); ?>';
         // console.log('currentURL', currentURL);
     </script>
-    <script type="text/javascript" src="<?php echo CORE_DIST; ?>ticketsales.js?v=1770251037"></script> -->
+    <script type="text/javascript" src="<?php echo CORE_DIST; ?>ticketsales.js?v=1770251037"></script>
+    <?php else: ?>
+        <p>We anticipate that individual ticket sales (and the ability of subscribers to book seats) will be available in early August.</p>    
+    <?php endif; ?>
